@@ -1,0 +1,17 @@
+<div class="d-flex align-items-center" style="height:40px">
+
+  <div *ngIf="!routeFolderNodes.length">
+    <button mat-button disabled>Toutes les commandes</button>
+  </div>
+  <div *ngIf="routeFolderNodes.length">
+    <button mat-button disabled>Dossiers</button>
+  </div>
+
+  <div *ngFor="let routeFolderNode of routeFolderNodes; let index = index">
+    <button class="mx-n1" mat-icon-button disabled>
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button mat-button [color]="isLastOfRouteFolderNodes(index) ? 'primary' : ''"
+      [routerLink]="['/folders', routeFolderNode.id]" routerLinkActive="primary" (click)="expandAllParents(routeFolderNode)">{{routeFolderNode.name}}</button>
+  </div>
+</div>
