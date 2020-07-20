@@ -21,8 +21,6 @@ export class AppComponent {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
-  
-
   increase() {
     this.sidenavWidth = 45;
     console.log('increase sidenav width');
