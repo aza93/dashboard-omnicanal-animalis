@@ -34,17 +34,7 @@ export class LoginComponent implements OnInit {
     if (this.form.invalid) return;   
     this.loading=true;
     this.resetAlert();
-    this.authenticationService.login(new User(this.form.value.email, this.form.value.password))
-    .pipe(first())
-    .subscribe(
-      data => {
-        localStorage.setItem('currentUser', JSON.stringify({ token: data.token }));
-      },
-      error => {
-        error = "Les identifiants sont incorrects";
-        this.alert(error);
-        this.loading=false;
-      });
+    this.authenticationService.login(new User(this.form.value.email, this.form.value.password));
   }
 
   alert(error){

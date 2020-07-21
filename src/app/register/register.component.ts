@@ -5,6 +5,9 @@ import { AuthenticationService } from 'src/shared/services/authentication.servic
 import { UserService } from 'src/shared/services/user.service';
 import { User } from 'src/shared/models/user';
 import { first } from 'rxjs/operators';
+import { OrdersService } from 'src/shared/services/orders.service';
+import { OrdersStore } from 'src/shared/models/OrdersStore';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -20,15 +23,56 @@ export class RegisterComponent implements OnInit {
   alertMsg: any = "";
   isAlerting: Boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, public userService: UserService) {
+  dashboard: string = "national";
+  dashboardMag: Boolean = false;
+  stores = [
+    {
+        name: 'magasin A'
+    },
+    {
+        name: 'magasin B'
+    },
+    {
+        name: 'magasin C'
+    },
+    {
+        name: 'magasin D'
+    },
+    {
+        name: 'magasin E'
+    },
+    {
+        name: 'magasin F'
+    },
+  ];
+  store: string = this.stores[0].name;
+
+  constructor(private ordersService: OrdersService, private formBuilder: FormBuilder, private router: Router, public userService: UserService) {
+  }
+
+  loadAllOrdersStores() {
+    this.ordersService.getOrdersStores()
+    .subscribe((ordersStore: OrdersStore[]) => {
+      this.orders = ordersStore;
+    });
   }
 
   ngOnInit(): void {
+    this.loadAllOrdersStores();
+
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       passwordChecker: ['', [Validators.required]],
+      dashboard: ['', [Validators.required]],
+      store: ['', [Validators.required]],
     }, { validator: this.passwordMatcher });
+  }
+
+  doSomething(event): void {
+    this.dashboard = event.value;
+    this.dashboardMag = this.dashboard === "magasin" ? true : false;
+    console.log(this.dashboard);
   }
 
   submit() {

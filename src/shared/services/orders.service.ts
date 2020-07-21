@@ -8,6 +8,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
 
+import { OrdersStore } from 'src/shared/models/OrdersStore';
 import { Order } from 'src/shared/models/Order';
 import { DelayedOrder } from 'src/shared/models/DelayedOrder';
 import { OrderAvMore14dd } from 'src/shared/models/OrderAvMore14dd';
@@ -37,11 +38,47 @@ export class OrdersService {
        "Access-Control-Allow-Credentials": "true",
        "Access-Control-Allow-Headers": "Origin, X-Requested-With,X-HTTP-Method-Override, Content-Type, Accept, Authorization",
        'Content-Type': 'application/json',
-       'Authorization':'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token
+       'Authorization':'Bearer ' + localStorage.getItem('magentoAdminToken')
      })
   };
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar, public datePipe: DatePipe = new DatePipe("fr-FR")) { }
+
+  getOrdersStores(): Observable<OrdersStore[]> {
+
+    return this.http.get<any>(`${this.ordersUrl}?
+                               searchCriteria[filterGroups][0][filters][0][field]=state&
+                               searchCriteria[filterGroups][0][filters][0][value]=processing&
+                               searchCriteria[filterGroups][0][filters][0][conditionType]=eq&
+                               searchCriteria[filterGroups][1][filters][0][field]=shipping_description&
+                               searchCriteria[filterGroups][1][filters][0][value]=%Click %26 Collect%&
+                               searchCriteria[filterGroups][1][filters][0][conditionType]=like&
+                               searchCriteria[filterGroups][2][filters][0][field]=shipping_description&
+                               searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 2h%&
+                               searchCriteria[filterGroups][2][filters][0][conditionType]=like&
+                               fields=items[extension_attributes,extension_attributes,items,created_at,shipping_description,increment_id,customer_firstname,customer_lastname,billing_address[city,telephone]]&
+                               searchCriteria[pageSize]=50
+                               `, this.httpOptions)
+      .pipe(
+        map(res => {
+            let orderStores: OrdersStore[] = [];
+            let orderStore: OrdersStore;
+            //console.log(res);
+            for (let r of res.items) {
+                orderStore = new OrdersStore();
+
+                orderStore.name = r.extension_attributes.shipping_assignments[0].shipping.address.company;
+                
+                orderStores.push(orderStore);
+            }
+            
+            return orderStores;
+        }),
+        catchError(this.handleError('getOrdersStore', []))
+      )
+  }
+
+  
 
   getOrders(): Observable<Order[]> {
 

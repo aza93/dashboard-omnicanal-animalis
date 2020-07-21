@@ -18,6 +18,7 @@ export class AppComponent {
   constructor(
     private authenticationService: AuthenticationService
   ) {
+    this.authenticationService.loginMagento();
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
