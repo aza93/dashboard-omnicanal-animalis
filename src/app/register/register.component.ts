@@ -29,21 +29,6 @@ export class RegisterComponent implements OnInit {
     {
         name: 'magasin A'
     },
-    {
-        name: 'magasin B'
-    },
-    {
-        name: 'magasin C'
-    },
-    {
-        name: 'magasin D'
-    },
-    {
-        name: 'magasin E'
-    },
-    {
-        name: 'magasin F'
-    },
   ];
   store: string = this.stores[0].name;
 
@@ -51,10 +36,7 @@ export class RegisterComponent implements OnInit {
   }
 
   loadAllOrdersStores() {
-    this.ordersService.getOrdersStores()
-    .subscribe((ordersStore: OrdersStore[]) => {
-      this.orders = ordersStore;
-    });
+    this.stores = this.ordersService.getOrdersStores();
   }
 
   ngOnInit(): void {

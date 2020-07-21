@@ -44,8 +44,8 @@ export class OrdersService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar, public datePipe: DatePipe = new DatePipe("fr-FR")) { }
 
-  getOrdersStores(): Observable<OrdersStore[]> {
-
+  getOrdersStores(): OrdersStore[] {
+    /*
     return this.http.get<any>(`${this.ordersUrl}?
                                searchCriteria[filterGroups][0][filters][0][field]=state&
                                searchCriteria[filterGroups][0][filters][0][value]=processing&
@@ -76,6 +76,10 @@ export class OrdersService {
         }),
         catchError(this.handleError('getOrdersStore', []))
       )
+      */
+     let orderStores: OrdersStore[] = environment.amstyStoreLocator;
+     
+     return orderStores;
   }
 
   
