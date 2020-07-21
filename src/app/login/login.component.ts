@@ -12,7 +12,7 @@ import { User } from 'src/shared/models/user'
 })
 export class LoginComponent implements OnInit {
   @Output() changeToRegisterComponent = new EventEmitter();
-  username: string;
+  email: string;
   password: string;
   form: FormGroup;
   loading: Boolean = false;
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     if (this.form.invalid) return;   
     this.loading=true;
     this.resetAlert();
-    this.authenticationService.login(new User(this.form.value.username, this.form.value.password))
+    this.authenticationService.login(new User(this.form.value.email, this.form.value.password))
     .pipe(first())
     .subscribe(
       data => {

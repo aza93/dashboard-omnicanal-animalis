@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 import { User } from 'src/shared/models/user';
+import { AngularFireAuth } from "@angular/fire/auth";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-  private url = 'http://localhost:8080/';  // URL to web api
   private httpHeaders = new HttpHeaders({
     "Access-Control-Allow-Origin": "*",
     'Access-Control-Allow-Method': 'GET, POST, OPTIONS, DELETE',
@@ -15,21 +16,23 @@ export class UserService {
   });
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public afAuth: AngularFireAuth) {
+  }
 
+  /*
   getAll() {
     return this.http.get<User[]>(this.url + `users/list`);
   }
+  */
 
-  register(user: User) {
-    return this.http.post<any>(this.url + `users/create_user`, {
-      username: user.username, password: user.password
-    }
-    );
+  register(user: User) {    
+    return this.afAuth.createUserWithEmailAndPassword(user.email, user.password);
   }
 
+  /*
   delete(id: string) {
     return this.http.delete(this.url + `users/` + id);
 
   }
+  */
 }

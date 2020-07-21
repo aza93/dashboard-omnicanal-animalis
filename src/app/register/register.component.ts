@@ -12,7 +12,7 @@ import { first } from 'rxjs/operators';
 })
 export class RegisterComponent implements OnInit {
   @Output() changeToLoginComponent = new EventEmitter();
-  username: string;
+  email: string;
   password: string;
   passwordChecker: string;
   form: FormGroup;
@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       passwordChecker: ['', [Validators.required]],
     }, { validator: this.passwordMatcher });
@@ -35,19 +35,14 @@ export class RegisterComponent implements OnInit {
     if (this.form.invalid) return;
     this.loading = true;
     this.resetAlert();
-    const user = new User(this.form.value.username, this.form.value.password);
+    const user = new User(this.form.value.email, this.form.value.password);
     this.userService.register(user)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.changeToLoginComponent.emit();
-        },
-        error => {
-          error = "Cet utilisateur existe déjà";
-          this.alert(error)
-          this.loading = false;
-        });
-
+    .then(res => {
+      this.changeToLoginComponent.emit();
+    })
+    .catch(err => {
+      console.log('Something is wrong:',err.message);
+    });
   }
 
   alert(error) {

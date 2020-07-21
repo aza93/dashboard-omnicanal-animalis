@@ -58,6 +58,11 @@ import localeFr from '@angular/common/locales/fr';
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
 
+/* Firebase services + enviorment module */
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { environment } from 'src/environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -110,6 +115,8 @@ registerLocaleData(localeFr, 'fr');
     ScrollingModule,
     ExperimentalScrollingModule,
     AgGridModule.withComponents([]),
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [
     {

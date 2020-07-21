@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { AngularFireAuth } from "@angular/fire/auth";
 
 import { environment } from 'src/environments/environment';
 
@@ -23,23 +24,29 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(public http: HttpClient, private router: Router, private dialog: MatDialog,
-  ) {
+  constructor(public http: HttpClient, private router: Router, private dialog: MatDialog, public afAuth: AngularFireAuth) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
+  /* Sign in (firebase) + Magento */
   login(user: User) {
-    const req = this.http.post<any>(`${environment.apiUrlMagento}/rest/V1/integration/admin/token`, { username: user.username, password: user.password }, this.options)
+    this.afAuth.signInWithEmailAndPassword(user.email, user.password)
+      .then(res => {
+        console.log('Successfully signed in!');
+      })
+      .catch(err => {
+        console.log('Something is wrong:',err.message);
+      });
+
+    const req = this.http.post<any>(`${environment.apiUrlMagento}/rest/V1/integration/admin/token`, { username: environment.magentoUsername, password: environment.magentoPassword }, this.options)
       .pipe(map(response => {
         user.token = response;
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         this.router.navigate(['/home']);
         return user;
-      })
-
-      )
+      }))
     return req;
   }
 
