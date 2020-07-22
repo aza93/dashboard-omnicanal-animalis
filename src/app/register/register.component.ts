@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
       password: ['', Validators.required],
       passwordChecker: ['', [Validators.required]],
       dashboard: ['', [Validators.required]],
-      store: ['', [Validators.required]],
+      store: ['', this.dashboard === "magasin" ? [Validators.required] : null],
     }, { validator: this.passwordMatcher });
   }
 
@@ -62,6 +62,7 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     this.resetAlert();
     const user = new User(this.form.value.email, this.form.value.password);
+    user.store = this.form.value.store;
     this.userService.register(user)
     .then(res => {
       this.changeToLoginComponent.emit();

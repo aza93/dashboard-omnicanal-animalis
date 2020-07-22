@@ -98,7 +98,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
                                fields=items[extension_attributes,extension_attributes,items,created_at,shipping_description,increment_id,customer_firstname,customer_lastname,billing_address[city,telephone]]&
                                searchCriteria[pageSize]=50
-                               `, this.httpOptions)
+                               `+``, this.httpOptions)
       .pipe(
         map(res => {
             let newOrders: Order[] = [];

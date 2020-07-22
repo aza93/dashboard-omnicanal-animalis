@@ -1,9 +1,35 @@
 export class User {
+  /*
   id: number;
   firstName: string;
   lastName: string;
   token: string;
+  store: string;
+  */
 
-  constructor(public email: string, public password: string){};
+  /*
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+  emailVerified: boolean;
+  firstName: string;
+  lastName: string;
+  birthday: Date;
+  addressOne: string;
+  addressTwo: string;
+  zipCode: string;
+  city: string;
+  phoneOne: string;
+  phoneTwo: string;
+  profilType: string;
+  profilPicture: string;
+  admin: boolean;
+  moderator: boolean;
+  */
 
+  token: string;
+  store: string;
+
+  constructor(public email: string, public password: string){ };
 }

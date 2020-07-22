@@ -63,6 +63,8 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { environment } from 'src/environments/environment';
 
+import { AngularFirestore } from '@angular/fire/firestore';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -127,7 +129,8 @@ import { environment } from 'src/environments/environment';
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
 
     MatDatepickerModule,
-    DatePipe
+    DatePipe,
+    AngularFirestore
   ],
   bootstrap: [AppComponent]
 })

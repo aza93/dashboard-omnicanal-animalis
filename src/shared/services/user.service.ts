@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { User } from 'src/shared/models/user';
 import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -16,7 +17,7 @@ export class UserService {
   });
 
 
-  constructor(private http: HttpClient, public afAuth: AngularFireAuth) {
+  constructor(private http: HttpClient, public afAuth: AngularFireAuth, private afs: AngularFirestore) {
   }
 
   /*
@@ -26,13 +27,12 @@ export class UserService {
   */
 
   register(user: User) {    
-    return this.afAuth.createUserWithEmailAndPassword(user.email, user.password);
+    return this.afAuth.createUserWithEmailAndPassword(user.email, user.password)
+    .then((result) => {
+      this.afs.collection('stores').add({
+        name: user.store,
+        user_id: result.user.uid
+      });
+    })
   }
-
-  /*
-  delete(id: string) {
-    return this.http.delete(this.url + `users/` + id);
-
-  }
-  */
 }

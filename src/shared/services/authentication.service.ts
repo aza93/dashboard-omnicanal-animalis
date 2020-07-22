@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFirestore } from '@angular/fire/firestore';
 
 import { environment } from 'src/environments/environment';
 
@@ -24,17 +25,29 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(public http: HttpClient, private router: Router, private dialog: MatDialog, public afAuth: AngularFireAuth) {
+  constructor(public http: HttpClient, private router: Router, private dialog: MatDialog, public afAuth: AngularFireAuth, private afs: AngularFirestore) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  /* Sign in (firebase) + Magento */
-  login(user: User) {    
+  /* Sign in (firebase) */
+  login(user: User) {
+    //this.loginMagento();
     const req = this.afAuth.signInWithEmailAndPassword(user.email, user.password)
       .then(res => {
         console.log('Successfully signed in!');
+        user.token = localStorage.getItem('magentoAdminToken');
+        localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
+        var currentUserId = res.user.uid;
+        const query = this.afs.firestore.collection('stores').where('user_id', '==', currentUserId);
+
+        query.get().then(querySnapshot => {
+          querySnapshot.forEach(function (doc) {
+            localStorage.setItem("store", doc.data()['name']['name']);
+          })
+        });
+
         this.router.navigate(['/home']);
 
         return user;
@@ -60,7 +73,8 @@ export class AuthenticationService {
 
   logout() {
     this.dialog.closeAll();
-    localStorage.removeItem('currentUser');
+    //localStorage.removeItem('currentUser');
+    localStorage.clear();
     this.currentUserSubject.next(null);
     this.router.navigate(['']);
   }
@@ -71,5 +85,7 @@ export class AuthenticationService {
 
   public get currentUserToken(): string {
     return this.currentUserSubject.value.token;
+    
+    //return localStorage.getItem("magentoAdminToken");
   }
 }
