@@ -32,7 +32,7 @@ export class AuthenticationService {
 
   /* Sign in (firebase) */
   login(user: User) {
-    //this.loginMagento();
+    this.loginMagento();
     const req = this.afAuth.signInWithEmailAndPassword(user.email, user.password)
       .then(res => {
         console.log('Successfully signed in!');
@@ -44,7 +44,16 @@ export class AuthenticationService {
 
         query.get().then(querySnapshot => {
           querySnapshot.forEach(function (doc) {
-            localStorage.setItem("store", doc.data()['name']['name']);
+            const storeName = doc.data()['name'];
+            console.log(storeName);
+            if (storeName != null) {
+              console.log('not empty');
+              localStorage.setItem("store", storeName['name']);
+            }
+            else {
+              console.log('empty');
+              localStorage.setItem("store", null);
+            }
           })
         });
 
@@ -73,8 +82,9 @@ export class AuthenticationService {
 
   logout() {
     this.dialog.closeAll();
-    //localStorage.removeItem('currentUser');
-    localStorage.clear();
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('store');
+    //localStorage.clear();
     this.currentUserSubject.next(null);
     this.router.navigate(['']);
   }

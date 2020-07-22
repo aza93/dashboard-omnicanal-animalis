@@ -85,7 +85,7 @@ export class OrdersService {
   
 
   getOrders(): Observable<Order[]> {
-
+    
     return this.http.get<any>(`${this.ordersUrl}?
                                searchCriteria[filterGroups][0][filters][0][field]=state&
                                searchCriteria[filterGroups][0][filters][0][value]=processing&
@@ -96,26 +96,30 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][field]=shipping_description&
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 2h%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
-                               fields=items[extension_attributes,extension_attributes,items,created_at,shipping_description,increment_id,customer_firstname,customer_lastname,billing_address[city,telephone]]&
+                               fields=items[extension_attributes,items,created_at,shipping_description,increment_id,customer_firstname,customer_lastname,billing_address[city,telephone]]&
                                searchCriteria[pageSize]=50
-                               `+``, this.httpOptions)
+                               `, this.httpOptions)
       .pipe(
         map(res => {
             let newOrders: Order[] = [];
             let ord: Order;
-            console.log(res);
+            //console.log(res);
+            let storeLoc = localStorage.getItem("store");
             for (let r of res.items) {
-                ord = new Order();
+              
+              ord = new Order();
 
-                ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-                ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
-                ord.type_commande = r.shipping_description;
-                ord.numero_commande = r.increment_id;
-                ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
-                ord.tel = r.billing_address.telephone;
-                ord.nb_produits = r.items.length;
-                
+              ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
+              ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
+              ord.type_commande = r.shipping_description;
+              ord.numero_commande = r.increment_id;
+              ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
+              ord.tel = r.billing_address.telephone;
+              ord.nb_produits = r.items.length;
+
+              if ((storeLoc !== null && ord.magasin === storeLoc) || (storeLoc === "null")) {  
                 newOrders.push(ord);
+              }
             }
             
             return newOrders;
