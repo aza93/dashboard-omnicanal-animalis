@@ -24,7 +24,7 @@
 			
 			<mat-form-field>
 				<mat-label>Type de bashboard souhaitée</mat-label>
-				<mat-select matNativeControl formControlName="dashboard" (selectionChange)="doSomething($event)" required>
+				<mat-select matNativeControl formControlName="dashboard" (selectionChange)="changeDashboardType($event)" required>
 					<mat-option value="national">Dasboard national</mat-option>
 					<mat-option value="magasin">Dasboard magasin</mat-option>
 				</mat-select>

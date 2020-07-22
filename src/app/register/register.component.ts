@@ -51,10 +51,10 @@ export class RegisterComponent implements OnInit {
     }, { validator: this.passwordMatcher });
   }
 
-  doSomething(event): void {
+  changeDashboardType(event): void {
     this.dashboard = event.value;
     this.dashboardMag = this.dashboard === "magasin" ? true : false;
-    console.log(this.dashboard);
+    //console.log(this.dashboard);
   }
 
   submit() {
@@ -62,7 +62,8 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     this.resetAlert();
     const user = new User(this.form.value.email, this.form.value.password);
-    user.store = this.form.value.store;
+    user.store = this.dashboardMag ? this.form.value.store : null;
+    console.log(user);
     this.userService.register(user)
     .then(res => {
       this.changeToLoginComponent.emit();
