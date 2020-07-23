@@ -65,6 +65,8 @@ import { environment } from 'src/environments/environment';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -119,6 +121,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
     AgGridModule.withComponents([]),
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    ToastrModule.forRoot()
   ],
   providers: [
     {

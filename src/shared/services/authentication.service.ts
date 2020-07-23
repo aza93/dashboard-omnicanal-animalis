@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NotificationService } from './notification.service';
 
 import { environment } from 'src/environments/environment';
 
@@ -25,7 +26,14 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(public http: HttpClient, private router: Router, private dialog: MatDialog, public afAuth: AngularFireAuth, private afs: AngularFirestore) {
+  constructor(
+    public http: HttpClient,
+    private router: Router,
+    private dialog: MatDialog,
+    public afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private notifyService : NotificationService) {
+
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -35,6 +43,7 @@ export class AuthenticationService {
     this.loginMagento();
     const req = this.afAuth.signInWithEmailAndPassword(user.email, user.password)
       .then(res => {
+        this.notifyService.showSuccess("Successfully signed in!", "Login")
         console.log('Successfully signed in!');
         user.token = localStorage.getItem('magentoAdminToken');
         localStorage.setItem('currentUser', JSON.stringify(user));
@@ -62,7 +71,8 @@ export class AuthenticationService {
         return user;
       })
       .catch(err => {
-        console.log('Something is wrong:',err.message);
+        this.notifyService.showError(err.message, "Something is wrong");
+        //console.log('Something is wrong:',err.message);
       });
     
 

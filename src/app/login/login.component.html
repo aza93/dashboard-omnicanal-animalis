@@ -20,10 +20,16 @@
       </mat-form-field>
 
       <div>
+        <button mat-flat-button color="accent" type="submit">
+          Se connecter
+        </button>
+        
+        <!--
         <button mat-flat-button color="accent" [disabled]="!form.valid || loading" type="submit">
           <i *ngIf="loading" class="spinner-border spinner-border-sm"></i>
           Se connecter
         </button>
+        -->
 
         <button mat-button color="primary" class="ml-2" type="button" (click)="changeToRegisterComponent.emit()">
           Créer un compte

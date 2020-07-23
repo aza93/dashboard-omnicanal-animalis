@@ -7,6 +7,7 @@ import { User } from 'src/shared/models/user';
 import { first } from 'rxjs/operators';
 import { OrdersService } from 'src/shared/services/orders.service';
 import { OrdersStore } from 'src/shared/models/OrdersStore';
+import { NotificationService } from 'src/shared/services/notification.service'
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,12 @@ export class RegisterComponent implements OnInit {
   ];
   store: string = this.stores[0].name;
 
-  constructor(private ordersService: OrdersService, private formBuilder: FormBuilder, private router: Router, public userService: UserService) {
+  constructor(
+    private ordersService: OrdersService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    public userService: UserService,
+    private notifyService : NotificationService) {
   }
 
   loadAllOrdersStores() {
@@ -69,6 +75,7 @@ export class RegisterComponent implements OnInit {
       this.changeToLoginComponent.emit();
     })
     .catch(err => {
+      this.notifyService.showError(err.message, "Something is wrong");
       console.log('Something is wrong:',err.message);
     });
   }

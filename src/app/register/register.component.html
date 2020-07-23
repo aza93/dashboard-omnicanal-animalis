@@ -40,10 +40,15 @@
 			</mat-form-field>
 
 			<div>
+				<button mat-flat-button type="submit" color="accent">
+					S'inscrire
+				</button>
+				<!--
 				<button mat-flat-button type="submit" color="accent" [disabled]="!form.valid || loading">
 					<i *ngIf="loading" class="spinner-border spinner-border-sm"></i>
 					S'inscrire
 				</button>
+				-->
 
 				<button mat-button color="primary" class="ml-2" type="button" (click)="changeToLoginComponent.emit()">J'ai
 					déjà un compte

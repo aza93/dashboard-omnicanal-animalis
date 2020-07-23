@@ -29,7 +29,7 @@ export class OrdersService {
 
   private dataSentSubject = new Subject<string>();
   public getDataSentEvent = this.dataSentSubject.asObservable();
-  private storeLoc = localStorage.getItem("store");
+  private storeLoc;
   
   private httpOptions = {
     //withCredentials: true
@@ -65,6 +65,8 @@ export class OrdersService {
             let orderStores: OrdersStore[] = [];
             let orderStore: OrdersStore;
             //console.log(res);
+            this.storeLoc = localStorage.getItem("store");
+            
             for (let r of res.items) {
                 orderStore = new OrdersStore();
 
@@ -104,6 +106,7 @@ export class OrdersService {
         map(res => {
             let newOrders: Order[] = [];
             let ord: Order;
+            this.storeLoc = localStorage.getItem("store");
             
             for (let r of res.items) {
               
@@ -147,7 +150,8 @@ export class OrdersService {
         map(res => {
             let newOrders: DelayedOrder[] = [];
             let ord: DelayedOrder;
-
+            this.storeLoc = localStorage.getItem("store");
+            
             for (let r of res.items) {
               let date1 = new Date(this.now).getTime();
               let date2 = new Date(r.created_at).getTime();
@@ -191,7 +195,8 @@ export class OrdersService {
         map(res => {
             let newOrders: OrderAvMore14dd[] = [];
             let ord: OrderAvMore14dd;
-
+            this.storeLoc = localStorage.getItem("store");
+            
             for (let r of res.items) {
               if (r.status_histories[0]) {
                 if (r.state == "processing" || ((r.state == "complete") && (r.status_histories[0].status == "complete"))) {
@@ -240,7 +245,8 @@ export class OrdersService {
         map(res => {
             let newOrders: OrderAvLess14dd[] = [];
             let ord: OrderAvLess14dd;
-
+            this.storeLoc = localStorage.getItem("store");
+            
             for (let r of res.items) {
               if (r.status_histories[0]) {
                 if (r.state == "processing" || ((r.state == "complete") && (r.status_histories[0].status == "complete"))) {
@@ -295,7 +301,8 @@ export class OrdersService {
             let newOrders: OrderShipping[] = [];
             let ord: OrderShipping;
             let dateExp: string;
-
+            this.storeLoc = localStorage.getItem("store");
+            
             for (let r of res.items) {
               ord = new OrderShipping();
               dateExp = r.extension_attributes.shipping_assignments[0].items[0].created_at;
@@ -337,7 +344,8 @@ export class OrdersService {
         map(res => {
             let newOrders: OrderInProgress[] = [];
             let ord: OrderInProgress;
-
+            this.storeLoc = localStorage.getItem("store");
+            
             for (let r of res.items) {
               ord = new OrderInProgress();
 
