@@ -9,7 +9,7 @@ import { User } from 'src/shared/models/user';
 })
 export class AppComponent {
   title = 'homepage';
-
+  // test
   currentUser: User;
 
   sidenavWidth = 6;
