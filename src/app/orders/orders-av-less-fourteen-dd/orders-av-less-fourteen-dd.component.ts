@@ -27,14 +27,14 @@ export class OrdersAvLessFourteenDdComponent implements OnInit {
 
     this.columnDefs = [      
       { headerName: 'Magasin', field: "magasin" },
-      { headerName: 'Date de la commande', field: "date_creation" },
-      { headerName: 'Date mise de coté', field: "date_mise_de_cote" },
+      { headerName: 'Date de la commande', field: "date_creation", resizable: true },
+      { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true },
       { headerName: 'Commande dispo depuis (jours)', field: "dispo_depuis" },
-      { headerName: 'Type de commande', field: "type_commande", flex: 5, resizable: true },
-      { headerName: 'Numéro de commande', field: "numero_commande" },
-      { headerName: 'Nom client', field: "nom_client"},
-      { headerName: 'Téléphone', field: "tel" },
-      { headerName: 'Nb produits', field: "nb_produits" },
+      { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
+      { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
+      { headerName: 'Nom client', field: "nom_client", resizable: true },
+      { headerName: 'Téléphone', field: "tel", resizable: true },
+      { headerName: 'Nb produits', field: "nb_produits", resizable: true },
     ];
     this.defaultColDef = { sortable: true, filter: true, suppressMovable: true, menuTabs: this.menuTabs, cellClass: "d-flex align-items-center border-right border-grey" };
   }

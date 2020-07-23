@@ -26,14 +26,14 @@ export class OrdersDelayedComponent implements OnInit {
   ) {
 
     this.columnDefs = [      
-      { headerName: 'Magasin', field: "magasin" },
-      { headerName: 'Date de la commande', field: "date_creation" },
-      { headerName: 'Type de commande', field: "type_commande", flex: 5, resizable: true },
-      { headerName: 'Numéro de commande', field: "numero_commande" },
-      { headerName: 'Nom client', field: "nom_client"},
-      { headerName: 'Téléphone', field: "tel" },
-      { headerName: 'Nb produits', field: "nb_produits" },
-      { headerName: 'Retard (en heures) par rapport à maintenant', field: "retard" },
+      { headerName: 'Magasin', field: "magasin", resizable: true },
+      { headerName: 'Date de la commande', field: "date_creation", resizable: true },
+      { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
+      { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
+      { headerName: 'Nom client', field: "nom_client", resizable: true },
+      { headerName: 'Téléphone', field: "tel", resizable: true },
+      { headerName: 'Nb produits', field: "nb_produits", resizable: true },
+      { headerName: 'Retard (en heures) par rapport à maintenant', field: "retard", resizable: true },
     ];
     this.defaultColDef = { sortable: true, filter: true, suppressMovable: true, menuTabs: this.menuTabs, cellClass: "d-flex align-items-center border-right border-grey" };
   }
