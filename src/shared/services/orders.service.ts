@@ -29,6 +29,7 @@ export class OrdersService {
 
   private dataSentSubject = new Subject<string>();
   public getDataSentEvent = this.dataSentSubject.asObservable();
+  private storeLoc = localStorage.getItem("store");
   
   private httpOptions = {
     //withCredentials: true
@@ -103,8 +104,7 @@ export class OrdersService {
         map(res => {
             let newOrders: Order[] = [];
             let ord: Order;
-            //console.log(res);
-            let storeLoc = localStorage.getItem("store");
+            
             for (let r of res.items) {
               
               ord = new Order();
@@ -117,7 +117,7 @@ export class OrdersService {
               ord.tel = r.billing_address.telephone;
               ord.nb_produits = r.items.length;
 
-              if ((storeLoc !== null && ord.magasin === storeLoc) || (storeLoc === "null")) {  
+              if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
                 newOrders.push(ord);
               }
             }
@@ -166,7 +166,10 @@ export class OrdersService {
                 ord.retard = Math.floor(hoursDiff);
               }
               
-              newOrders.push(ord);
+
+              if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                newOrders.push(ord);
+              }
             }
             
             return newOrders;
@@ -210,7 +213,10 @@ export class OrdersService {
                     ord.tel = r.billing_address.telephone;
                     ord.nb_produits = r.items.length;
                     
-                    newOrders.push(ord);
+
+                    if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                      newOrders.push(ord);
+                    }
                   }
                 }
               }
@@ -255,8 +261,10 @@ export class OrdersService {
                     ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
                     ord.tel = r.billing_address.telephone;
                     ord.nb_produits = r.items.length;
-                    
-                    newOrders.push(ord);
+
+                    if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                      newOrders.push(ord);
+                    }
                   }
                 }
               }
@@ -299,8 +307,10 @@ export class OrdersService {
               ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
               ord.tel = r.billing_address.telephone;
               ord.nb_produits = r.items.length;
-              
-              newOrders.push(ord);
+
+              if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                newOrders.push(ord);
+              }
             }
             
             return newOrders;
@@ -338,8 +348,10 @@ export class OrdersService {
               ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
               ord.tel = r.billing_address.telephone;
               ord.nb_produits = r.items.length;
-              
-              newOrders.push(ord);
+
+              if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                newOrders.push(ord);
+              }
             }
             
             return newOrders;
