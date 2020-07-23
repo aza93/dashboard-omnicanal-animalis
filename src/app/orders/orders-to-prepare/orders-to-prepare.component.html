@@ -7,6 +7,9 @@
     <button mat-stroked-button class="rounded-pill" (click)="gridApi.selectAllFiltered()">
       <span>Tout sélectionner</span>
     </button>
+    <button mat-stroked-button class="rounded-pill" (click)="gridApi.deselectAllFiltered()">
+      <span>Tout désélectionner</span>
+    </button>
 
     <mat-icon class="text-secondary ml-auto">search</mat-icon>
     <div class="input-group input-group-sm w-25 pl-1 mr-auto">
@@ -43,7 +46,7 @@
   <div class="h-100">
     <ag-grid-angular id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100" [columnDefs]="columnDefs"
       [defaultColDef]="defaultColDef" [rowData]="orders" [rowHeight]="32" (gridReady)="onGridReady($event)"
-      suppressCellSelection="true" rowSelection='multiple'
+      suppressCellSelection="true" rowSelection='multiple' enableRangeSelection="true"
       [tooltipShowDelay]="0" [quickFilterText]="filter"></ag-grid-angular>
   </div>
 </div>
