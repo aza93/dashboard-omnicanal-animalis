@@ -74,7 +74,7 @@ export class RegisterComponent implements OnInit {
     })
     .catch(err => {
       this.notifyService.showError(err.message, "Something is wrong");
-      console.log('Something is wrong:',err.message);
+      //console.log('Something is wrong:',err.message);
     });
   }
 

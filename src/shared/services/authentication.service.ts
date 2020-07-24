@@ -55,7 +55,7 @@ export class AuthenticationService {
     const req = this.afAuth.signInWithEmailAndPassword(user.email, user.password)
       .then(res => {
         this.notifyService.showSuccess("Successfully signed in!", "Login")
-        console.log('Successfully signed in!');
+        //console.log('Successfully signed in!');
         user.token = localStorage.getItem('magentoAdminToken');
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
@@ -65,13 +65,13 @@ export class AuthenticationService {
         query.get().then(querySnapshot => {
           querySnapshot.forEach(function (doc) {
             const storeName = doc.data()['name'];
-            console.log(storeName);
+            //console.log(storeName);
             if (storeName != null) {
-              console.log('not empty');
+              //console.log('not empty');
               localStorage.setItem("store", storeName['name']);
             }
             else {
-              console.log('empty');
+              //console.log('empty');
               localStorage.setItem("store", null);
             }
           })

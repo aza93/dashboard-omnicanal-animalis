@@ -24,10 +24,10 @@ export class AppComponent {
 
   increase() {
     this.sidenavWidth = 45;
-    console.log('increase sidenav width');
+    //console.log('increase sidenav width');
   }
   decrease() {
     this.sidenavWidth = 6;
-    console.log('decrease sidenav width');
+    //console.log('decrease sidenav width');
   }
 }
