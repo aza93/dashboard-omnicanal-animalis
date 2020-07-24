@@ -36,7 +36,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { SafePipeModule } from 'safe-pipe';
 import { AgGridModule } from 'ag-grid-angular';
-import 'ag-grid-enterprise';
+//import 'ag-grid-enterprise';
 
 import { OrdersToPrepareComponent } from './orders/orders-to-prepare/orders-to-prepare.component';
 import { OrdersDelayedComponent } from './orders/orders-delayed/orders-delayed.component';

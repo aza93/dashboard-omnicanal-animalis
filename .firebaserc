@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "dashboard-omnicanal-animalis": {
+      "hosting": {
+        "homepage": [
+          "dashboard-omnicanal-animalis"
+        ]
+      }
+    }
+  }
+}
