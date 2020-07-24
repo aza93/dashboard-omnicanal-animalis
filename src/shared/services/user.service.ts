@@ -6,6 +6,8 @@ import { User } from 'src/shared/models/user';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
+import { NotificationService } from './notification.service';
+
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
@@ -17,7 +19,11 @@ export class UserService {
   });
 
 
-  constructor(private http: HttpClient, public afAuth: AngularFireAuth, private afs: AngularFirestore) {
+  constructor(
+    private http: HttpClient,
+    public afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private notifyService : NotificationService) {
   }
 
   /*
@@ -33,6 +39,7 @@ export class UserService {
         name: user.store,
         user_id: result.user.uid
       });
+      this.notifyService.showSuccess("Successfully signed up!", "Sign up")
     })
   }
 }
