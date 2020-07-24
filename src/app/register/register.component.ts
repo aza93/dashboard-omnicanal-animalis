@@ -2,11 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/shared/services/authentication.service';
-import { UserService } from 'src/shared/services/user.service';
 import { User } from 'src/shared/models/user';
-import { first } from 'rxjs/operators';
 import { OrdersService } from 'src/shared/services/orders.service';
-import { OrdersStore } from 'src/shared/models/OrdersStore';
 import { NotificationService } from 'src/shared/services/notification.service'
 
 @Component({
@@ -37,8 +34,9 @@ export class RegisterComponent implements OnInit {
     private ordersService: OrdersService,
     private formBuilder: FormBuilder,
     private router: Router,
-    public userService: UserService,
-    private notifyService : NotificationService) {
+    //public userService: UserService,
+    private notifyService : NotificationService,
+    public authenticationService: AuthenticationService) {
   }
 
   loadAllOrdersStores() {
@@ -70,7 +68,7 @@ export class RegisterComponent implements OnInit {
     const user = new User(this.form.value.email, this.form.value.password);
     user.store = this.dashboardMag ? this.form.value.store : null;
     //console.log(user);
-    this.userService.register(user)
+    this.authenticationService.register(user)
     .then(res => {
       this.changeToLoginComponent.emit();
     })

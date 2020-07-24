@@ -38,6 +38,17 @@ export class AuthenticationService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
+  register(user: User) {    
+    return this.afAuth.createUserWithEmailAndPassword(user.email, user.password)
+    .then((result) => {
+      this.afs.collection('stores').add({
+        name: user.store,
+        user_id: result.user.uid
+      });
+      this.notifyService.showSuccess("Successfully signed up!", "Sign up")
+    })
+  }
+
   /* Sign in (firebase) */
   login(user: User) {
     this.loginMagento();
