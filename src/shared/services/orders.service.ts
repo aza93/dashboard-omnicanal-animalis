@@ -198,8 +198,11 @@ export class OrdersService {
             this.storeLoc = localStorage.getItem("store");
             
             for (let r of res.items) {
+              let shipDesc = r.shipping_description;
               if (r.status_histories[0]) {
-                if (r.state == "processing" || ((r.state == "complete") && (r.status_histories[0].status == "complete"))) {
+                // if (r.state == "processing" || ((r.state == "complete") && (r.status_histories[0].status == "complete")))
+                if ((r.status_histories[0].status == "complete" && shipDesc.includes("Retrait sous 2h")) ||
+                (r.status_histories[0].status == "package_received" && shipDesc.includes("Retrait sous 3 à 4 jours"))) {
                   let date1 = new Date(this.now).getTime();
                   let date2 = new Date(r.created_at).getTime();
                   let time = date1 - date2;  //msec
@@ -212,7 +215,8 @@ export class OrdersService {
                     if (r.status_histories[0])
                       ord.date_mise_de_cote =  this.datePipe.transform(r.status_histories[0].created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.status_histories[0].created_at, 'HH:mm:ss');
                     ord.dispo_depuis = Math.floor(daysDiff);
-                    ord.type_commande = r.shipping_description;
+                    //ord.type_commande = r.shipping_description;
+                    ord.type_commande = shipDesc;
                     ord.numero_commande = r.increment_id;
                     ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
                     ord.tel = r.billing_address.telephone;
@@ -248,8 +252,11 @@ export class OrdersService {
             this.storeLoc = localStorage.getItem("store");
             
             for (let r of res.items) {
+              let shipDesc = r.shipping_description;
               if (r.status_histories[0]) {
-                if (r.state == "processing" || ((r.state == "complete") && (r.status_histories[0].status == "complete"))) {
+                if ((r.status_histories[0].status == "complete" && shipDesc.includes("Retrait sous 2h")) ||
+                (r.status_histories[0].status == "package_received" && shipDesc.includes("Retrait sous 3 à 4 jours"))) {
+                //if (r.state == "processing" || ((r.state == "complete") && (r.status_histories[0].status == "complete"))) {
                   let date1 = new Date(this.now).getTime();
                   let date2 = new Date(r.created_at).getTime();
                   let time = date1 - date2;  //msec
@@ -262,7 +269,8 @@ export class OrdersService {
                     if (r.status_histories[0])
                       ord.date_mise_de_cote =  this.datePipe.transform(r.status_histories[0].created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.status_histories[0].created_at, 'HH:mm:ss');
                     ord.dispo_depuis = Math.floor(daysDiff);
-                    ord.type_commande = r.shipping_description;
+                    //ord.type_commande = r.shipping_description;
+                    ord.type_commande = shipDesc;
                     ord.numero_commande = r.increment_id;
                     ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
                     ord.tel = r.billing_address.telephone;
