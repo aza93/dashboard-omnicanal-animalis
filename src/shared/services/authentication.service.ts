@@ -102,9 +102,11 @@ export class AuthenticationService {
   }
 
   logout() {
+    //this.afAuth.signOut();
     this.dialog.closeAll();
     localStorage.removeItem('currentUser');
     localStorage.removeItem('store');
+    localStorage.removeItem('lastAction');
     //localStorage.clear();
     this.currentUserSubject.next(null);
     this.router.navigate(['']);

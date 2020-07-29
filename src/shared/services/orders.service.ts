@@ -115,7 +115,7 @@ export class OrdersService {
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
               ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
               ord.type_commande = r.shipping_description;
-              ord.numero_commande = r.increment_id;
+              ord.numero_commande = r.extension_attributes.cylande_code;
               ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
               ord.tel = r.billing_address.telephone;
               ord.nb_produits = r.items.length;
@@ -163,7 +163,7 @@ export class OrdersService {
                 ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
                 ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
                 ord.type_commande = r.shipping_description;
-                ord.numero_commande = r.increment_id;
+                ord.numero_commande = r.extension_attributes.cylande_code;
                 ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
                 ord.tel = r.billing_address.telephone;
                 ord.nb_produits = r.items.length;
@@ -217,7 +217,7 @@ export class OrdersService {
                     ord.dispo_depuis = Math.floor(daysDiff);
                     //ord.type_commande = r.shipping_description;
                     ord.type_commande = shipDesc;
-                    ord.numero_commande = r.increment_id;
+                    ord.numero_commande = r.extension_attributes.cylande_code;
                     ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
                     ord.tel = r.billing_address.telephone;
                     ord.nb_produits = r.items.length;
@@ -271,7 +271,7 @@ export class OrdersService {
                     ord.dispo_depuis = Math.floor(daysDiff);
                     //ord.type_commande = r.shipping_description;
                     ord.type_commande = shipDesc;
-                    ord.numero_commande = r.increment_id;
+                    ord.numero_commande = r.extension_attributes.cylande_code;
                     ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
                     ord.tel = r.billing_address.telephone;
                     ord.nb_produits = r.items.length;
@@ -318,7 +318,7 @@ export class OrdersService {
               ord.date_commande = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');              
               ord.date_expedition = this.datePipe.transform(dateExp, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(dateExp, 'HH:mm:ss');
               ord.type_commande = r.shipping_description;
-              ord.numero_commande = r.increment_id;
+              ord.numero_commande = r.extension_attributes.cylande_code;
               ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
               ord.tel = r.billing_address.telephone;
               ord.nb_produits = r.items.length;
@@ -353,14 +353,13 @@ export class OrdersService {
             let newOrders: OrderInProgress[] = [];
             let ord: OrderInProgress;
             this.storeLoc = localStorage.getItem("store");
-            
             for (let r of res.items) {
               ord = new OrderInProgress();
 
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
               ord.date_commande = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
               ord.type_commande = r.shipping_description;
-              ord.numero_commande = r.increment_id;
+              ord.numero_commande = r.extension_attributes.cylande_code;
               ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
               ord.tel = r.billing_address.telephone;
               ord.nb_produits = r.items.length;
