@@ -67,6 +67,14 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { ToastrModule } from 'ngx-toastr';
 
+import {
+  SessionExpirationAlert,
+  SessionInteruptService
+} from 'session-expiration-alert';
+
+import { AppSessionInteruptService } from 'src/shared/services/app-session-interupt.service';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -121,7 +129,8 @@ import { ToastrModule } from 'ngx-toastr';
     AgGridModule.withComponents([]),
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    SessionExpirationAlert.forRoot({ totalMinutes: 60 })
   ],
   providers: [
     {
@@ -133,7 +142,11 @@ import { ToastrModule } from 'ngx-toastr';
 
     MatDatepickerModule,
     DatePipe,
-    AngularFirestore
+    AngularFirestore,
+    {
+      provide: SessionInteruptService,
+      useClass: AppSessionInteruptService
+    }
   ],
   bootstrap: [AppComponent]
 })

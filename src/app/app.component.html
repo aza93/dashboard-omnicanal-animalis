@@ -4,6 +4,16 @@
     <mat-sidenav mode="side" opened disableClose="true" *ngIf="currentUser"  #sidenav class="example-sidenav" [ngStyle]="{ 'width.em': sidenavWidth }" (mouseenter)="increase()"
     (mouseleave)="decrease()">
       <app-left-menu></app-left-menu>
+
+      <session-expiration-alert [alertAt]="alertAt" [startTimer]="startTimer"></session-expiration-alert>
+      <!--
+      <button (click)="increaseTimer()">change alert at</button> {{alertAt}}
+      <br>
+      <button (click)="toggletimer()">toggle timer</button> {{startTimer}}
+
+      <h2 *ngIf="sessionTimer.remainSeconds$ | async; let time">Session Remains {{time}} seconds.</h2>
+      -->
+
     </mat-sidenav>
 
     <mat-sidenav-content>
