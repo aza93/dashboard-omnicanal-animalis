@@ -10,7 +10,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class FilePreviewModalComponent implements OnInit {
   data: string;
 
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public injectedData: any
   ) { }

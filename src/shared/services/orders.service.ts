@@ -375,6 +375,37 @@ export class OrdersService {
       )
   }
 
+  getOrderInfo(cylandeCode): Observable<Order[]> {
+    return this.http.get<any>(`${this.ordersUrl}?
+                               searchCriteria[filterGroups][0][filters][extension_attributes][field]=cylande_code&
+                               searchCriteria[filterGroups][0][filters][0][value]=${cylandeCode}&
+                               searchCriteria[filterGroups][0][filters][0][conditionType]=eq&
+                               searchCriteria[pageSize]=50
+                               `, this.httpOptions)
+      .pipe(
+        map(res => {
+            let newOrders: Order[] = [];
+            let ord: Order;
+            for (let r of res.items) {
+              ord = new Order();
+
+              ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
+              //ord.date_commande = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
+              ord.type_commande = r.shipping_description;
+              ord.numero_commande = r.extension_attributes.cylande_code;
+              ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
+              ord.tel = r.billing_address.telephone;
+              ord.nb_produits = r.items.length;
+
+              newOrders.push(ord);
+            }
+            
+            return newOrders;
+        }),
+        catchError(this.handleError('getOrdersInProgress', []))
+      )
+  }
+
   alertDataSent() {
     this.dataSentSubject.next();
   }

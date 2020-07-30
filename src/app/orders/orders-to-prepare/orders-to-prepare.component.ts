@@ -25,7 +25,8 @@ export class OrdersToPrepareComponent implements OnInit {
   }
 
   constructor(
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    public dialog: MatDialog
   ) {
 
     this.columnDefs = [      
@@ -72,6 +73,62 @@ export class OrdersToPrepareComponent implements OnInit {
   exportAsExcel() {
     if (this.gridApi) {
       this.gridApi.exportDataAsExcel(this.exportParams);
+    }
+  }
+
+  showOrderPreviewModal(cylandeCode) {
+    this.ordersService.getOrderInfo(cylandeCode).subscribe(
+      (orderInfo: Order[]) => {
+        console.log(orderInfo);
+        this.dialog.open(FilePreviewModalComponent, { data: { blob: orderInfo }, minWidth:"100vw", maxWidth:"100vw", panelClass: 'preview-modal' });
+      }
+    )
+  }
+
+  getContextMenuItems = (params) => {
+    if (params.node) {
+      var cylandeCode = params.node.data.numero_commande;
+      //console.log(orderData);
+      var result = [
+        {
+          name: 'Aperçu',
+          icon: `<i class="material-icons-outlined text-secondary">visibility</i>`,
+          action: () => {
+            this.showOrderPreviewModal(cylandeCode)
+          }
+        },
+        {
+          name: 'Modifier',
+          icon: `<i class="material-icons-outlined text-secondary">create</i>`,
+          action: () => {
+            //this.showUpdateModal(file)
+          }
+        },
+        {
+          name: 'Déplacer',
+          icon: `<i class="material-icons-outlined text-secondary">low_priority</i>`,
+          action: () => {
+            //this.showMoveModal(file)
+          }
+        },
+        {
+          name: 'Télécharger',
+          icon: `<i class="material-icons-outlined text-secondary">save_alt</i>`,
+          action: () => {
+            //this.downloadFile(file)
+          }
+
+        },
+        {
+          name: 'Supprimer',
+          icon: `<i class="material-icons-outlined text-secondary">delete</i>`,
+          action: () => {
+            //this.tryDeleteFiles(this.gridApi.getSelectedRows())
+          }
+        },
+      ];
+
+      return result;
     }
   }
 }

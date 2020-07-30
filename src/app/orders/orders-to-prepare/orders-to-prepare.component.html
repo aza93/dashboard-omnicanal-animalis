@@ -47,6 +47,6 @@
     <ag-grid-angular id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100" [columnDefs]="columnDefs"
       [defaultColDef]="defaultColDef" [rowData]="orders" [rowHeight]="32" (gridReady)="onGridReady($event)"
       suppressCellSelection="true" rowSelection='multiple' enableRangeSelection="true"
-      [tooltipShowDelay]="0" [quickFilterText]="filter"></ag-grid-angular>
+      [tooltipShowDelay]="0" [quickFilterText]="filter" [getContextMenuItems]="getContextMenuItems" ></ag-grid-angular>
   </div>
 </div>
