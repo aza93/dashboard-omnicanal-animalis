@@ -10,7 +10,7 @@
     <button mat-stroked-button class="rounded-pill" (click)="gridApi.deselectAllFiltered()">
       <span>Tout désélectionner</span>
     </button>
-    <mat-icon class="text-secondary ml-auto">search</mat-icon>
+    <mat-icon *ngIf="!mob" class="text-secondary ml-auto">search</mat-icon>
     <div [ngClass]="{'input-group input-group-sm w-25 pl-1 mr-auto':!mob }">
       <input [(ngModel)]="filter" type="text" placeholder="Rechercher" class="form-control rounded-pill">
     </div>

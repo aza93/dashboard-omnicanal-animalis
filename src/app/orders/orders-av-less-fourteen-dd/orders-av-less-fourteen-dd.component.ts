@@ -3,6 +3,7 @@ import { GridApi } from 'ag-grid-community';
 import { OrdersService } from 'src/shared/services/orders.service';
 import { FilePreviewModalComponent } from '../../file-preview-modal/file-preview-modal.component';
 import { OrderAvLess14dd } from 'src/shared/models/OrderAvLess14dd';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-orders-av-less-fourteen-dd',
@@ -15,6 +16,7 @@ export class OrdersAvLessFourteenDdComponent implements OnInit {
   gridApi: GridApi;
   ordersAvLess14dd: OrderAvLess14dd[];
   filter: string;
+  mob: boolean;
   menuTabs: Array<string> = ['filterMenuTab'];
   exportParams = {
     allColumns: false,
@@ -22,8 +24,10 @@ export class OrdersAvLessFourteenDdComponent implements OnInit {
   }
 
   constructor(
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private deviceService: DeviceDetectorService
   ) {
+    this.mob = this.deviceService.isMobile() ? true : false;
 
     this.columnDefs = [    
       { headerName: 'ID', field: "id", resizable: true },  

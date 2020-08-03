@@ -3,6 +3,7 @@ import { GridApi } from 'ag-grid-community';
 import { OrdersService } from 'src/shared/services/orders.service';
 import { FilePreviewModalComponent } from '../../file-preview-modal/file-preview-modal.component';
 import { OrderInProgress } from 'src/shared/models/OrderInProgress';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-orders-in-progress',
@@ -15,6 +16,7 @@ export class OrdersInProgressComponent implements OnInit {
   gridApi: GridApi;
   ordersInProgress: OrderInProgress[];
   filter: string;
+  mob: boolean;
   menuTabs: Array<string> = ['filterMenuTab'];
   exportParams = {
     allColumns: false,
@@ -22,8 +24,10 @@ export class OrdersInProgressComponent implements OnInit {
   }
 
   constructor(
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private deviceService: DeviceDetectorService
   ) {
+    this.mob = this.deviceService.isMobile() ? true : false;
 
     this.columnDefs = [ 
       { headerName: 'ID', field: "id", resizable: true },     

@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
 
   currentUser: User;
   isMobile: boolean;
+  mob: boolean;
   deviceInfo = null;
 
   constructor(public authenticationService: AuthenticationService, private deviceService: DeviceDetectorService) {
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
       );
     
     this.epicFunction();
+    this.mob = this.deviceService.isMobile();
     //this.isMobile = this.deviceService.isMobile();
 
     //console.log("getDeviceInfo = ", this.deviceService.getDeviceInfo());

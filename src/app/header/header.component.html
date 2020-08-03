@@ -9,9 +9,9 @@
     <span class="text-success ml-1"> {{currentUser.email}}</span>
   </div>
 
-  <button mat-button (click)="logout()" color="warn" class="h-100">
+  <button mat-button (click)="logout()" color="warn" class="">
     <mat-icon>power_settings_new</mat-icon>
-    <span style="margin-right: 10px;">Déconnexion</span>
+    <span *ngIf="!mob" style="margin-right: 10px;">Déconnexion</span>
   </button>
 
 </mat-toolbar>

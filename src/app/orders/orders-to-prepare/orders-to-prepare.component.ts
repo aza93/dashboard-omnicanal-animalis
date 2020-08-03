@@ -33,15 +33,15 @@ export class OrdersToPrepareComponent implements OnInit {
   ) {
     this.mob = this.deviceService.isMobile() ? true : false;
     this.columnDefs = [
-      { headerName: 'ID', field: "id", resizable: true },
-      { headerName: 'Magasin', field: "magasin", resizable: true },
-      { headerName: 'Date de la commande', field: "date_creation", resizable: true },
-      { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
-      { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
-      { headerName: 'Nom client', field: "nom_client", resizable: true },
-      { headerName: 'Téléphone', field: "tel", resizable: true },
-      { headerName: 'Nb produits', field: "nb_produits", resizable: true },
-      { headerName: 'Retard', field: "retard", resizable: true },
+      { headerName: 'ID', field: "id", width: 150, resizable: true },
+      { headerName: 'Magasin', field: "magasin", width: 300, resizable: true },
+      { headerName: 'Date de la commande', field: "date_creation", width: 250, resizable: true },
+      { headerName: 'Type de commande', field: "type_commande", width: 450, resizable: true },
+      { headerName: 'Numéro de commande', field: "numero_commande", width: 200, resizable: true },
+      { headerName: 'Nom client', field: "nom_client", width: 200, resizable: true },
+      { headerName: 'Téléphone', field: "tel", width: 200, resizable: true },
+      { headerName: 'Nb produits', field: "nb_produits", width: 150, resizable: true },
+      { headerName: 'Retard (jours)', field: "retard", width: 150, resizable: true },
     ];
     this.defaultColDef = { sortable: true, filter: true, suppressMovable: true, menuTabs: this.menuTabs, cellClass: "d-flex align-items-center border-right border-grey" };
   }
@@ -55,7 +55,7 @@ export class OrdersToPrepareComponent implements OnInit {
 
   onGridReady(params) {
     this.gridApi = params.api;
-    this.sizeToFit();
+    //this.sizeToFit();
   }
 
   sizeToFit() {
