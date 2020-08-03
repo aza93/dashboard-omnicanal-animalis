@@ -1,5 +1,5 @@
 <div class="d-flex flex-column h-100">
-  <app-header *ngIf="currentUser"></app-header>
+  <app-header *ngIf="currentUser" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }"></app-header>
   <mat-sidenav-container class="h-100">
     <mat-sidenav mode="side" opened disableClose="true" *ngIf="currentUser"  #sidenav class="example-sidenav" [ngStyle]="{ 'width.em': sidenavWidth }" (mouseenter)="increase()"
     (mouseleave)="decrease()">

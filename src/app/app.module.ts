@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,7 +37,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { SafePipeModule } from 'safe-pipe';
 import { AgGridModule } from 'ag-grid-angular';
-import 'ag-grid-enterprise';
+//import 'ag-grid-enterprise';
 
 import { OrdersToPrepareComponent } from './orders/orders-to-prepare/orders-to-prepare.component';
 import { OrdersDelayedComponent } from './orders/orders-delayed/orders-delayed.component';
@@ -130,7 +131,8 @@ import { AppSessionInteruptService } from 'src/shared/services/app-session-inter
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ToastrModule.forRoot(),
-    SessionExpirationAlert.forRoot({ totalMinutes: 60 })
+    SessionExpirationAlert.forRoot({ totalMinutes: 60 }),
+    DeviceDetectorModule
   ],
   providers: [
     {

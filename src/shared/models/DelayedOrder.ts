@@ -1,4 +1,5 @@
 export class DelayedOrder {
+    public id: number;
     magasin: string;
     date_creation: string;
     type_commande: string;

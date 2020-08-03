@@ -6,6 +6,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { OrdersService } from 'src/shared/services/orders.service';
 import { FilePreviewModalComponent } from '../../file-preview-modal/file-preview-modal.component';
 import { Order } from 'src/shared/models/order';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-orders-to-prepare',
@@ -18,18 +19,21 @@ export class OrdersToPrepareComponent implements OnInit {
   gridApi: GridApi;
   orders: Order[];
   filter: string;
+  mob: boolean;
   menuTabs: Array<string> = ['filterMenuTab'];
   exportParams = {
     allColumns: false,
-    columnKeys: ["magasin", "date_creation", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits"]
+    columnKeys: ["id", "magasin", "date_creation", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits", "retard"]
   }
 
   constructor(
     private ordersService: OrdersService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private deviceService: DeviceDetectorService
   ) {
-
-    this.columnDefs = [      
+    this.mob = this.deviceService.isMobile() ? true : false;
+    this.columnDefs = [
+      { headerName: 'ID', field: "id", resizable: true },
       { headerName: 'Magasin', field: "magasin", resizable: true },
       { headerName: 'Date de la commande', field: "date_creation", resizable: true },
       { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
@@ -37,6 +41,7 @@ export class OrdersToPrepareComponent implements OnInit {
       { headerName: 'Nom client', field: "nom_client", resizable: true },
       { headerName: 'Téléphone', field: "tel", resizable: true },
       { headerName: 'Nb produits', field: "nb_produits", resizable: true },
+      { headerName: 'Retard', field: "retard", resizable: true },
     ];
     this.defaultColDef = { sortable: true, filter: true, suppressMovable: true, menuTabs: this.menuTabs, cellClass: "d-flex align-items-center border-right border-grey" };
   }
@@ -79,8 +84,8 @@ export class OrdersToPrepareComponent implements OnInit {
   showOrderPreviewModal(cylandeCode) {
     this.ordersService.getOrderInfo(cylandeCode).subscribe(
       (orderInfo: Order[]) => {
-        console.log(orderInfo);
-        this.dialog.open(FilePreviewModalComponent, { data: { blob: orderInfo }, minWidth:"100vw", maxWidth:"100vw", panelClass: 'preview-modal' });
+        //console.log(orderInfo);
+        this.dialog.open(FilePreviewModalComponent, { data: "{ blob: orderInfo }", minWidth:"100vw", maxWidth:"100vw", panelClass: 'preview-modal' });
       }
     )
   }
@@ -88,7 +93,7 @@ export class OrdersToPrepareComponent implements OnInit {
   getContextMenuItems = (params) => {
     if (params.node) {
       var cylandeCode = params.node.data.numero_commande;
-      //console.log(orderData);
+      //console.log(cylandeCode);
       var result = [
         {
           name: 'Aperçu',

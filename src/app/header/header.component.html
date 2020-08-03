@@ -3,7 +3,7 @@
     <img height="50" src="../assets/logo.png">
   </div>
   <div class="d-flex h6 ml-auto mr-5 my-0 align-self-center">
-    <span class="text-secondary font-weight-light">
+    <span class="text-secondary font-weight-light" style="margin-left: 50px;">
       Utilisateur connecté :
     </span>
     <span class="text-success ml-1"> {{currentUser.email}}</span>
@@ -11,7 +11,7 @@
 
   <button mat-button (click)="logout()" color="warn" class="h-100">
     <mat-icon>power_settings_new</mat-icon>
-    Déconnexion
+    <span style="margin-right: 10px;">Déconnexion</span>
   </button>
 
 </mat-toolbar>

@@ -3,6 +3,7 @@ import { AuthenticationService } from 'src/shared/services/authentication.servic
 import { User } from 'src/shared/models/user';
 
 import { SessionTimerService } from 'session-expiration-alert';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-root',
@@ -15,20 +16,23 @@ export class AppComponent {
   startTimer = true;
   
   currentUser: User;
+  mob: boolean;
 
   sidenavWidth = 6;
   ngStyle: string;
 
   constructor(
     private authenticationService: AuthenticationService,
-    public sessionTimer: SessionTimerService
+    public sessionTimer: SessionTimerService,
+    private deviceService: DeviceDetectorService
   ) {
     this.authenticationService.loginMagento();
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.mob = this.deviceService.isMobile();
   }
 
   increase() {
-    this.sidenavWidth = 45;
+    this.sidenavWidth = this.mob ? 6 : 45;
     //console.log('increase sidenav width');
   }
   decrease() {

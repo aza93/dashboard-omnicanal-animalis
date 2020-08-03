@@ -1,4 +1,5 @@
 export class OrderShipping {
+    public id: number = null;
     magasin: string;
     date_commande: string;
     date_expedition: string;

@@ -18,14 +18,15 @@ export class OrdersAvLessFourteenDdComponent implements OnInit {
   menuTabs: Array<string> = ['filterMenuTab'];
   exportParams = {
     allColumns: false,
-    columnKeys: ["magasin", "date_creation", "date_mise_de_cote", "dispo_depuis", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits"]
+    columnKeys: ["id", "magasin", "date_creation", "date_mise_de_cote", "dispo_depuis", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits"]
   }
 
   constructor(
     private ordersService: OrdersService
   ) {
 
-    this.columnDefs = [      
+    this.columnDefs = [    
+      { headerName: 'ID', field: "id", resizable: true },  
       { headerName: 'Magasin', field: "magasin" },
       { headerName: 'Date de la commande', field: "date_creation", resizable: true },
       { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true },

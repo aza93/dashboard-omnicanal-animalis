@@ -1,4 +1,5 @@
 export class OrderAvLess14dd {
+    public id: number = null;
     magasin: string;
     date_creation: string;
     date_mise_de_cote: string;

@@ -1,18 +1,17 @@
 <div class="d-flex flex-column h-100">
-  <mat-toolbar color="primary">
-    Les commandes à preparer par les magasins
+  <mat-toolbar color="primary" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+    Les commandes à preparer par les magasins (retard de moins de 2h)
   </mat-toolbar>
   <mat-divider></mat-divider>
-  <div class="d-flex align-items-center px-2 pt-2 " style="background:white">    
+  <div [ngClass]="{'d-flex align-items-center px-2 pt-2':!mob }" [ngStyle]="{'background:white;': mob, 'background:white; overflow-y:scroll; padding: 5px;':!mob }">
     <button mat-stroked-button class="rounded-pill" (click)="gridApi.selectAllFiltered()">
       <span>Tout sélectionner</span>
     </button>
     <button mat-stroked-button class="rounded-pill" (click)="gridApi.deselectAllFiltered()">
       <span>Tout désélectionner</span>
     </button>
-
     <mat-icon class="text-secondary ml-auto">search</mat-icon>
-    <div class="input-group input-group-sm w-25 pl-1 mr-auto">
+    <div [ngClass]="{'input-group input-group-sm w-25 pl-1 mr-auto':!mob }">
       <input [(ngModel)]="filter" type="text" placeholder="Rechercher" class="form-control rounded-pill">
     </div>
 

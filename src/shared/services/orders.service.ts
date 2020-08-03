@@ -99,7 +99,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][field]=shipping_description&
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 2h%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
-                               fields=items[items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone]]&
+                               fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone]]&
                                searchCriteria[pageSize]=50
                                `, this.httpOptions)
       .pipe(
@@ -109,19 +109,27 @@ export class OrdersService {
             this.storeLoc = localStorage.getItem("store");
             
             for (let r of res.items) {
+              let date1 = new Date(this.now).getTime();
+              let date2 = new Date(r.created_at).getTime();
+              let time = date1 - date2;  //msec
+              let hoursDiff = time / (3600 * 1000);
               
-              ord = new Order();
+              if (hoursDiff < 2) {
+                ord = new Order();
 
-              ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-              ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
-              ord.type_commande = r.shipping_description;
-              ord.numero_commande = r.extension_attributes.cylande_code;
-              ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
-              ord.tel = r.billing_address.telephone;
-              ord.nb_produits = r.items.length;
+                ord.id = r.increment_id;
+                ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
+                ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
+                ord.type_commande = r.shipping_description;
+                ord.numero_commande = r.extension_attributes.cylande_code;
+                ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
+                ord.tel = r.billing_address.telephone;
+                ord.nb_produits = r.items.length;
+                ord.retard = Math.floor(hoursDiff);
 
-              if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
-                newOrders.push(ord);
+                if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                  newOrders.push(ord);
+                }
               }
             }
             
@@ -143,7 +151,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][field]=shipping_description&
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 2h%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
-                               fields=items[items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone]]&
+                               fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone]]&
                                searchCriteria[pageSize]=50
                                `, this.httpOptions)
       .pipe(
@@ -160,6 +168,8 @@ export class OrdersService {
 
               if (hoursDiff > 2) {
                 ord = new DelayedOrder();
+
+                ord.id = r.increment_id;
                 ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
                 ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
                 ord.type_commande = r.shipping_description;
@@ -168,11 +178,10 @@ export class OrdersService {
                 ord.tel = r.billing_address.telephone;
                 ord.nb_produits = r.items.length;
                 ord.retard = Math.floor(hoursDiff);
-              }
-              
 
-              if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
-                newOrders.push(ord);
+                if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                  newOrders.push(ord);
+                }
               }
             }
             
@@ -188,7 +197,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][0][filters][0][field]=shipping_description&
                                searchCriteria[filterGroups][0][filters][0][value]=%Click %26 Collect%&
                                searchCriteria[filterGroups][0][filters][0][conditionType]=like&
-                               fields=items[items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories]&
+                               fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories]&
                                searchCriteria[pageSize]=50
                                `, this.httpOptions)
       .pipe(
@@ -210,6 +219,8 @@ export class OrdersService {
 
                   if (daysDiff > 14) {
                     ord = new OrderAvMore14dd();
+
+                    ord.id = r.increment_id;
                     ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
                     ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
                     if (r.status_histories[0])
@@ -242,7 +253,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][0][filters][0][field]=shipping_description&
                                searchCriteria[filterGroups][0][filters][0][value]=%Click %26 Collect%&
                                searchCriteria[filterGroups][0][filters][0][conditionType]=like&
-                               fields=items[items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories]&
+                               fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories]&
                                searchCriteria[pageSize]=50
                                `, this.httpOptions)
       .pipe(
@@ -264,6 +275,8 @@ export class OrdersService {
 
                   if (daysDiff < 14) {
                     ord = new OrderAvLess14dd();
+
+                    ord.id = r.increment_id;
                     ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
                     ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
                     if (r.status_histories[0])
@@ -301,7 +314,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][field]=shipping_description&
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 3 à 4 jours%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
-                               fields=items[created_at,extension_attributes[shipping_assignments[shipping[address[company]],items[created_at]],cylande_code],items[amount_refunded]shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories[created_at,status]]&
+                               fields=items[increment_id,created_at,extension_attributes[shipping_assignments[shipping[address[company]],items[created_at]],cylande_code],items[amount_refunded]shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories[created_at,status]]&
                                searchCriteria[pageSize]=50
                                `, this.httpOptions)
       .pipe(
@@ -314,6 +327,8 @@ export class OrdersService {
             for (let r of res.items) {
               ord = new OrderShipping();
               dateExp = r.extension_attributes.shipping_assignments[0].items[0].created_at;
+
+              ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
               ord.date_commande = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');              
               ord.date_expedition = this.datePipe.transform(dateExp, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(dateExp, 'HH:mm:ss');
@@ -345,7 +360,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][field]=shipping_description&
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 3 à 4 jours%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
-                               fields=items[items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone]]&
+                               fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone]]&
                                searchCriteria[pageSize]=50
                                `, this.httpOptions)
       .pipe(
@@ -356,6 +371,7 @@ export class OrdersService {
             for (let r of res.items) {
               ord = new OrderInProgress();
 
+              ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
               ord.date_commande = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
               ord.type_commande = r.shipping_description;
@@ -378,8 +394,8 @@ export class OrdersService {
   getOrderInfo(cylandeCode): Observable<Order[]> {
     return this.http.get<any>(`${this.ordersUrl}?
                                searchCriteria[filterGroups][0][filters][extension_attributes][field]=cylande_code&
-                               searchCriteria[filterGroups][0][filters][0][value]=${cylandeCode}&
-                               searchCriteria[filterGroups][0][filters][0][conditionType]=eq&
+                               searchCriteria[filterGroups][0][filters][extension_attributes][value]=${cylandeCode}&
+                               searchCriteria[filterGroups][0][filters][extension_attributes][conditionType]=eq&
                                searchCriteria[pageSize]=50
                                `, this.httpOptions)
       .pipe(
@@ -389,6 +405,7 @@ export class OrdersService {
             for (let r of res.items) {
               ord = new Order();
 
+              ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
               //ord.date_commande = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
               ord.type_commande = r.shipping_description;

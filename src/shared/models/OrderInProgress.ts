@@ -1,4 +1,5 @@
 export class OrderInProgress {
+    public id: number = null;
     magasin: string;
     date_commande: string;
     type_commande: string;

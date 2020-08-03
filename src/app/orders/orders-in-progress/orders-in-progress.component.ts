@@ -18,14 +18,15 @@ export class OrdersInProgressComponent implements OnInit {
   menuTabs: Array<string> = ['filterMenuTab'];
   exportParams = {
     allColumns: false,
-    columnKeys: ["magasin", "date_commande", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits"]
+    columnKeys: ["id", "magasin", "date_commande", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits"]
   }
 
   constructor(
     private ordersService: OrdersService
   ) {
 
-    this.columnDefs = [      
+    this.columnDefs = [ 
+      { headerName: 'ID', field: "id", resizable: true },     
       { headerName: 'Magasin', field: "magasin", resizable: true },
       { headerName: 'Date de la commande', field: "date_commande", resizable: true },
       { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },

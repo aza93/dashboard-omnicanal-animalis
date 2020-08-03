@@ -18,7 +18,7 @@ export class OrdersDelayedComponent implements OnInit {
   menuTabs: Array<string> = ['filterMenuTab'];
   exportParams = {
     allColumns: false,
-    columnKeys: ["magasin", "date_creation", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits", "retard"]
+    columnKeys: ["id", "magasin", "date_creation", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits", "retard"]
   }
 
   constructor(
@@ -26,6 +26,7 @@ export class OrdersDelayedComponent implements OnInit {
   ) {
 
     this.columnDefs = [      
+      { headerName: 'ID', field: "id", resizable: true },
       { headerName: 'Magasin', field: "magasin", resizable: true },
       { headerName: 'Date de la commande', field: "date_creation", resizable: true },
       { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },

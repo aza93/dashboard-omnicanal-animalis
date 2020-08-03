@@ -14,6 +14,7 @@ export class Order {
 
 export class Order {
     constructor(
+        public id: number = null,
         public magasin: string = null,
         public date_creation: string = null,
         public type_commande: string = null,
@@ -21,5 +22,6 @@ export class Order {
         public nom_client: string = null,
         public tel: string = null,
         public nb_produits: number = null,
+        public retard: number = null,
     ) {}
 }
