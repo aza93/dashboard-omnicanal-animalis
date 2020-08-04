@@ -48,10 +48,13 @@
       </mat-menu>
   
     </div>
-    <div class="h-100">
+    <div class="h-100" style="height: 100%;">
       <ag-grid-angular id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100" [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef" [rowData]="delayedOrders" [rowHeight]="32" (gridReady)="onGridReady($event)"
         suppressCellSelection="true" rowSelection='multiple'
-        [tooltipShowDelay]="0" [quickFilterText]="filter"></ag-grid-angular>
+        [overlayLoadingTemplate]="loadingTemplate"
+        [overlayNoRowsTemplate]="noRowsTemplate"
+        [tooltipShowDelay]="0" [quickFilterText]="filter">
+      </ag-grid-angular>
     </div>
   </div>

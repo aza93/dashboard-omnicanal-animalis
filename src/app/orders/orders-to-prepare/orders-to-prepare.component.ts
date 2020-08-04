@@ -25,12 +25,16 @@ export class OrdersToPrepareComponent implements OnInit {
     allColumns: false,
     columnKeys: ["id", "magasin", "date_creation", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits", "retard"]
   }
+  public loadingTemplate;
+  public noRowsTemplate;
 
   constructor(
     private ordersService: OrdersService,
     public dialog: MatDialog,
     private deviceService: DeviceDetectorService
   ) {
+    this.loadingTemplate = `<span class="ag-overlay-loading-center">En cours de traitement...</span>`;
+    this.noRowsTemplate = `<span><b>Aucune commande n'a été trouvée avec les éléments saisis<b></span>`;
     this.mob = this.deviceService.isMobile() ? true : false;
     this.columnDefs = [
       { headerName: 'ID', field: "id", width: 150, resizable: true },

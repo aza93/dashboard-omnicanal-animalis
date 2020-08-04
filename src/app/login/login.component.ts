@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
     this.loading=true;
     this.resetAlert();
     this.authenticationService.login(new User(this.form.value.email, this.form.value.password));
+    //this.authenticationService.loginMagento();
   }
 
   alert(error){

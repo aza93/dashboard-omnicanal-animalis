@@ -22,12 +22,16 @@ export class OrdersAvLessFourteenDdComponent implements OnInit {
     allColumns: false,
     columnKeys: ["id", "magasin", "date_creation", "date_mise_de_cote", "dispo_depuis", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits"]
   }
+  public loadingTemplate;
+  public noRowsTemplate;
 
   constructor(
     private ordersService: OrdersService,
     private deviceService: DeviceDetectorService
   ) {
     this.mob = this.deviceService.isMobile() ? true : false;
+    this.loadingTemplate = `<span class="ag-overlay-loading-center">En cours de traitement...</span>`;
+    this.noRowsTemplate = `<span><b>Aucune commande n'a été trouvée avec les éléments saisis<b></span>`;
 
     this.columnDefs = [    
       { headerName: 'ID', field: "id", resizable: true },  

@@ -50,7 +50,9 @@
   <div class="h-100">
     <ag-grid-angular id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100" [columnDefs]="columnDefs"
       [defaultColDef]="defaultColDef" [rowData]="orders" [rowHeight]="32" (gridReady)="onGridReady($event)"
-      suppressCellSelection="true" rowSelection='multiple' enableRangeSelection="true"
+      suppressCellSelection="true" rowSelection='multiple'
+      [overlayLoadingTemplate]="loadingTemplate"
+      [overlayNoRowsTemplate]="noRowsTemplate"
       [tooltipShowDelay]="0" [quickFilterText]="filter" [getContextMenuItems]="getContextMenuItems" ></ag-grid-angular>
   </div>
 </div>

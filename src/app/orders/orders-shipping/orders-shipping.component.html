@@ -52,6 +52,8 @@
       <ag-grid-angular id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100" [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef" [rowData]="ordersShipping" [rowHeight]="32" (gridReady)="onGridReady($event)"
         suppressCellSelection="true" rowSelection='multiple'
+        [overlayLoadingTemplate]="loadingTemplate"
+        [overlayNoRowsTemplate]="noRowsTemplate"
         [tooltipShowDelay]="0" [quickFilterText]="filter"></ag-grid-angular>
     </div>
   </div>
