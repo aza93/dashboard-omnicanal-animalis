@@ -1,7 +1,12 @@
 <div class="d-flex flex-column h-100">
+  <!--
   <mat-toolbar style="background-color: #F4511E; color: white;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
     Le client doit venir chercher sa marchandise
   </mat-toolbar>
+  -->
+  <h3 style="color:white;background-color:#F4511E;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+    Le client doit venir chercher sa marchandise
+  </h3>
     <mat-divider></mat-divider>
     <div [ngClass]="{'d-flex align-items-center px-2 pt-2':!mob }" [ngStyle]="{'background:white;': mob, 'background:white; overflow-y:scroll; padding: 5px;':!mob }">    
       <button mat-stroked-button class="rounded-pill" (click)="gridApi.selectAllFiltered()">

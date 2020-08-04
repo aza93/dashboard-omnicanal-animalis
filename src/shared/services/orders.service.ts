@@ -37,9 +37,10 @@ export class OrdersService {
        "Access-Control-Allow-Origin": "*",
        'Access-Control-Allow-Method': 'GET, POST, OPTIONS, DELETE',
        "Access-Control-Allow-Credentials": "true",
-       "Access-Control-Allow-Headers": "Origin, X-Requested-With,X-HTTP-Method-Override, Content-Type, Accept, Authorization",
+       "Access-Control-Allow-Headers": "Origin, X-Requested-With,X-HTTP-Method-Override, Content-Type, Accept, Authorization, cookie",
        'Content-Type': 'application/json',
-       'Authorization':'Bearer ' + localStorage.getItem('magentoAdminToken')
+       'Authorization':'Bearer ' + localStorage.getItem('magentoAdminToken'),
+       'Set-Cookie': 'cross-site-cookie=name; SameSite=None; Secure',
      })
   };
 

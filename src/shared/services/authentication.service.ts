@@ -19,7 +19,8 @@ export class AuthenticationService {
     "Access-Control-Allow-Origin": "*",
     'Access-Control-Allow-Method': 'GET, POST, OPTIONS, DELETE',
     "Access-Control-Allow-Credentials": "true",
-    "Access-Control-Allow-Headers": "Origin, X-Requested-With,X-HTTP-Method-Override, Content-Type, Accept, Authorization, cookie"
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With,X-HTTP-Method-Override, Content-Type, Accept, Authorization, cookie",
+    'Set-Cookie': 'cross-site-cookie=name; SameSite=None; Secure',
   });
   private options = { headers: this.headers };
 
