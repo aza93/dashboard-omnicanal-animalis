@@ -39,8 +39,7 @@ import { SafePipeModule } from 'safe-pipe';
 import { AgGridModule } from 'ag-grid-angular';
 //import 'ag-grid-enterprise';
 
-import { OrdersToPrepareComponent } from './orders/orders-to-prepare/orders-to-prepare.component';
-import { OrdersDelayedComponent } from './orders/orders-delayed/orders-delayed.component';
+import { OrdersComponent } from './orders/orders.component';
 import { LoginComponent } from './login/login.component';
 import { FilePreviewModalComponent } from './file-preview-modal/file-preview-modal.component';
 import { LeftMenuComponent } from './left-menu/left-menu.component';
@@ -48,10 +47,6 @@ import { NumberValidatorDirective } from '../shared/directives/number-validator.
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { ReceptionComponent } from './reception/reception.component';
-import { OrderAvMoreFourteenDdComponent } from './orders/order-av-more-fourteen-dd/order-av-more-fourteen-dd.component';
-import { OrdersAvLessFourteenDdComponent } from './orders/orders-av-less-fourteen-dd/orders-av-less-fourteen-dd.component';
-import { OrdersShippingComponent } from './orders/orders-shipping/orders-shipping.component';
-import { OrdersInProgressComponent } from './orders/orders-in-progress/orders-in-progress.component';
 
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -82,18 +77,13 @@ import { AppSessionInteruptService } from 'src/shared/services/app-session-inter
     HomeComponent,
     HeaderComponent,
     RegisterComponent,
-    OrdersToPrepareComponent,
+    OrdersComponent,
     LeftMenuComponent,
     LoginComponent,
     FilePreviewModalComponent,
     NumberValidatorDirective,
     BreadcrumbComponent,
     ReceptionComponent,
-    OrdersDelayedComponent,
-    OrderAvMoreFourteenDdComponent,
-    OrdersAvLessFourteenDdComponent,
-    OrdersShippingComponent,
-    OrdersInProgressComponent,
   ],
   imports: [
     BrowserModule,

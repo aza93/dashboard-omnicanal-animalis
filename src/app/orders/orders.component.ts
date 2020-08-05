@@ -1,57 +1,87 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { GridApi } from 'ag-grid-community';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { OrdersService } from 'src/shared/services/orders.service';
-import { FilePreviewModalComponent } from '../../file-preview-modal/file-preview-modal.component';
+import { FilePreviewModalComponent } from '../file-preview-modal/file-preview-modal.component';
 import { Order } from 'src/shared/models/order';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
+import { DelayedOrder } from 'src/shared/models/DelayedOrder';
+import { OrderAvMore14dd } from 'src/shared/models/OrderAvMore14dd';
+import { OrderAvLess14dd } from 'src/shared/models/OrderAvLess14dd';
+import { OrderInProgress } from 'src/shared/models/OrderInProgress';
+import { OrderShipping } from 'src/shared/models/OrderShipping';
+
+import { environment } from 'src/environments/environment';
+
 @Component({
-  selector: 'app-orders-to-prepare',
-  templateUrl: './orders-to-prepare.component.html',
-  styleUrls: ['./orders-to-prepare.component.less']
+  selector: 'app-orders',
+  templateUrl: './orders.component.html',
+  styleUrls: ['./orders.component.less']
 })
-export class OrdersToPrepareComponent implements OnInit {
+export class OrdersComponent implements OnInit {
   public columnDefs;
   public defaultColDef;
   gridApi: GridApi;
-  orders: Order[];
+  orders;
   filter: string;
   mob: boolean;
   menuTabs: Array<string> = ['filterMenuTab'];
+  /*
   exportParams = {
     allColumns: false,
     columnKeys: ["id", "magasin", "date_creation", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits", "retard"]
   }
+  */
   public loadingTemplate;
   public noRowsTemplate;
+  public orderType;
 
   constructor(
     private ordersService: OrdersService,
     public dialog: MatDialog,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    private activatedroute: ActivatedRoute
   ) {
     this.loadingTemplate = `<span class="ag-overlay-loading-center">En cours de traitement...</span>`;
     this.noRowsTemplate = `<span><b>Aucune commande n'a été trouvée avec les éléments saisis<b></span>`;
     this.mob = this.deviceService.isMobile() ? true : false;
-    this.columnDefs = [
-      { headerName: 'ID', field: "id", width: 150, resizable: true },
-      { headerName: 'Magasin', field: "magasin", width: 300, resizable: true },
-      { headerName: 'Date de la commande', field: "date_creation", width: 250, resizable: true },
-      { headerName: 'Type de commande', field: "type_commande", width: 450, resizable: true },
-      { headerName: 'Numéro de commande', field: "numero_commande", width: 200, resizable: true },
-      { headerName: 'Nom client', field: "nom_client", width: 200, resizable: true },
-      { headerName: 'Téléphone', field: "tel", width: 200, resizable: true },
-      { headerName: 'Nb produits', field: "nb_produits", width: 150, resizable: true },
-      { headerName: 'Retard (jours)', field: "retard", width: 150, resizable: true },
-    ];
     this.defaultColDef = { sortable: true, filter: true, suppressMovable: true, menuTabs: this.menuTabs, cellClass: "d-flex align-items-center border-right border-grey" };
   }
 
   ngOnInit(): void {
-    this.loadAllOrders();
+    this.activatedroute.params.subscribe(
+      params => {
+        this.orderType = params['orderType'];
+        switch (this.orderType) {
+          case 'ordersToPrepare':
+            this.loadAllOrdersToPrepare();
+            this.columnDefs = environment.columnDefsOrdersToPrepare;
+            break;
+          case 'ordersDelayed':
+            this.loadAllDelayedOrders();
+            this.columnDefs = environment.columnDefsOrdersDelayed;
+            break;
+          case 'ordersAvMore14dd':
+            this.loadOrdersAvMore14dd();
+            this.columnDefs = environment.columnDefsOrderAvMoreFourteenDd;
+            break;
+          case 'ordersAvLess14dd':
+            this.loadOrdersAvLess14dd();
+            this.columnDefs = environment.columnDefsOrdersAvLessFourteenDd;
+            break;
+          case 'ordersShipping':
+            this.loadOrdersShipping();
+            this.columnDefs = environment.columnDefsOrdersShipping;
+            break;
+          case 'ordersInProgress':
+            this.loadOrdersInProgress();
+            this.columnDefs = environment.columnDefsOrdersInProgress;
+            break;
+        }
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -62,17 +92,58 @@ export class OrdersToPrepareComponent implements OnInit {
     //this.sizeToFit();
   }
 
+  onGridSizeChanged(params) {
+    params.api.sizeColumnsToFit();
+    //this.sizeToFit();
+  }
+
   sizeToFit() {
     this.gridApi.sizeColumnsToFit();
   }
-
-  loadAllOrders() {
+  
+  loadAllOrdersToPrepare() {
     this.ordersService.getOrders()
     .subscribe((orders: Order[]) => {
       this.orders = orders;
     });
   }
 
+  loadAllDelayedOrders() {
+    this.ordersService.getDelayedOrders()
+    .subscribe((orders: DelayedOrder[]) => {
+      this.orders = orders;
+    });
+  }
+
+  loadOrdersAvMore14dd() {
+    this.ordersService.getOrdersAvMore14dd()
+    .subscribe((orders: OrderAvMore14dd[]) => {
+      this.orders = orders;
+    });
+  }
+
+  loadOrdersAvLess14dd() {
+    this.ordersService.getOrdersAvLess14dd()
+    .subscribe((orders: OrderAvLess14dd[]) => {
+      this.orders = orders;
+    });
+  }
+
+  loadOrdersInProgress() {
+    this.ordersService.getOrdersInProgress()
+    .subscribe((orders: OrderInProgress[]) => {
+      this.orders = orders;
+    });
+  }
+
+  loadOrdersShipping() {
+    this.ordersService.getOrdersShipping()
+    .subscribe((orders: OrderShipping[]) => {
+      this.orders = orders;
+    });
+  }
+
+  /*
   exportAsCsv() {
     if (this.gridApi) {
       this.gridApi.exportDataAsCsv(this.exportParams);
@@ -84,6 +155,7 @@ export class OrdersToPrepareComponent implements OnInit {
       this.gridApi.exportDataAsExcel(this.exportParams);
     }
   }
+  */
 
   showOrderPreviewModal(cylandeCode) {
     this.ordersService.getOrderInfo(cylandeCode).subscribe(
