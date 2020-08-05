@@ -1,4 +1,4 @@
-<div class="d-flex flex-column h-100">
+<div class="d-flex flex-column h-100" fxLayout="row">
   <!--
   <mat-toolbar color="primary" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
     Les commandes à preparer par les magasins (retard de moins de 2h)
@@ -44,7 +44,6 @@
     <div class="mr-auto" *ngIf="orders">
       {{orders.length}} commandes au total
     </div>
-
     <div class="mr-1">
     </div>
     <button mat-stroked-button class="rounded-pill" [matMenuTriggerFor]="menu">
@@ -62,8 +61,8 @@
       </button>
       -->
     </mat-menu>
-
   </div>
+
   <div class="h-100">
     <ag-grid-angular #agGrid id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100" [columnDefs]="columnDefs"
       [defaultColDef]="defaultColDef" [rowData]="orders" [rowHeight]="32"

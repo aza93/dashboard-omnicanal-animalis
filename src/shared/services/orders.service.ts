@@ -111,16 +111,17 @@ export class OrdersService {
             
             for (let r of res.items) {
               let date1 = new Date(this.now).getTime();
-              let date2 = new Date(r.created_at).getTime();
+              let date2 = new Date(r.created_at.replace(/\s/, 'T')).getTime();
               let time = date1 - date2;  //msec
               let hoursDiff = time / (3600 * 1000);
               
               if (hoursDiff < 2) {
                 ord = new Order();
 
+                const orderDateIos = new Date(r.created_at.replace(/\s/, 'T'));
                 ord.id = r.increment_id;
                 ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-                ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
+                ord.date_creation = this.datePipe.transform(orderDateIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(orderDateIos, 'HH:mm:ss');
                 ord.type_commande = r.shipping_description;
                 ord.numero_commande = r.extension_attributes.cylande_code;
                 ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
@@ -163,29 +164,31 @@ export class OrdersService {
             
             for (let r of res.items) {
               let date1 = new Date(this.now).getTime();
-              let date2 = new Date(r.created_at).getTime();
+              let date2 = new Date(r.created_at.replace(/\s/, 'T')).getTime();
               let time = date1 - date2;  //msec
               let hoursDiff = time / (3600 * 1000);
 
               if (hoursDiff > 2) {
                 ord = new DelayedOrder();
 
+                const orderDateIos = new Date(r.created_at.replace(/\s/, 'T'));
                 ord.id = r.increment_id;
                 ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-                ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
+                ord.date_creation = this.datePipe.transform(orderDateIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(orderDateIos, 'HH:mm:ss');
                 ord.type_commande = r.shipping_description;
                 ord.numero_commande = r.extension_attributes.cylande_code;
                 ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
                 ord.tel = r.billing_address.telephone;
                 ord.nb_produits = r.items.length;
                 ord.retard = Math.floor(hoursDiff);
-
+                
                 if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
                   newOrders.push(ord);
                 }
               }
             }
-            
+
+            //console.log("newOrders (SERVICE): ", newOrders);
             return newOrders;
         }),
         catchError(this.handleError('getDelayedOrders', []))
@@ -214,18 +217,20 @@ export class OrdersService {
                 if ((r.status_histories[0].status == "complete" && shipDesc.includes("Retrait sous 2h")) ||
                 (r.status_histories[0].status == "package_received" && shipDesc.includes("Retrait sous 3 à 4 jours"))) {
                   let date1 = new Date(this.now).getTime();
-                  let date2 = new Date(r.created_at).getTime();
+                  let date2 = new Date(r.created_at.replace(/\s/, 'T')).getTime();
                   let time = date1 - date2;  //msec
                   let daysDiff = time / (1000*60*60*24);
 
                   if (daysDiff > 14) {
                     ord = new OrderAvMore14dd();
 
+                    const orderDateIos = new Date(r.created_at.replace(/\s/, 'T'));
+                    const dateMiseCoteIos = new Date(r.status_histories[0].created_at.replace(/\s/, 'T'));
                     ord.id = r.increment_id;
                     ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-                    ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
+                    ord.date_creation = this.datePipe.transform(orderDateIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(orderDateIos, 'HH:mm:ss');
                     if (r.status_histories[0])
-                      ord.date_mise_de_cote =  this.datePipe.transform(r.status_histories[0].created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.status_histories[0].created_at, 'HH:mm:ss');
+                      ord.date_mise_de_cote =  this.datePipe.transform(dateMiseCoteIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(dateMiseCoteIos, 'HH:mm:ss');
                     ord.dispo_depuis = Math.floor(daysDiff);
                     //ord.type_commande = r.shipping_description;
                     ord.type_commande = shipDesc;
@@ -270,18 +275,20 @@ export class OrdersService {
                 (r.status_histories[0].status == "package_received" && shipDesc.includes("Retrait sous 3 à 4 jours"))) {
                 //if (r.state == "processing" || ((r.state == "complete") && (r.status_histories[0].status == "complete"))) {
                   let date1 = new Date(this.now).getTime();
-                  let date2 = new Date(r.created_at).getTime();
+                  let date2 = new Date(r.created_at.replace(/\s/, 'T')).getTime();
                   let time = date1 - date2;  //msec
                   let daysDiff = time / (1000*60*60*24);
 
                   if (daysDiff < 14) {
                     ord = new OrderAvLess14dd();
 
+                    const orderDateIos = new Date(r.created_at.replace(/\s/, 'T'));
+                    const dateMiseCoteIos = new Date(r.status_histories[0].created_at.replace(/\s/, 'T'));
                     ord.id = r.increment_id;
                     ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-                    ord.date_creation = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
+                    ord.date_creation = this.datePipe.transform(orderDateIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(orderDateIos, 'HH:mm:ss');
                     if (r.status_histories[0])
-                      ord.date_mise_de_cote =  this.datePipe.transform(r.status_histories[0].created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.status_histories[0].created_at, 'HH:mm:ss');
+                      ord.date_mise_de_cote =  this.datePipe.transform(dateMiseCoteIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(dateMiseCoteIos, 'HH:mm:ss');
                     ord.dispo_depuis = Math.floor(daysDiff);
                     //ord.type_commande = r.shipping_description;
                     ord.type_commande = shipDesc;
@@ -327,11 +334,12 @@ export class OrdersService {
             
             for (let r of res.items) {
               ord = new OrderShipping();
-              dateExp = r.extension_attributes.shipping_assignments[0].items[0].created_at;
+              dateExp = r.extension_attributes.shipping_assignments[0].items[0].created_at.replace(/\s/, 'T');
 
+              const orderDateIos = new Date(r.created_at.replace(/\s/, 'T'));
               ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-              ord.date_commande = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');              
+              ord.date_commande = this.datePipe.transform(orderDateIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(orderDateIos, 'HH:mm:ss');              
               ord.date_expedition = this.datePipe.transform(dateExp, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(dateExp, 'HH:mm:ss');
               ord.type_commande = r.shipping_description;
               ord.numero_commande = r.extension_attributes.cylande_code;
@@ -371,10 +379,11 @@ export class OrdersService {
             this.storeLoc = localStorage.getItem("store");
             for (let r of res.items) {
               ord = new OrderInProgress();
-
+              
+              const orderDateIos = new Date(r.created_at.replace(/\s/, 'T'));
               ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-              ord.date_commande = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
+              ord.date_commande = this.datePipe.transform(orderDateIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(orderDateIos, 'HH:mm:ss');
               ord.type_commande = r.shipping_description;
               ord.numero_commande = r.extension_attributes.cylande_code;
               ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
@@ -406,9 +415,10 @@ export class OrdersService {
             for (let r of res.items) {
               ord = new Order();
 
+              const orderDateIos = new Date(r.created_at.replace(/\s/, 'T'));
               ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-              //ord.date_commande = this.datePipe.transform(r.created_at, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(r.created_at, 'HH:mm:ss');
+              //ord.date_commande = this.datePipe.transform(orderDateIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(orderDateIos, 'HH:mm:ss');
               ord.type_commande = r.shipping_description;
               ord.numero_commande = r.extension_attributes.cylande_code;
               ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;

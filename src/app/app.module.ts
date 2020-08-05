@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCommonModule, MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { ChartsModule } from 'ng2-charts';
@@ -94,6 +95,7 @@ import { AppSessionInteruptService } from 'src/shared/services/app-session-inter
     BrowserAnimationsModule,
     MatCommonModule,
     MatToolbarModule,
+    MatGridListModule,
     MatSidenavModule,
     MatListModule,
     MatDividerModule,

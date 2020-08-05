@@ -24,10 +24,11 @@ export class OrdersComponent implements OnInit {
   public columnDefs;
   public defaultColDef;
   gridApi: GridApi;
-  orders;
+  orders: Order[] | DelayedOrder[]  | OrderAvMore14dd[] | OrderAvLess14dd[] | OrderShipping[] | OrderInProgress[];
   filter: string;
   mob: boolean;
   menuTabs: Array<string> = ['filterMenuTab'];
+  breakpoint: number;
   /*
   exportParams = {
     allColumns: false,
@@ -48,6 +49,7 @@ export class OrdersComponent implements OnInit {
     this.noRowsTemplate = `<span><b>Aucune commande n'a été trouvée avec les éléments saisis<b></span>`;
     this.mob = this.deviceService.isMobile() ? true : false;
     this.defaultColDef = { sortable: true, filter: true, suppressMovable: true, menuTabs: this.menuTabs, cellClass: "d-flex align-items-center border-right border-grey" };
+    this.breakpoint = (window.innerWidth <= 400) ? 1 : 6;
   }
 
   ngOnInit(): void {
@@ -85,6 +87,10 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnDestroy() {
+  }
+  
+  onResize(event) {
+    this.breakpoint = (event.target.innerWidth <= 400) ? 1 : 6;
   }
 
   onGridReady(params) {
