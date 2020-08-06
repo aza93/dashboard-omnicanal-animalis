@@ -14,7 +14,6 @@ import { OrderInProgress } from 'src/shared/models/OrderInProgress';
 import { OrderShipping } from 'src/shared/models/OrderShipping';
 
 import { environment } from 'src/environments/environment';
-import { newArray } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-orders',
@@ -93,7 +92,10 @@ export class OrdersComponent implements OnInit {
 
   onGridReady(params) {
     this.gridApi = params.api;
-    console.log(this.gridApi.getDetailGridInfo);
+    const sortModel = [
+        {colId: 'id', sort: 'desc'}
+    ];
+    this.gridApi.setSortModel(sortModel);
     //this.sizeToFit();
   }
 

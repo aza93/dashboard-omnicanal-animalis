@@ -1,85 +1,87 @@
 <div class="d-flex flex-column h-100" fxLayout="row">
-  <!--
-  <mat-toolbar color="primary" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-    Les commandes à preparer par les magasins (retard de moins de 2h)
-  </mat-toolbar>
-  -->
-  <h3 *ngIf="orderType == 'ordersToPrepare'" style="color:white;background-color:#6798fe;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-    Les commandes à preparer par les magasins (retard de moins de 2h)
-  </h3>
-  <h3 *ngIf="orderType == 'ordersDelayed'" style="color:white;background-color:#f44336;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-    Les commandes en retard (de plus de 2h)
-  </h3>
-  <h3 *ngIf="orderType == 'ordersAvMore14dd'" style="color:white;background-color:#4ab8a1;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-    Vous devez recontacter le client (la commande est disponible depuis plus de 14 jours)
-  </h3>
-  <h3 *ngIf="orderType == 'ordersAvLess14dd'" style="color:white;background-color:#F4511E;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-    Le client doit venir chercher sa marchandise
-  </h3>
-  <h3 *ngIf="orderType == 'ordersInProgress'" style="color:white;background-color:#7CB342;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-    Les commandes livraison en magasin en cours de preparation
-  </h3>
-  <h3 *ngIf="orderType == 'ordersShipping'" style="color:white;background-color:#ffc107;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-    Les commandes en cours de livraison magasin
-  </h3>
-  <mat-divider></mat-divider>
-  <div [ngClass]="{'d-flex align-items-center px-2 pt-2':!mob }" [ngStyle]="{'background:white;': mob, 'background:white; overflow-y:scroll; padding: 5px;':!mob }">
-    <button mat-stroked-button class="rounded-pill" (click)="gridApi.selectAllFiltered()">
-      <span>Tout sélectionner</span>
-    </button>
-    <button mat-stroked-button class="rounded-pill" (click)="gridApi.deselectAllFiltered()">
-      <span>Tout désélectionner</span>
-    </button>
-    <mat-icon *ngIf="!mob" class="text-secondary ml-auto">search</mat-icon>
-    <div [ngClass]="{'input-group input-group-sm w-25 pl-1 mr-auto':!mob }">
-      <input [(ngModel)]="filter" type="text" placeholder="Rechercher" class="form-control rounded-pill">
+    <!--
+    <mat-toolbar color="primary" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+      Les commandes à preparer par les magasins (retard de moins de 2h)
+    </mat-toolbar>
+    -->
+    <div class="d-flex">
+      <h3 *ngIf="orderType == 'ordersToPrepare'" class="p-2 flex-fill" style="color:white;background-color:#6798fe;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+        Les commandes à preparer par les magasins (retard de moins de 2h)
+      </h3>
+      <h3 *ngIf="orderType == 'ordersDelayed'" class="p-2 flex-fill" style="color:white;background-color:#f44336;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+        Les commandes en retard (de plus de 2h)
+      </h3>
+      <h3 *ngIf="orderType == 'ordersAvMore14dd'" class="p-2 flex-fill" style="color:white;background-color:#4ab8a1;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+        Vous devez recontacter le client (la commande est disponible depuis plus de 14 jours)
+      </h3>
+      <h3 *ngIf="orderType == 'ordersAvLess14dd'" class="p-2 flex-fill" style="color:white;background-color:#F4511E;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+        Le client doit venir chercher sa marchandise
+      </h3>
+      <h3 *ngIf="orderType == 'ordersInProgress'" class="p-2 flex-fill" style="color:white;background-color:#7CB342;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+        Les commandes livraison en magasin en cours de preparation
+      </h3>
+      <h3 *ngIf="orderType == 'ordersShipping'" class="p-2 flex-fill" style="color:white;background-color:#ffc107;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+        Les commandes en cours de livraison magasin
+      </h3>
     </div>
-
-    <div class="ml-auto" *ngIf="gridApi">
-      {{gridApi.getDisplayedRowCount()}} commandes affichés
-    </div>
-    <div class="mx-3">
-      -
-    </div>
-    <div class="mr-auto" *ngIf="orders">
-      {{orders.length}} commandes au total
-    </div>
-    <div class="mr-1">
-    </div>
-    <button mat-stroked-button class="rounded-pill" [matMenuTriggerFor]="menu">
-      <mat-icon class="material-icons-outlined text-secondary">table_chart</mat-icon>
-      <span class="ml-2">Exporter</span>
-      <mat-icon class="text-secondary">arrow_drop_down</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="exportAsCsv()">
-        Exporter en .csv
+    <mat-divider></mat-divider>
+    <div [ngClass]="{'d-flex align-items-center px-2 pt-2':!mob }" [ngStyle]="{'background:white;': mob, 'background:white; overflow-y:scroll; padding: 5px;':!mob }">
+      <button mat-stroked-button class="rounded-pill" (click)="gridApi.selectAllFiltered()">
+        <span>Tout sélectionner</span>
       </button>
-      <!--
-      <button mat-menu-item (click)="exportAsExcel()">
-        Exporter en .xlsx
+      <button mat-stroked-button class="rounded-pill" (click)="gridApi.deselectAllFiltered()">
+        <span>Tout désélectionner</span>
       </button>
-      -->
-    </mat-menu>
+      <mat-icon *ngIf="!mob" class="text-secondary ml-auto">search</mat-icon>
+      <div [ngClass]="{'input-group input-group-sm w-25 pl-1 mr-auto':!mob }">
+        <input [(ngModel)]="filter" type="text" placeholder="Rechercher" class="form-control rounded-pill">
+      </div>
+  
+      <div class="ml-auto" *ngIf="gridApi">
+        {{gridApi.getDisplayedRowCount()}} commandes affichés
+      </div>
+      <div class="mx-3">
+        -
+      </div>
+      <div class="mr-auto" *ngIf="orders">
+        {{orders.length}} commandes au total
+      </div>
+      <div class="mr-1">
+      </div>
+      <button mat-stroked-button class="rounded-pill" [matMenuTriggerFor]="menu">
+        <mat-icon class="material-icons-outlined text-secondary">table_chart</mat-icon>
+        <span class="ml-2">Exporter</span>
+        <mat-icon class="text-secondary">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="exportAsCsv()">
+          Exporter en .csv
+        </button>
+        <!--
+        <button mat-menu-item (click)="exportAsExcel()">
+          Exporter en .xlsx
+        </button>
+        -->
+      </mat-menu>
+    </div>
+  
+    <div class="h-100">
+      <ag-grid-angular #agGrid id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100"
+        (gridReady)="onGridReady($event)"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [rowData]="orders"
+        [rowHeight]="32"
+        (onGridSizeChanged)="onGridSizeChanged($event)"
+        suppressCellSelection="true"
+        rowSelection='multiple'
+        [overlayLoadingTemplate]="loadingTemplate"
+        [overlayNoRowsTemplate]="noRowsTemplate"
+        pagination="true"
+        paginationPageSize="10"
+        [tooltipShowDelay]="0"
+        [quickFilterText]="filter"
+        [getContextMenuItems]="getContextMenuItems">
+      </ag-grid-angular>
+    </div>
   </div>
-
-  <div class="h-100">
-    <ag-grid-angular #agGrid id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100"
-      (gridReady)="onGridReady($event)"
-      [columnDefs]="columnDefs"
-      [defaultColDef]="defaultColDef"
-      [rowData]="orders"
-      [rowHeight]="32"
-      (onGridSizeChanged)="onGridSizeChanged($event)"
-      suppressCellSelection="true"
-      rowSelection='multiple'
-      [overlayLoadingTemplate]="loadingTemplate"
-      [overlayNoRowsTemplate]="noRowsTemplate"
-      pagination="true"
-      paginationPageSize="10"
-      [tooltipShowDelay]="0"
-      [quickFilterText]="filter"
-      [getContextMenuItems]="getContextMenuItems">
-    </ag-grid-angular>
-  </div>
-</div>

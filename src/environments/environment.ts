@@ -26,7 +26,7 @@ export const environment = {
   columnDefsOrdersToPrepare: [
     { headerName: 'ID', field: "id", width: 150, resizable: true },
     { headerName: 'Magasin', field: "magasin", width: 300, resizable: true },
-    { headerName: 'Date de la commande', field: "date_creation", width: 250, resizable: true },
+    { headerName: 'Date de la commande', field: "date_creation", width: 250, resizable: true, sortable: false },
     { headerName: 'Type de commande', field: "type_commande", width: 450, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", width: 200, resizable: true },
     { headerName: 'Nom client', field: "nom_client", width: 200, resizable: true },
@@ -37,7 +37,7 @@ export const environment = {
   columnDefsOrdersDelayed: [      
     { headerName: 'ID', field: "id", resizable: true },
     { headerName: 'Magasin', field: "magasin", resizable: true },
-    { headerName: 'Date de la commande', field: "date_creation", resizable: true },
+    { headerName: 'Date de la commande', field: "date_creation", resizable: true, sortable: false },
     { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
     { headerName: 'Nom client', field: "nom_client", resizable: true },
@@ -48,8 +48,8 @@ export const environment = {
   columnDefsOrderAvMoreFourteenDd: [      
     { headerName: 'ID', field: "id", resizable: true },
     { headerName: 'Magasin', field: "magasin" },
-    { headerName: 'Date de la commande', field: "date_creation", resizable: true },
-    { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true },
+    { headerName: 'Date de la commande', field: "date_creation", resizable: true, sortable: false },
+    { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true, sortable: false },
     { headerName: 'Commande dispo depuis (jours)', field: "dispo_depuis", resizable: true },
     { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
@@ -60,8 +60,8 @@ export const environment = {
   columnDefsOrdersAvLessFourteenDd: [    
     { headerName: 'ID', field: "id", resizable: true },  
     { headerName: 'Magasin', field: "magasin" },
-    { headerName: 'Date de la commande', field: "date_creation", resizable: true },
-    { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true },
+    { headerName: 'Date de la commande', field: "date_creation", resizable: true, sortable: false },
+    { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true, sortable: false },
     { headerName: 'Commande dispo depuis (jours)', field: "dispo_depuis" },
     { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
@@ -72,7 +72,7 @@ export const environment = {
   columnDefsOrdersInProgress: [ 
     { headerName: 'ID', field: "id", resizable: true },     
     { headerName: 'Magasin', field: "magasin", resizable: true },
-    { headerName: 'Date de la commande', field: "date_commande", resizable: true },
+    { headerName: 'Date de la commande', field: "date_commande", resizable: true, sortable: false },
     { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
     { headerName: 'Nom client', field: "nom_client", resizable: true },
@@ -82,8 +82,8 @@ export const environment = {
   columnDefsOrdersShipping: [      
     { headerName: 'ID', field: "id", resizable: true },
     { headerName: 'Magasin', field: "magasin", resizable: true },
-    { headerName: 'Date de la commande', field: "date_commande", resizable: true },
-    { headerName: "Date d'expédition", field: "date_expedition", resizable: true },
+    { headerName: 'Date de la commande', field: "date_commande", resizable: true, sortable: false },
+    { headerName: "Date d'expédition", field: "date_expedition", resizable: true, sortable: false },
     { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
     { headerName: 'Nom client', field: "nom_client", resizable: true },
