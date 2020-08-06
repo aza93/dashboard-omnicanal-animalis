@@ -52,10 +52,10 @@
       <mat-icon class="text-secondary">arrow_drop_down</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <!--
       <button mat-menu-item (click)="exportAsCsv()">
         Exporter en .csv
       </button>
+      <!--
       <button mat-menu-item (click)="exportAsExcel()">
         Exporter en .xlsx
       </button>
@@ -64,14 +64,22 @@
   </div>
 
   <div class="h-100">
-    <ag-grid-angular #agGrid id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100" [columnDefs]="columnDefs"
-      [defaultColDef]="defaultColDef" [rowData]="orders" [rowHeight]="32"
+    <ag-grid-angular #agGrid id="gridDashboardOmnicanal" class="ag-theme-alpine w-100 h-100"
       (gridReady)="onGridReady($event)"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [rowData]="orders"
+      [rowHeight]="32"
       (onGridSizeChanged)="onGridSizeChanged($event)"
-      suppressCellSelection="true" rowSelection='multiple'
+      suppressCellSelection="true"
+      rowSelection='multiple'
       [overlayLoadingTemplate]="loadingTemplate"
       [overlayNoRowsTemplate]="noRowsTemplate"
-      [tooltipShowDelay]="0" [quickFilterText]="filter" [getContextMenuItems]="getContextMenuItems">
+      pagination="true"
+      paginationPageSize="10"
+      [tooltipShowDelay]="0"
+      [quickFilterText]="filter"
+      [getContextMenuItems]="getContextMenuItems">
     </ag-grid-angular>
   </div>
 </div>

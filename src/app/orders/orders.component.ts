@@ -14,6 +14,7 @@ import { OrderInProgress } from 'src/shared/models/OrderInProgress';
 import { OrderShipping } from 'src/shared/models/OrderShipping';
 
 import { environment } from 'src/environments/environment';
+import { newArray } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-orders',
@@ -29,12 +30,10 @@ export class OrdersComponent implements OnInit {
   mob: boolean;
   menuTabs: Array<string> = ['filterMenuTab'];
   breakpoint: number;
-  /*
   exportParams = {
     allColumns: false,
-    columnKeys: ["id", "magasin", "date_creation", "type_commande", "numero_commande", "nom_client", "tel", "nb_produits", "retard"]
+    columnKeys: []
   }
-  */
   public loadingTemplate;
   public noRowsTemplate;
   public orderType;
@@ -82,19 +81,19 @@ export class OrdersComponent implements OnInit {
             this.columnDefs = environment.columnDefsOrdersInProgress;
             break;
         }
+        this.columnDefs.forEach(element => {
+          this.exportParams.columnKeys.push(element.field)
+        })
       }
     );
   }
 
   ngOnDestroy() {
   }
-  
-  onResize(event) {
-    this.breakpoint = (event.target.innerWidth <= 400) ? 1 : 6;
-  }
 
   onGridReady(params) {
     this.gridApi = params.api;
+    console.log(this.gridApi.getDetailGridInfo);
     //this.sizeToFit();
   }
 
@@ -149,13 +148,13 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  /*
   exportAsCsv() {
     if (this.gridApi) {
       this.gridApi.exportDataAsCsv(this.exportParams);
     }
   }
 
+  /*
   exportAsExcel() {
     if (this.gridApi) {
       this.gridApi.exportDataAsExcel(this.exportParams);
