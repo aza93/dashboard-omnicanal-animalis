@@ -23,6 +23,8 @@ export const environment = {
     measurementId: "G-8J1P28KF93"
   },
 
+  pageSize: 900,
+
   columnDefsOrdersToPrepare: [
     { headerName: 'ID', field: "id", width: 150, resizable: true },
     { headerName: 'Magasin', field: "magasin", width: 300, resizable: true },

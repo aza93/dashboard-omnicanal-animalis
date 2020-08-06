@@ -59,7 +59,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 2h%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
                                fields=items[extension_attributes,extension_attributes,items,created_at,shipping_description,increment_id,customer_firstname,customer_lastname,billing_address[city,telephone]]&
-                               searchCriteria[pageSize]=50
+                               searchCriteria[pageSize]=${environment.pageSize}
                                `, this.httpOptions)
       .pipe(
         map(res => {
@@ -101,7 +101,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 2h%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
                                fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone]]&
-                               searchCriteria[pageSize]=50
+                               searchCriteria[pageSize]=${environment.pageSize}
                                `, this.httpOptions)
       .pipe(
         map(res => {
@@ -154,7 +154,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 2h%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
                                fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone]]&
-                               searchCriteria[pageSize]=50
+                               searchCriteria[pageSize]=${environment.pageSize}
                                `, this.httpOptions)
       .pipe(
         map(res => {
@@ -202,7 +202,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][0][filters][0][value]=%Click %26 Collect%&
                                searchCriteria[filterGroups][0][filters][0][conditionType]=like&
                                fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories]&
-                               searchCriteria[pageSize]=50
+                               searchCriteria[pageSize]=${environment.pageSize}
                                `, this.httpOptions)
       .pipe(
         map(res => {
@@ -260,7 +260,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][0][filters][0][value]=%Click %26 Collect%&
                                searchCriteria[filterGroups][0][filters][0][conditionType]=like&
                                fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories]&
-                               searchCriteria[pageSize]=50
+                               searchCriteria[pageSize]=${environment.pageSize}
                                `, this.httpOptions)
       .pipe(
         map(res => {
@@ -323,7 +323,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 3 à 4 jours%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
                                fields=items[increment_id,created_at,extension_attributes[shipping_assignments[shipping[address[company]],items[created_at]],cylande_code],items[amount_refunded]shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories[created_at,status]]&
-                               searchCriteria[pageSize]=50
+                               searchCriteria[pageSize]=${environment.pageSize}
                                `, this.httpOptions)
       .pipe(
         map(res => {
@@ -370,7 +370,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 3 à 4 jours%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
                                fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone]]&
-                               searchCriteria[pageSize]=50
+                               searchCriteria[pageSize]=${environment.pageSize}
                                `, this.httpOptions)
       .pipe(
         map(res => {
@@ -406,7 +406,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][0][filters][extension_attributes][field]=cylande_code&
                                searchCriteria[filterGroups][0][filters][extension_attributes][value]=${cylandeCode}&
                                searchCriteria[filterGroups][0][filters][extension_attributes][conditionType]=eq&
-                               searchCriteria[pageSize]=50
+                               searchCriteria[pageSize]=${environment.pageSize}
                                `, this.httpOptions)
       .pipe(
         map(res => {
