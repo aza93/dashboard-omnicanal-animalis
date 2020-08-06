@@ -4,26 +4,24 @@
       Les commandes à preparer par les magasins (retard de moins de 2h)
     </mat-toolbar>
     -->
-    <div class="d-flex">
-      <h3 *ngIf="orderType == 'ordersToPrepare'" class="p-2 flex-fill" style="color:white;background-color:#6798fe;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-        Les commandes à preparer par les magasins (retard de moins de 2h)
-      </h3>
-      <h3 *ngIf="orderType == 'ordersDelayed'" class="p-2 flex-fill" style="color:white;background-color:#f44336;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-        Les commandes en retard (de plus de 2h)
-      </h3>
-      <h3 *ngIf="orderType == 'ordersAvMore14dd'" class="p-2 flex-fill" style="color:white;background-color:#4ab8a1;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-        Vous devez recontacter le client (la commande est disponible depuis plus de 14 jours)
-      </h3>
-      <h3 *ngIf="orderType == 'ordersAvLess14dd'" class="p-2 flex-fill" style="color:white;background-color:#F4511E;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-        Le client doit venir chercher sa marchandise
-      </h3>
-      <h3 *ngIf="orderType == 'ordersInProgress'" class="p-2 flex-fill" style="color:white;background-color:#7CB342;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-        Les commandes livraison en magasin en cours de preparation
-      </h3>
-      <h3 *ngIf="orderType == 'ordersShipping'" class="p-2 flex-fill" style="color:white;background-color:#ffc107;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-        Les commandes en cours de livraison magasin
-      </h3>
-    </div>
+    <h3 *ngIf="orderType == 'ordersToPrepare'" style="color:white;background-color:#6798fe;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+      Les commandes à preparer par les magasins (retard de moins de 2h)
+    </h3>
+    <h3 *ngIf="orderType == 'ordersDelayed'" style="color:white;background-color:#f44336;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+      Les commandes en retard (de plus de 2h)
+    </h3>
+    <h3 *ngIf="orderType == 'ordersAvMore14dd'" style="color:white;background-color:#4ab8a1;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+      Vous devez recontacter le client (la commande est disponible depuis plus de 14 jours)
+    </h3>
+    <h3 *ngIf="orderType == 'ordersAvLess14dd'" style="color:white;background-color:#F4511E;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+      Le client doit venir chercher sa marchandise
+    </h3>
+    <h3 *ngIf="orderType == 'ordersInProgress'" style="color:white;background-color:#7CB342;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+      Les commandes livraison en magasin en cours de preparation
+    </h3>
+    <h3 *ngIf="orderType == 'ordersShipping'" style="color:white;background-color:#ffc107;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+      Les commandes en cours de livraison magasin
+    </h3>
     <mat-divider></mat-divider>
     <div [ngClass]="{'d-flex align-items-center px-2 pt-2':!mob }" [ngStyle]="{'background:white;': mob, 'background:white; overflow-y:scroll; padding: 5px;':!mob }">
       <button mat-stroked-button class="rounded-pill" (click)="gridApi.selectAllFiltered()">
