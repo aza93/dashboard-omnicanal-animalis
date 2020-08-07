@@ -110,14 +110,12 @@ export class OrdersService {
             this.storeLoc = localStorage.getItem("store");
             
             for (let r of res.items) {
-              let date1 = new Date(this.now).getTime();
-              let date2 = new Date(r.created_at.replace(/\s/, 'T')).getTime();
-              let time = date1 - date2;  //msec
+              let time = new Date(this.now).getTime() - new Date(r.created_at.replace(/\s/, 'T')).getTime();
               let hoursDiff = time / (3600 * 1000);
               
               if (hoursDiff < 2) {
                 ord = new Order();
-
+                
                 const orderDateIos = new Date(r.created_at.replace(/\s/, 'T'));
                 ord.id = r.increment_id;
                 ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
@@ -163,9 +161,7 @@ export class OrdersService {
             this.storeLoc = localStorage.getItem("store");
             
             for (let r of res.items) {
-              let date1 = new Date(this.now).getTime();
-              let date2 = new Date(r.created_at.replace(/\s/, 'T')).getTime();
-              let time = date1 - date2;  //msec
+              let time = new Date(this.now).getTime() - new Date(r.created_at.replace(/\s/, 'T')).getTime();
               let hoursDiff = time / (3600 * 1000);
 
               if (hoursDiff > 2) {
@@ -216,9 +212,7 @@ export class OrdersService {
                 // if (r.state == "processing" || ((r.state == "complete") && (r.status_histories[0].status == "complete")))
                 if ((r.status_histories[0].status == "complete" && shipDesc.includes("Retrait sous 2h")) ||
                 (r.status_histories[0].status == "package_received" && shipDesc.includes("Retrait sous 3 à 4 jours"))) {
-                  let date1 = new Date(this.now).getTime();
-                  let date2 = new Date(r.created_at.replace(/\s/, 'T')).getTime();
-                  let time = date1 - date2;  //msec
+                  let time = new Date(this.now).getTime() - new Date(r.created_at.replace(/\s/, 'T')).getTime();
                   let daysDiff = time / (1000*60*60*24);
 
                   if (daysDiff > 14) {
@@ -274,9 +268,7 @@ export class OrdersService {
                 if ((r.status_histories[0].status == "complete" && shipDesc.includes("Retrait sous 2h")) ||
                 (r.status_histories[0].status == "package_received" && shipDesc.includes("Retrait sous 3 à 4 jours"))) {
                 //if (r.state == "processing" || ((r.state == "complete") && (r.status_histories[0].status == "complete"))) {
-                  let date1 = new Date(this.now).getTime();
-                  let date2 = new Date(r.created_at.replace(/\s/, 'T')).getTime();
-                  let time = date1 - date2;  //msec
+                  let time = new Date(this.now).getTime() - new Date(r.created_at.replace(/\s/, 'T')).getTime();
                   let daysDiff = time / (1000*60*60*24);
 
                   if (daysDiff < 14) {

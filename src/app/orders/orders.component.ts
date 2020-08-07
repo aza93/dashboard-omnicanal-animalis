@@ -93,7 +93,7 @@ export class OrdersComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
     const sortModel = [
-        {colId: 'id', sort: 'desc'}
+      { colId: 'id', sort: 'desc' }
     ];
     this.gridApi.setSortModel(sortModel);
     //this.sizeToFit();
