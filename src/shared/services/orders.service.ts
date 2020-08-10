@@ -172,6 +172,7 @@ export class OrdersService {
             
             for (let r of res.items) {
               let time = this.getPassedMsec(this.transformDateIos(r.created_at));
+              //let time = new Date(this.now).getTime() - new Date(r.created_at.replace(/\s/, 'T')).getTime();
               let hoursDiff = time / (3600 * 1000);
 
               if (hoursDiff > 2) {
@@ -180,7 +181,7 @@ export class OrdersService {
                 const orderDateIos = new Date(this.transformDateIos(r.created_at));
                 ord.id = r.increment_id;
                 ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-                ord.date_creation = this.concatDateTimeFr(orderDateIos);                
+                ord.date_creation = this.concatDateTimeFr(orderDateIos);
                 ord.type_commande = r.shipping_description;
                 ord.numero_commande = r.extension_attributes.cylande_code;
                 ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
@@ -218,8 +219,8 @@ export class OrdersService {
             
             for (let r of res.items) {
               let shipDesc = r.shipping_description;
-              let status = r.status_histories[0].status;
               if (r.status_histories[0]) {
+                let status = r.status_histories[0].status;
                 // if (r.state == "processing" || ((r.state == "complete") && (status == "complete")))
                 if ((status == "complete" && shipDesc.includes("Retrait sous 2h")) ||
                 (status == "package_received" && shipDesc.includes("Retrait sous 3 à 4 jours"))) {
@@ -275,8 +276,8 @@ export class OrdersService {
             
             for (let r of res.items) {
               let shipDesc = r.shipping_description;
-              let status = r.status_histories[0].status;
               if (r.status_histories[0]) {
+                let status = r.status_histories[0].status;
                 if ((status == "complete" && shipDesc.includes("Retrait sous 2h")) ||
                 (status == "package_received" && shipDesc.includes("Retrait sous 3 à 4 jours"))) {
                 //if (r.state == "processing" || ((r.state == "complete") && (status == "complete"))) {
