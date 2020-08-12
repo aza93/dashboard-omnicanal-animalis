@@ -5,6 +5,7 @@ import { AuthGuard } from 'src/shared/helpers/auth.guard'
 import { ReceptionComponent } from './reception/reception.component';
 
 import { OrdersComponent } from './orders/orders.component';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
   {
     path: "orders/:orderType",
     component: OrdersComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "profile",
+    component: ProfileSettingsComponent,
     canActivate: [AuthGuard]
   },
 

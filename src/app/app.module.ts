@@ -25,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
@@ -70,6 +71,7 @@ import {
 } from 'session-expiration-alert';
 
 import { AppSessionInteruptService } from 'src/shared/services/app-session-interupt.service';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 
 
 @NgModule({
@@ -85,6 +87,7 @@ import { AppSessionInteruptService } from 'src/shared/services/app-session-inter
     NumberValidatorDirective,
     BreadcrumbComponent,
     ReceptionComponent,
+    ProfileSettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,6 +105,7 @@ import { AppSessionInteruptService } from 'src/shared/services/app-session-inter
     ChartsModule,
     MatTreeModule,
     MatIconModule,
+    MatTabsModule,
     SafePipeModule,
     MatButtonModule,
     MatTooltipModule,

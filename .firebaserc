@@ -6,6 +6,16 @@
           "dashboard-omnicanal-animalis"
         ]
       }
+    },
+    "dashboard-omnicanal-anim-3d764": {
+      "hosting": {
+        "homepage": [
+          "dashboard-omnicanal-anim-3d764"
+        ]
+      }
     }
+  },
+  "projects": {
+    "dashboard-omnicanal-animalis": "dashboard-omnicanal-anim-3d764"
   }
 }

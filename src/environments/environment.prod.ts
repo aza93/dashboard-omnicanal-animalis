@@ -5,8 +5,8 @@ export const environment = {
   apiUrlMagento1: 'https://staging-m2.animalis.com',
   apiUrlMagento2: 'http://staging-m2.animalis.com.c.o4lvm5zl7t3ym.dev.ent.platform.sh/',
 
-  magentoUsername: "a.azabar",
-  magentoPassword: "12gfgbnh",
+  magentoUsername: "dashboard_omnicanal_envabde",
+  magentoPassword: "dashaza20envabde",
   
   firebaseConfig: {
     apiKey: "AIzaSyCDjCDSjj7I79qSS0-vIIV0dPJhIF7ZYNI",

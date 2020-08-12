@@ -5,13 +5,15 @@
 export const environment = {
   production: true,
 
-  apiUrlMagento: 'https://abdellah-n6foo5a-o4lvm5zl7t3ym.fr-1.platformsh.site',
-  apiUrlMagento1: 'https://staging-m2.animalis.com',
-  apiUrlMagento2: 'http://staging-m2.animalis.com.c.o4lvm5zl7t3ym.dev.ent.platform.sh/',
+  //apiUrlMagento: 'https://abdellah-n6foo5a-o4lvm5zl7t3ym.fr-1.platformsh.site',
+  apiUrlMagento: 'https://staging-m2.animalis.com',
 
-  magentoUsername: "a.azabar",
-  magentoPassword: "12gfgbnh",
-  
+  //magentoUsername: "dashboard_omnicanal_envabde",
+  //magentoPassword: "dashaza20envabde",
+  magentoUsername: "dashboard_omnicanal",
+  magentoPassword: "dashaza20*animalis",
+
+  /*
   firebaseConfig: {
     apiKey: "AIzaSyCDjCDSjj7I79qSS0-vIIV0dPJhIF7ZYNI",
     authDomain: "dashboard-omnicanal-animalis.firebaseapp.com",
@@ -21,6 +23,18 @@ export const environment = {
     messagingSenderId: "400146142829",
     appId: "1:400146142829:web:cd56ee0e60d3d735cb5164",
     measurementId: "G-8J1P28KF93"
+  },
+  */
+  
+  firebaseConfig: {
+    apiKey: "AIzaSyCI-myHa-zE64y9QBk3nqeW8YqDih2Z834",
+    authDomain: "dashboard-omnicanal-anim-3d764.firebaseapp.com",
+    databaseURL: "https://dashboard-omnicanal-anim-3d764.firebaseio.com",
+    projectId: "dashboard-omnicanal-anim-3d764",
+    storageBucket: "dashboard-omnicanal-anim-3d764.appspot.com",
+    messagingSenderId: "299240012242",
+    appId: "1:299240012242:web:47ebde380d5f928161700b",
+    measurementId: "G-LFMFNCQN28"
   },
 
   pageSize: 100,

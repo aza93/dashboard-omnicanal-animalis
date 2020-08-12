@@ -8,10 +8,18 @@
     </span>
     <span class="text-success ml-1"> {{currentUser.email}}</span>
   </div>
-
-  <button mat-button (click)="logout()" color="warn" class="">
-    <mat-icon>power_settings_new</mat-icon>
-    <span *ngIf="!mob" style="margin-right: 10px;">Déconnexion</span>
+  
+  <button mat-button [matMenuTriggerFor]="menu">
+    <span style="margin-right: 10px;"><mat-icon>account_circle</mat-icon></span>
   </button>
+  <mat-menu #menu="matMenu">
+    <button mat-button (click)="profile()" color="primary">
+      <mat-icon>settings</mat-icon>
+    </button>
+    <br>
+    <button mat-button (click)="logout()" color="warn" class="">
+      <mat-icon>power_settings_new</mat-icon>
+    </button>
+  </mat-menu>
 
 </mat-toolbar>

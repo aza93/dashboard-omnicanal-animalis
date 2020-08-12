@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/shared/services/authentication.service';
 import { User } from 'src/shared/models/user';
+import { Router } from '@angular/router';
 
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -17,7 +18,11 @@ export class HeaderComponent implements OnInit {
   mob: boolean;
   deviceInfo = null;
 
-  constructor(public authenticationService: AuthenticationService, private deviceService: DeviceDetectorService) {
+  constructor(
+    public authenticationService: AuthenticationService,
+    private deviceService: DeviceDetectorService,
+    private router: Router,
+    ) {
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x}
       );
@@ -48,5 +53,9 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout();
+  }
+
+  profile() {
+    this.router.navigate(['profile']);
   }
 }
