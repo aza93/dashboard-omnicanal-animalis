@@ -30,6 +30,8 @@ export class User {
 
   token: string;
   store: string;
+  admin: boolean;
+  id: string;
 
-  constructor(public email: string, public password: string){ };
+  constructor(public email: string, public password: string) { };
 }

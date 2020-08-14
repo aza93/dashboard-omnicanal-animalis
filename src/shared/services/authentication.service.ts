@@ -47,6 +47,13 @@ export class AuthenticationService {
         name: user.store,
         user_id: result.user.uid
       });
+      this.afs.collection('users').add({
+        admin: false,
+        email: user.email,
+        password: user.password,
+        user_id: result.user.uid
+
+      });
       this.notifyService.showSuccess("Successfully signed up!", "Sign up")
     })
   }
@@ -122,4 +129,38 @@ export class AuthenticationService {
     
     //return localStorage.getItem("magentoAdminToken");
   }
+
+  public getUsers(): User[] {
+    let users: User[] = [];
+    let query = this.afs.firestore.collection('users');
+
+    query.get().then(querySnapshot => {
+      querySnapshot.forEach(function (doc) {
+        let user: User = new User(doc.data()['email'], doc.data()['password']);
+        user.id = doc.data()['user_id'];
+        user.admin = doc.data()['admin'];
+        users.push(user);
+      })
+    });
+      
+    return users;
+  }
+
+  /*
+  public getUsers1(): Observable<User[]> {
+    let users: User[] = [];
+    let query = this.afs.firestore.collection('users');
+
+    return query.get().pipe(map((querySnapshot) => {
+      querySnapshot.forEach(function (doc) {
+        let user: User = new User(doc.data()['email'], doc.data()['password']);
+        user.id = doc.data()['user_id'];
+        user.admin = doc.data()['admin'];
+        users.push(user);
+      })
+      return user;
+    }));
+
+  }
+  */
 }

@@ -15,7 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCommonModule, MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { ChartsModule } from 'ng2-charts';
@@ -26,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
@@ -72,6 +73,7 @@ import {
 
 import { AppSessionInteruptService } from 'src/shared/services/app-session-interupt.service';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+import { UserEditorComponent } from './profile-settings/user-editor/user-editor.component';
 
 
 @NgModule({
@@ -88,6 +90,7 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
     BreadcrumbComponent,
     ReceptionComponent,
     ProfileSettingsComponent,
+    UserEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -106,6 +109,7 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
     MatTreeModule,
     MatIconModule,
     MatTabsModule,
+    MatTableModule,
     SafePipeModule,
     MatButtonModule,
     MatTooltipModule,
