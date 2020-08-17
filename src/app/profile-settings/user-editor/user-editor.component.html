@@ -1,1 +1,52 @@
-<p>user-editor works!</p>
+<h2 mat-dialog-title>Inscription d'un nouveau utilisateur</h2>
+<mat-dialog-content [formGroup]="form" autocomplete="off">
+
+			<h5 *ngIf="isAlerting" class="text-danger ">{{alertMsg}}</h5>
+
+			<mat-form-field appearance="outline">
+				<mat-label>E-mail d'utilisateur</mat-label>
+				<input matInput formControlName="email" required>
+			</mat-form-field>
+
+			<mat-form-field appearance="outline">
+				<mat-label>Mot de passe</mat-label>
+				<input matInput type="password" formControlName="password" required>
+			</mat-form-field>
+
+			<mat-form-field appearance="outline">
+				<mat-label>Confirmer le mot de passe</mat-label>
+				<input matInput type="password" formControlName="passwordChecker" required>
+			</mat-form-field>
+			
+			<mat-form-field>
+				<mat-label>Type de bashboard souhaitée</mat-label>
+				<mat-select matNativeControl formControlName="dashboard" (selectionChange)="changeDashboardType($event)" required>
+					<mat-option value="national">Dasboard national</mat-option>
+					<mat-option value="magasin">Dasboard magasin</mat-option>
+				</mat-select>
+            </mat-form-field>
+			
+			<mat-form-field *ngIf="dashboardMag">
+				<mat-label>Choisir un magasin</mat-label>
+				<mat-select matNativeControl formControlName="store" required>
+					<mat-option *ngFor="let str of stores" [value]="str">
+					{{ str.name }}
+					</mat-option>
+				</mat-select>
+            </mat-form-field>
+
+            <br>
+            <br>
+            <mat-slide-toggle
+                [checked]="admin"
+                (change)="onChangeSlideToggle($event)">
+                Admin
+            </mat-slide-toggle>
+</mat-dialog-content>
+<br>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="closeDialog()">Fermer</button>
+    <button class="mat-raised-button mat-primary" [disabled]="form.invalid" (click)="submit()">Inscrire</button>
+</mat-dialog-actions>
+<br>

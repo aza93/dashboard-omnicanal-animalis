@@ -1,4 +1,4 @@
-<mat-tab-group (selectedTabChange)="currTab($event)" id="main">
+<mat-tab-group (selectedTabChange)="currTab($event)" [selectedIndex]="curTab" id="main">
 	<mat-tab *ngFor="let tab Of tabs; let i = index" [label]="tab.name">
 		<div *ngIf="i === 0">
 			<mat-card id="edit-my-profile" style="text-align: center;">
@@ -37,8 +37,8 @@
 									</mat-option>
 								</mat-select>
 							</mat-form-field>
+							<button id="update-submit" [disabled]="true" (click)="updateUser()" mat-raised-button color="accent">Appliquer</button>
 							-->
-							<button id="login-submit" mat-raised-button color="accent">Appliquer</button>
 						</div>
 					</form>
 				</mat-card-content>

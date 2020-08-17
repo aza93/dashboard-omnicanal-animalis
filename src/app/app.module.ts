@@ -27,6 +27,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
@@ -110,6 +111,7 @@ import { UserEditorComponent } from './profile-settings/user-editor/user-editor.
     MatIconModule,
     MatTabsModule,
     MatTableModule,
+    MatSlideToggleModule,
     SafePipeModule,
     MatButtonModule,
     MatTooltipModule,

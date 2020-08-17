@@ -27,6 +27,8 @@ export class AuthenticationService {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  private currentUserId: string;
+  private realCurrentUser: User;
 
   constructor(
     public http: HttpClient,
@@ -48,13 +50,13 @@ export class AuthenticationService {
         user_id: result.user.uid
       });
       this.afs.collection('users').add({
-        admin: false,
+        admin: user.admin,
         email: user.email,
         password: user.password,
         user_id: result.user.uid
 
       });
-      this.notifyService.showSuccess("Successfully signed up!", "Sign up")
+      this.notifyService.showSuccess("Utilisateur enregistré correctement", "Succès");
     })
   }
 
@@ -68,8 +70,9 @@ export class AuthenticationService {
         user.token = localStorage.getItem('magentoAdminToken');
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
-        var currentUserId = res.user.uid;
-        const query = this.afs.firestore.collection('stores').where('user_id', '==', currentUserId);
+        this.realCurrentUser = user;
+        this.currentUserId = res.user.uid;
+        const query = this.afs.firestore.collection('stores').where('user_id', '==', this.currentUserId);
 
         query.get().then(querySnapshot => {
           querySnapshot.forEach(function (doc) {
@@ -163,4 +166,8 @@ export class AuthenticationService {
 
   }
   */
+
+  // TO-DO
+  updateUser(newEmail, newPassword) {
+  }
 }

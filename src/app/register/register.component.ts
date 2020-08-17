@@ -67,6 +67,7 @@ export class RegisterComponent implements OnInit {
     this.resetAlert();
     const user = new User(this.form.value.email, this.form.value.password);
     user.store = this.dashboardMag ? this.form.value.store : null;
+    user.admin = false;
     //console.log(user);
     this.authenticationService.register(user)
     .then(res => {
