@@ -27,8 +27,6 @@ export class AuthenticationService {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  private currentUserId: string;
-  private realCurrentUser: User;
 
   constructor(
     public http: HttpClient,
@@ -65,14 +63,17 @@ export class AuthenticationService {
     this.loginMagento();
     const req = this.afAuth.signInWithEmailAndPassword(user.email, user.password)
       .then(res => {
-        this.notifyService.showSuccess("Successfully signed in!", "Login")
+        this.notifyService.showSuccess("Successfully signed in!", "Login");
+        
+        localStorage.setItem("currentUserId", res.user.uid);
+        this.saveUserRole();
+
         //console.log('Successfully signed in!');
         user.token = localStorage.getItem('magentoAdminToken');
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
-        this.realCurrentUser = user;
-        this.currentUserId = res.user.uid;
-        const query = this.afs.firestore.collection('stores').where('user_id', '==', this.currentUserId);
+        //this.currentUserId = res.user.uid;
+        const query = this.afs.firestore.collection('stores').where('user_id', '==', res.user.uid);
 
         query.get().then(querySnapshot => {
           querySnapshot.forEach(function (doc) {
@@ -102,6 +103,18 @@ export class AuthenticationService {
     return req;
   }
 
+  saveUserRole() {
+    let query = this.afs.firestore.collection('users'); // 7ZXdCwkNiLNskGznt0y64wiBW7j1
+
+    query.get().then(querySnapshot => {
+      querySnapshot.forEach(function (doc) {
+        if (doc.data()['user_id'] === localStorage.getItem("currentUserId"))
+          localStorage.setItem("isThisUserAdmin", doc.data()['admin']+"");
+          localStorage.setItem("pageSize", localStorage.getItem("isThisUserAdmin") === "true" ? environment.pageSizeAdmin+"" : environment.pageSize+"");
+      })
+    });
+  }
+
   loginMagento() {
     this.http.post<any>(`${environment.apiUrlMagento}/rest/V1/integration/admin/token`, { username: environment.magentoUsername, password: environment.magentoPassword }, this.options)
     .pipe(first())
@@ -118,6 +131,11 @@ export class AuthenticationService {
     this.dialog.closeAll();
     localStorage.removeItem('currentUser');
     localStorage.removeItem('store');
+    localStorage.removeItem('userTabLocation');
+    localStorage.removeItem('currentUserId');
+    localStorage.removeItem('isThisUserAdmin');
+    localStorage.removeItem('pageSize');
+
     //localStorage.clear();
     this.currentUserSubject.next(null);
     this.router.navigate(['']);

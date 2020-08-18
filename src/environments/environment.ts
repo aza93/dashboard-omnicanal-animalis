@@ -38,6 +38,7 @@ export const environment = {
   },
 
   pageSize: 100,
+  pageSizeAdmin: 500,
 
   columnDefsOrdersToPrepare: [
     { headerName: 'ID', field: "id", width: 150, resizable: true },
