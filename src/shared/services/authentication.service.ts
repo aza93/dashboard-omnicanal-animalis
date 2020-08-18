@@ -10,6 +10,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { NotificationService } from './notification.service';
 
 import { environment } from 'src/environments/environment';
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,8 @@ export class AuthenticationService {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  private md5 = new Md5();
+  private currentUserPassword: string;
 
   constructor(
     public http: HttpClient,
@@ -70,6 +73,8 @@ export class AuthenticationService {
 
         //console.log('Successfully signed in!');
         user.token = localStorage.getItem('magentoAdminToken');
+        this.currentUserPassword = user.password;
+        user.password = this.md5.appendStr(user.password).end().toString();
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         //this.currentUserId = res.user.uid;
@@ -185,7 +190,27 @@ export class AuthenticationService {
   }
   */
 
-  // TO-DO
-  updateUser(newEmail, newPassword) {
+  updateUser(currentPassword: string, newUser: User) {
+    if (currentPassword !== this.currentUserPassword)
+      this.notifyService.showError("Le mot de passe actuel n'est pas accepté!", "Erreur");
+    else {
+      this.afAuth
+      .signInWithEmailAndPassword(this.currentUserValue.email, this.currentUserPassword)
+      .then(function(userCredential) {
+          userCredential.user.updateEmail(newUser.email);
+          userCredential.user.updatePassword(newUser.password);
+      })
+
+      /*
+      var ref = new Firebase('https://<instance>.firebaseio.com');
+      ref.changeEmail({
+          oldEmail: 'kato@domain.com',
+          newEmail: 'kato2@kato.com' ,
+          password: '******'
+      }, function(err) {
+          console.log(err ? 'failed to change email: ' + err : 'changed email successfully!');
+      });
+      */
+    }
   }
 }

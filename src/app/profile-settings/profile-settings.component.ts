@@ -43,8 +43,9 @@ export class ProfileSettingsComponent implements OnInit {
     this.isCurrentUserAdmin = localStorage.getItem('isThisUserAdmin') === "true" ? true : false;
 
     this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      newEmail: ['', [Validators.required, Validators.email]],
+      currentPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
       passwordChecker: ['', [Validators.required]],
     }, { validator: this.passwordMatcher });
 
@@ -54,7 +55,7 @@ export class ProfileSettingsComponent implements OnInit {
   
 
   passwordMatcher(form: FormGroup) {
-    let pass = form.get('password').value;
+    let pass = form.get('newPassword').value;
     let passwordChecker = form.get('passwordChecker').value;
     return pass === passwordChecker ? null : { notSame: true }
   }
@@ -102,8 +103,11 @@ export class ProfileSettingsComponent implements OnInit {
     //this.songs = _.reject(this.songs, (item) => { return item.id === song.id; });
   }
 
-  // TO-DO
   updateUser() {
-       
+    let newEmail = this.form.get('newEmail').value;
+    let currentPassword = this.form.get('currentPassword').value;
+    let newPassword = this.form.get('newPassword').value;
+    
+    this.authenticationService.updateUser(currentPassword, new User(newEmail, newPassword));
   }
 }
