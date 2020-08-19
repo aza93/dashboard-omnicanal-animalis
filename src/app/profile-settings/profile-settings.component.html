@@ -7,21 +7,32 @@
 						<div class="form-container">
 							<mat-form-field appearance="outline" class="w-100">
 								<mat-label>E-mail d'utilisateur</mat-label>
-								<input matInput formControlName="newEmail" value="{{currentUser.email}}" required>
+								<input matInput formControlName="newEmail" [(ngModel)]="currentUser.email" required>
 							</mat-form-field>
 							<mat-form-field appearance="outline" class="w-100">
 								<mat-label>Mot de passe actuel</mat-label>
-								<input matInput type="password" formControlName="currentPassword"  required>
+								<input matInput [type]="hidePassword1 ? 'password' : 'text'" formControlName="currentPassword" required>
+								<button mat-icon-button matSuffix (click)="hidePassword1 = !hidePassword1" type="button" class="pt-2">
+									<mat-icon>{{hidePassword1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+								</button>
 							</mat-form-field>
+							<!--
 							<mat-form-field appearance="outline" class="w-100">
 								<mat-label>Nouveau mot de passe</mat-label>
-								<input matInput type="password" formControlName="newPassword" required>
+								<input matInput [type]="hidePassword2 ? 'password' : 'text'" formControlName="newPassword" required>
+								<button mat-icon-button matSuffix (click)="hidePassword2 = !hidePassword2" type="button" class="pt-2">
+									<mat-icon>{{hidePassword2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+								</button>
 							</mat-form-field>
 							<mat-form-field appearance="outline" class="w-100">
 								<mat-label>Confirmer le nouveau mot de passe</mat-label>
-								<input matInput type="password" formControlName="passwordChecker" required>
+								<input matInput [type]="hidePassword3 ? 'password' : 'text'" formControlName="passwordChecker" required>
+								<button mat-icon-button matSuffix (click)="hidePassword3 = !hidePassword3" type="button" class="pt-2">
+									<mat-icon>{{hidePassword3 ? 'visibility_off' : 'visibility'}}</mat-icon>
+								</button>
 							</mat-form-field>
-							<button id="update-submit" [disabled]="form.invalid" (click)="updateUser()" mat-raised-button color="accent">Appliquer</button>
+							-->
+							<button id="update-submit" (click)="updateUser()" mat-raised-button color="accent">Appliquer</button>
 							<!--
 							<mat-form-field>
 								<mat-label>Type de bashboard souhaitée</mat-label>
@@ -38,7 +49,7 @@
 									</mat-option>
 								</mat-select>
 							</mat-form-field>
-							<button id="update-submit" [disabled]="true" (click)="updateUser()" mat-raised-button color="accent">Appliquer</button>
+							<button id="update-submit" [disabled]="form.invalid" (click)="updateUser()" mat-raised-button color="accent">Appliquer</button>
 							-->
 						</div>
 					</form>

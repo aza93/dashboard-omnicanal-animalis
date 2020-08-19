@@ -91,7 +91,12 @@ export class OrdersService {
   }
 
   private getPassedMsec(date): number {
-    return new Date(this.now).getTime() - new Date(date).getTime();
+    let date1: Date = new Date(this.now);
+    let date2: Date = new Date(date);
+
+    this.add2Hours(date2);
+
+    return date1.getTime() - date2.getTime();
   }
 
   private concatDateTimeFr(date: Date): string {
@@ -125,8 +130,8 @@ export class OrdersService {
               
               if (hoursDiff < 2) {
                 ord = new Order();
-                
-                const orderDateIos = new Date(this.transformDateIos(r.created_at));
+                let orderDateIos = new Date(this.transformDateIos(r.created_at));
+                this.add2Hours(orderDateIos);
                 ord.id = r.increment_id;
                 ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
                 ord.date_creation = this.concatDateTimeFr(orderDateIos);
@@ -178,7 +183,8 @@ export class OrdersService {
               if (hoursDiff > 2) {
                 ord = new DelayedOrder();
 
-                const orderDateIos = new Date(this.transformDateIos(r.created_at));
+                let orderDateIos = new Date(this.transformDateIos(r.created_at));
+                this.add2Hours(orderDateIos);
                 ord.id = r.increment_id;
                 ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
                 ord.date_creation = this.concatDateTimeFr(orderDateIos);
@@ -230,8 +236,10 @@ export class OrdersService {
                   if (daysDiff > 14) {
                     ord = new OrderAvMore14dd();
 
-                    const orderDateIos = new Date(this.transformDateIos(r.created_at));
-                    const dateMiseCoteIos = new Date(this.transformDateIos(r.status_histories[0].created_at));
+                    let orderDateIos = new Date(this.transformDateIos(r.created_at));
+                    this.add2Hours(orderDateIos);
+                    let dateMiseCoteIos = new Date(this.transformDateIos(r.status_histories[0].created_at));
+                    this.add2Hours(dateMiseCoteIos);
                     ord.id = r.increment_id;
                     ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
                     ord.date_creation = this.concatDateTimeFr(orderDateIos);
@@ -265,7 +273,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][0][filters][0][field]=shipping_description&
                                searchCriteria[filterGroups][0][filters][0][value]=%Click %26 Collect%&
                                searchCriteria[filterGroups][0][filters][0][conditionType]=like&
-                               fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories]&
+                               fields=items[status,increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories]&
                                searchCriteria[pageSize]=${parseInt(localStorage.getItem("pageSize"))}
                                `, this.httpOptions)
       .pipe(
@@ -278,7 +286,7 @@ export class OrdersService {
               let shipDesc = r.shipping_description;
               if (r.status_histories[0]) {
                 let status = r.status_histories[0].status;
-                if ((status == "complete" && shipDesc.includes("Retrait sous 2h")) ||
+                if ((r.status == "complete" && shipDesc.includes("Retrait sous 2h")) ||
                 (status == "package_received" && shipDesc.includes("Retrait sous 3 à 4 jours"))) {
                 //if (r.state == "processing" || ((r.state == "complete") && (status == "complete"))) {
                   let time = this.getPassedMsec(this.transformDateIos(r.created_at));
@@ -287,8 +295,10 @@ export class OrdersService {
                   if (daysDiff < 14) {
                     ord = new OrderAvLess14dd();
 
-                    const orderDateIos = new Date(this.transformDateIos(r.created_at));
-                    const dateMiseCoteIos = new Date(this.transformDateIos(r.status_histories[0].created_at));
+                    let orderDateIos = new Date(this.transformDateIos(r.created_at));
+                    let dateMiseCoteIos = new Date(this.transformDateIos(r.status_histories[0].created_at));
+                    this.add2Hours(orderDateIos);
+                    this.add2Hours(dateMiseCoteIos);
                     ord.id = r.increment_id;
                     ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
                     ord.date_creation = this.concatDateTimeFr(orderDateIos);
@@ -327,7 +337,7 @@ export class OrdersService {
                                searchCriteria[filterGroups][2][filters][0][field]=shipping_description&
                                searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 3 à 4 jours%&
                                searchCriteria[filterGroups][2][filters][0][conditionType]=like&
-                               fields=items[increment_id,created_at,extension_attributes[shipping_assignments[shipping[address[company]],items[created_at]],cylande_code],items[amount_refunded]shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories[created_at,status]]&
+                               fields=items[increment_id,created_at,extension_attributes[shipping_assignments[shipping[address[company]],items[updated_at]],cylande_code],items[amount_refunded]shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories[created_at,status]]&
                                searchCriteria[pageSize]=${parseInt(localStorage.getItem("pageSize"))}
                                `, this.httpOptions)
       .pipe(
@@ -339,9 +349,13 @@ export class OrdersService {
             
             for (let r of res.items) {
               ord = new OrderShipping();
-              dateExp = new Date(this.transformDateIos(r.extension_attributes.shipping_assignments[0].items[0].created_at));
+              let items = r.extension_attributes.shipping_assignments[0].items;
+              let itemsLength = r.extension_attributes.shipping_assignments[0].items.length;
+              dateExp = new Date(this.transformDateIos(items[itemsLength - 1].updated_at));
+              this.add2Hours(dateExp);
 
-              const orderDateIos = new Date(this.transformDateIos(r.created_at));
+              let orderDateIos = new Date(this.transformDateIos(r.created_at));
+              this.add2Hours(orderDateIos);
               ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
               ord.date_commande = this.concatDateTimeFr(orderDateIos);              
@@ -385,7 +399,8 @@ export class OrdersService {
             for (let r of res.items) {
               ord = new OrderInProgress();
               
-              const orderDateIos = new Date(this.transformDateIos(r.created_at));
+              let orderDateIos = new Date(this.transformDateIos(r.created_at));
+              this.add2Hours(orderDateIos);
               ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
               ord.date_commande = this.concatDateTimeFr(orderDateIos);
@@ -420,7 +435,8 @@ export class OrdersService {
             for (let r of res.items) {
               ord = new Order();
 
-              const orderDateIos = new Date(this.transformDateIos(r.created_at));
+              let orderDateIos = new Date(this.transformDateIos(r.created_at));
+              this.add2Hours(orderDateIos);
               ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
               //ord.date_commande = this.datePipe.transform(orderDateIos, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(orderDateIos, 'HH:mm:ss');
@@ -466,5 +482,9 @@ export class OrdersService {
   /** Log a ListeService message with the MessageService */
   private log(message: string) {
 
+  }
+
+  private add2Hours(date: Date) {
+    date.setHours(date.getHours() + 2);
   }
 }

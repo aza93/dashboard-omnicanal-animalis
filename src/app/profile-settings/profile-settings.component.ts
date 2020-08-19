@@ -22,6 +22,9 @@ export class ProfileSettingsComponent implements OnInit {
   currentUser: User;
   users: User[];
   isCurrentUserAdmin: boolean = false;
+  hidePassword1: boolean = true;
+  hidePassword2: boolean = true;
+  hidePassword3: boolean = true;
 
   displayedColumns = ['id', 'email', 'admin'];
 
@@ -106,8 +109,9 @@ export class ProfileSettingsComponent implements OnInit {
   updateUser() {
     let newEmail = this.form.get('newEmail').value;
     let currentPassword = this.form.get('currentPassword').value;
-    let newPassword = this.form.get('newPassword').value;
+    //let newPassword = this.form.get('newPassword').value;
     
-    this.authenticationService.updateUser(currentPassword, new User(newEmail, newPassword));
+    //this.authenticationService.updateUser(currentPassword, new User(newEmail, newPassword));
+    this.authenticationService.updateUser(currentPassword, new User(newEmail, "newPassword"));
   }
 }

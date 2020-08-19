@@ -11,6 +11,7 @@ import { NotificationService } from './notification.service';
 
 import { environment } from 'src/environments/environment';
 import { Md5 } from 'ts-md5/dist/md5';
+import { auth } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -191,24 +192,21 @@ export class AuthenticationService {
   */
 
   updateUser(currentPassword: string, newUser: User) {
-    if (currentPassword !== this.currentUserPassword)
+    if (currentPassword !== this.currentUserPassword) {
       this.notifyService.showError("Le mot de passe actuel n'est pas accepté!", "Erreur");
+    }
     else {
-      this.afAuth
-      .signInWithEmailAndPassword(this.currentUserValue.email, this.currentUserPassword)
-      .then(function(userCredential) {
-          userCredential.user.updateEmail(newUser.email);
-          userCredential.user.updatePassword(newUser.password);
-      })
+      auth().currentUser.updateEmail(newUser.email).then(function() {
+        this.notifyService.showSuccess("Votre email a été changé avec suuccès!", "Changement email");
+      }).catch(function(error) {
+        this.notifyService.showSuccess("Une erreur est survenue lors de la modification de votre email!", "Erreure");
+      });
 
       /*
-      var ref = new Firebase('https://<instance>.firebaseio.com');
-      ref.changeEmail({
-          oldEmail: 'kato@domain.com',
-          newEmail: 'kato2@kato.com' ,
-          password: '******'
-      }, function(err) {
-          console.log(err ? 'failed to change email: ' + err : 'changed email successfully!');
+      auth().currentUser.updatePassword(newUser.password).then(function() {
+        this.notifyService.showSuccess("Votre mot de passe a été changé avec suuccès!", "Changement mot de passe");
+      }).catch(function(error) {
+        this.notifyService.showSuccess("Une erreur est survenue lors de la modification de votre mot de passe!", "Erreure");
       });
       */
     }
