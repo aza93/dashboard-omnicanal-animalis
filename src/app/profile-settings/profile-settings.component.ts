@@ -18,7 +18,7 @@ export class ProfileSettingsComponent implements OnInit {
   form: FormGroup;
   curTab: any = 0;
   selectedTabIndex: number = 0;
-  tabs: Array<any> = [{ name: 'Modifier mon profile' }];
+  tabs: Array<any> = [{ name: 'Modifier mon profile (seulement mail)' }];
   currentUser: User;
   users: User[];
   isCurrentUserAdmin: boolean = false;
@@ -112,6 +112,6 @@ export class ProfileSettingsComponent implements OnInit {
     //let newPassword = this.form.get('newPassword').value;
     
     //this.authenticationService.updateUser(currentPassword, new User(newEmail, newPassword));
-    this.authenticationService.updateUser(currentPassword, new User(newEmail, "newPassword"));
+    this.authenticationService.updateEmailAddress(newEmail, currentPassword);
   }
 }

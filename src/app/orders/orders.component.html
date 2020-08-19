@@ -1,6 +1,6 @@
 <div class="d-flex flex-column h-100" fxLayout="row">
     <h3 *ngIf="orderType == 'ordersToPrepare'" style="color:white;background-color:#6798fe;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
-      Les commandes à preparer par les magasins (retard de moins de 2h)
+      Les commandes à preparer par les magasins
     </h3>
     <h3 *ngIf="orderType == 'ordersDelayed'" style="color:white;background-color:#f44336;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
       Les commandes en retard (de plus de 2h)

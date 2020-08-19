@@ -191,24 +191,44 @@ export class AuthenticationService {
   }
   */
 
+  updateEmailAddress(email: string, password: string) {
+    const currentUser = auth().currentUser;
+    const credentials = auth.EmailAuthProvider.credential(currentUser.email, password);
+
+    currentUser.reauthenticateWithCredential(credentials).then(res => {
+      
+      currentUser.updateEmail(email).then(res => {
+
+        currentUser.sendEmailVerification().then(res => {
+          //this.notifyService.showSuccess("Email Sent!", "Success");
+        }).catch(error => {
+          this.notifyService.showError("An error happened!", "Error");
+        });
+      this.notifyService.showSuccess("Votre email a été changé avec succès!", "Changement email");
+      }).catch(error => {
+        this.notifyService.showError("Une erreur est survenue lors de la modification de votre email!", "Erreure");
+      });
+    }).catch(error => {
+      this.notifyService.showError("Le mot de passe actuel n'est pas accepté!", "Erreure");
+    });
+  }
+
   updateUser(currentPassword: string, newUser: User) {
     if (currentPassword !== this.currentUserPassword) {
-      this.notifyService.showError("Le mot de passe actuel n'est pas accepté!", "Erreur");
+      this.notifyService.showError("Le mot de passe actuel n'est pas accepté!", "Erreure");
     }
     else {
-      auth().currentUser.updateEmail(newUser.email).then(function() {
+      auth().currentUser.updateEmail(newUser.email).then(res => {
         this.notifyService.showSuccess("Votre email a été changé avec suuccès!", "Changement email");
-      }).catch(function(error) {
+      }).catch(error => {
         this.notifyService.showSuccess("Une erreur est survenue lors de la modification de votre email!", "Erreure");
       });
 
-      /*
-      auth().currentUser.updatePassword(newUser.password).then(function() {
+      auth().currentUser.updatePassword(newUser.password).then(res => {
         this.notifyService.showSuccess("Votre mot de passe a été changé avec suuccès!", "Changement mot de passe");
-      }).catch(function(error) {
+      }).catch(error => {
         this.notifyService.showSuccess("Une erreur est survenue lors de la modification de votre mot de passe!", "Erreure");
       });
-      */
     }
   }
 }
