@@ -9,17 +9,36 @@
     <span class="text-success ml-1"> {{currentUser.email}}</span>
   </div>
   
-  <button mat-button [matMenuTriggerFor]="menu">
-    <span style="margin-right: 10px;"><mat-icon>account_circle</mat-icon></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-button (click)="profile()" color="primary">
+    <button mat-menu-item (click)="profile()">
       <mat-icon>settings</mat-icon>
+      <span>Paramètres</span>
     </button>
     <br>
-    <button mat-button (click)="logout()" color="warn" class="">
+    <button mat-menu-item (click)="logout()">
       <mat-icon>power_settings_new</mat-icon>
+      <span>Déconnexion</span>
     </button>
   </mat-menu>
+
+  <!--
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="profile()">
+      <mat-icon>settings</mat-icon>
+      <span>Paramètres</span>
+    </button>
+    <br>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>power_settings_new</mat-icon>
+      <span>Déconnexion</span>
+    </button>
+  </mat-menu>
+  -->
 
 </mat-toolbar>
