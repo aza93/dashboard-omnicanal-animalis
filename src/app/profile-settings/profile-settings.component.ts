@@ -27,7 +27,7 @@ export class ProfileSettingsComponent implements OnInit {
   hidePassword2: boolean = true;
   hidePassword3: boolean = true;
 
-  displayedColumns = ['id', 'email', 'admin'];
+  displayedColumns = ['id', 'email', 'admin', 'actions'];
 
   constructor(
     public authenticationService: AuthenticationService,
@@ -67,6 +67,11 @@ export class ProfileSettingsComponent implements OnInit {
   currTab(event) {
     this.curTab = event.index;
     localStorage.setItem('userTabLocation', this.curTab);
+  }
+
+  onChangeSlideToggle(event, userId) {
+    //console.log(userId);
+    this.authenticationService.updateUserRole(userId, event.checked);
   }
 
   onNew() {

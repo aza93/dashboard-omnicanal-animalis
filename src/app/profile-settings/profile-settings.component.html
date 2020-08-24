@@ -66,7 +66,12 @@
 			</ng-container>
 			<ng-container matColumnDef="admin">
 				<mat-header-cell *matHeaderCellDef>Admin</mat-header-cell>
-				<mat-cell *matCellDef="let user">{{user.admin}}</mat-cell>
+				<mat-cell *matCellDef="let user">
+					<mat-slide-toggle
+						[checked]="user.admin"
+						(change)="onChangeSlideToggle($event, user.id)">
+					</mat-slide-toggle>
+				</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="actions">

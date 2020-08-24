@@ -171,24 +171,16 @@ export class AuthenticationService {
       return users;
     });
   }
-
-  /*
-  public getUsers1(): Observable<User[]> {
-    let users: User[] = [];
+  
+  updateUserRole(_id: string, _value: boolean) {
     let query = this.afs.firestore.collection('users');
 
-    return query.get().pipe(map((querySnapshot) => {
+    query.get().then(querySnapshot => {
       querySnapshot.forEach(function (doc) {
-        let user: User = new User(doc.data()['email'], doc.data()['password']);
-        user.id = doc.data()['user_id'];
-        user.admin = doc.data()['admin'];
-        users.push(user);
-      })
-      return user;
-    }));
-
+        if (doc.data()['user_id'] == _id)
+          doc.ref.set({ admin: _value, email: doc.data()['email'], user_id: doc.data()['user_id']});
+    })});
   }
-  */
 
   updatePwd(newPwd: string, currPassword: string) {
     const currentUser = auth().currentUser;
