@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserEditorComponent } from './user-editor/user-editor.component';
 
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-profile-settings',
@@ -18,9 +19,9 @@ export class ProfileSettingsComponent implements OnInit {
   form: FormGroup;
   curTab: any = 0;
   selectedTabIndex: number = 0;
-  tabs: Array<any> = [{ name: 'Modifier mon profile (seulement mail)' }];
+  tabs: Array<any> = [{ name: 'Modifier mon mot de passe' }];
   currentUser: User;
-  users: User[];
+  dataSource = new MatTableDataSource<User>([]);
   isCurrentUserAdmin: boolean = false;
   hidePassword1: boolean = true;
   hidePassword2: boolean = true;
@@ -37,7 +38,9 @@ export class ProfileSettingsComponent implements OnInit {
       this.currentUser = x;
       //this.isCurrentUserAdmin = x.admin;
     });
-    this.users = this.authenticationService.getUsers();
+    this.authenticationService.getUsers().then((res: User[]) => {
+      this.dataSource.data = res;
+    });
     //console.log(this.users);
   }
 
@@ -46,7 +49,6 @@ export class ProfileSettingsComponent implements OnInit {
     this.isCurrentUserAdmin = localStorage.getItem('isThisUserAdmin') === "true" ? true : false;
 
     this.form = this.formBuilder.group({
-      newEmail: ['', [Validators.required, Validators.email]],
       currentPassword: ['', Validators.required],
       newPassword: ['', Validators.required],
       passwordChecker: ['', [Validators.required]],
@@ -56,7 +58,6 @@ export class ProfileSettingsComponent implements OnInit {
       this.tabs.push({ name: 'Gestion utilisateurs' });
   }
   
-
   passwordMatcher(form: FormGroup) {
     let pass = form.get('newPassword').value;
     let passwordChecker = form.get('passwordChecker').value;
@@ -107,11 +108,9 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   updateUser() {
-    let newEmail = this.form.get('newEmail').value;
     let currentPassword = this.form.get('currentPassword').value;
-    //let newPassword = this.form.get('newPassword').value;
+    let newPassword = this.form.get('newPassword').value;
     
-    //this.authenticationService.updateUser(currentPassword, new User(newEmail, newPassword));
-    this.authenticationService.updateEmailAddress(newEmail, currentPassword);
+    this.authenticationService.updatePwd(newPassword, currentPassword);
   }
 }

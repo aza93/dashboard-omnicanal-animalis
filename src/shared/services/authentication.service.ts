@@ -54,7 +54,6 @@ export class AuthenticationService {
       this.afs.collection('users').add({
         admin: user.admin,
         email: user.email,
-        password: user.password,
         user_id: result.user.uid
 
       });
@@ -157,20 +156,20 @@ export class AuthenticationService {
     //return localStorage.getItem("magentoAdminToken");
   }
 
-  public getUsers(): User[] {
+  public getUsers(): Promise<User[]> {
     let users: User[] = [];
     let query = this.afs.firestore.collection('users');
 
-    query.get().then(querySnapshot => {
+    return query.get().then(querySnapshot => {
       querySnapshot.forEach(function (doc) {
         let user: User = new User(doc.data()['email'], doc.data()['password']);
         user.id = doc.data()['user_id'];
         user.admin = doc.data()['admin'];
         users.push(user);
       })
-    });
       
-    return users;
+      return users;
+    });
   }
 
   /*
@@ -191,44 +190,18 @@ export class AuthenticationService {
   }
   */
 
-  updateEmailAddress(email: string, password: string) {
+  updatePwd(newPwd: string, currPassword: string) {
     const currentUser = auth().currentUser;
-    const credentials = auth.EmailAuthProvider.credential(currentUser.email, password);
+    const credentials = auth.EmailAuthProvider.credential(currentUser.email, currPassword);
 
     currentUser.reauthenticateWithCredential(credentials).then(res => {
-      
-      currentUser.updateEmail(email).then(res => {
-
-        currentUser.sendEmailVerification().then(res => {
-          //this.notifyService.showSuccess("Email Sent!", "Success");
-        }).catch(error => {
-          this.notifyService.showError("An error happened!", "Error");
-        });
-      this.notifyService.showSuccess("Votre email a été changé avec succès!", "Changement email");
+      currentUser.updatePassword(newPwd).then(res => {
+        this.notifyService.showSuccess("Votre mot de passe a été changé avec succès!", "Changement mot de passe");
       }).catch(error => {
-        this.notifyService.showError("Une erreur est survenue lors de la modification de votre email!", "Erreure");
+        this.notifyService.showError("Une erreur est survenue lors de la modification de votre mot de passe!", "Erreure");
       });
     }).catch(error => {
       this.notifyService.showError("Le mot de passe actuel n'est pas accepté!", "Erreure");
     });
-  }
-
-  updateUser(currentPassword: string, newUser: User) {
-    if (currentPassword !== this.currentUserPassword) {
-      this.notifyService.showError("Le mot de passe actuel n'est pas accepté!", "Erreure");
-    }
-    else {
-      auth().currentUser.updateEmail(newUser.email).then(res => {
-        this.notifyService.showSuccess("Votre email a été changé avec suuccès!", "Changement email");
-      }).catch(error => {
-        this.notifyService.showSuccess("Une erreur est survenue lors de la modification de votre email!", "Erreure");
-      });
-
-      auth().currentUser.updatePassword(newUser.password).then(res => {
-        this.notifyService.showSuccess("Votre mot de passe a été changé avec suuccès!", "Changement mot de passe");
-      }).catch(error => {
-        this.notifyService.showSuccess("Une erreur est survenue lors de la modification de votre mot de passe!", "Erreure");
-      });
-    }
   }
 }
