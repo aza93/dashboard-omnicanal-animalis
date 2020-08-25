@@ -179,7 +179,12 @@ export class AuthenticationService {
       this.logout();
     })
   }
-  
+
+  updateUser(user) {
+    alert("updating"+user);
+    
+  }
+
   private deleteCurrentUserFromFirestore() {
     let currentUserId = localStorage.getItem("currentUserId");
     var query = this.afs.firestore.collection('users').where('user_id','==', currentUserId);

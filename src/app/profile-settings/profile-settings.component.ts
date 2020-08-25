@@ -9,6 +9,7 @@ import { UserEditorComponent } from './user-editor/user-editor.component';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogModel, ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { SingleUserEditorComponent } from './single-user-editor/single-user-editor.component';
 
 @Component({
   selector: 'app-profile-settings',
@@ -100,9 +101,15 @@ export class ProfileSettingsComponent implements OnInit {
     this.openEditor(video);
   }
 
-  openEditor(video) {
+  openEditor(user) {
     this.dialog.open(UserEditorComponent, {
-      data: video,
+      data: user,
+    });
+  }
+
+  openSingleUserEditor(user) {
+    this.dialog.open(SingleUserEditorComponent, {
+      data: user,
     });
   }
 
@@ -135,8 +142,8 @@ export class ProfileSettingsComponent implements OnInit {
     });      
   }
 
-  onEdit(video) {
-    this.openEditor(video);
+  onEdit(user) {
+    this.openSingleUserEditor(user);
   }
 
   updateUser() {

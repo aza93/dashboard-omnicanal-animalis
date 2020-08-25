@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>Modification profile "{{user.email}}"</h2>
+<mat-dialog-content [formGroup]="form" autocomplete="off">
+
+			<h5 *ngIf="isAlerting" class="text-danger ">{{alertMsg}}</h5>
+
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Mot de passe actuel</mat-label>
+                <input matInput [type]="hidePassword1 ? 'password' : 'text'" formControlName="currentPassword" required>
+                <button mat-icon-button matSuffix (click)="hidePassword1 = !hidePassword1" type="button" class="pt-2">
+                    <mat-icon>{{hidePassword1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Nouveau mot de passe</mat-label>
+                <input matInput [type]="hidePassword2 ? 'password' : 'text'" formControlName="newPassword" required>
+                <button mat-icon-button matSuffix (click)="hidePassword2 = !hidePassword2" type="button" class="pt-2">
+                    <mat-icon>{{hidePassword2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Confirmer le nouveau mot de passe</mat-label>
+                <input matInput [type]="hidePassword3 ? 'password' : 'text'" formControlName="passwordChecker" required>
+                <button mat-icon-button matSuffix (click)="hidePassword3 = !hidePassword3" type="button" class="pt-2">
+                    <mat-icon>{{hidePassword3 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+			
+			<mat-form-field>
+				<mat-label>Type de bashboard souhaitée</mat-label>
+				<mat-select matNativeControl formControlName="dashboard" (selectionChange)="changeDashboardType($event)" required>
+					<mat-option value="national">Dasboard national</mat-option>
+					<mat-option value="magasin">Dasboard magasin</mat-option>
+				</mat-select>
+            </mat-form-field>
+			
+			<mat-form-field *ngIf="dashboardMag">
+				<mat-label>Choisir un magasin</mat-label>
+				<mat-select matNativeControl formControlName="store" required>
+					<mat-option *ngFor="let str of stores" [value]="str">
+					{{ str.name }}
+					</mat-option>
+				</mat-select>
+            </mat-form-field>
+
+            <br>
+            <br>
+</mat-dialog-content>
+<br>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="closeDialog()">Fermer</button>
+    <button class="mat-raised-button mat-primary" [disabled]="form.invalid" (click)="submit()">Appliquer</button>
+</mat-dialog-actions>
+<br>
