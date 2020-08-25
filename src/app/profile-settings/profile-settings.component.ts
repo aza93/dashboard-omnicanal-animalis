@@ -3,11 +3,12 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { User } from 'src/shared/models/user';
 import { AuthenticationService } from 'src/shared/services/authentication.service';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserEditorComponent } from './user-editor/user-editor.component';
 
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmDialogModel, ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-profile-settings',
@@ -19,7 +20,7 @@ export class ProfileSettingsComponent implements OnInit {
   form: FormGroup;
   curTab: any = 0;
   selectedTabIndex: number = 0;
-  tabs: Array<any> = [{ name: 'Modifier mon mot de passe' }];
+  tabs: Array<any> = [{ name: 'Modifier mon mot de passe' }, ];
   currentUser: User;
   dataSource = new MatTableDataSource<User>([]);
   isCurrentUserAdmin: boolean = false;
@@ -56,6 +57,8 @@ export class ProfileSettingsComponent implements OnInit {
 
     if (this.isCurrentUserAdmin)
       this.tabs.push({ name: 'Gestion utilisateurs' });
+    
+    this.tabs.push({ name: 'Paramètres avancés' });
   }
   
   passwordMatcher(form: FormGroup) {
@@ -102,14 +105,38 @@ export class ProfileSettingsComponent implements OnInit {
       data: video,
     });
   }
-  
+
+  confirmDeleteMessage(): any {
+    const message = `Attention, cette action est irréversible! Êtes-vous sûr de vouloir continuer?`;
+
+    const dialogData = new ConfirmDialogModel("Confirmation", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    return dialogRef;
+  }
+
+  deleteUser() {
+    const message = 'Attention, cette action est irréversible! Êtes-vous sûr de vouloir continuer?';
+
+    const dialogData = new ConfirmDialogModel("Confirmation", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult)
+        this.authenticationService.deleteCurrentUser();
+    });      
+  }
 
   onEdit(video) {
     this.openEditor(video);
-  }
-
-  onDelete(song) {
-    //this.songs = _.reject(this.songs, (item) => { return item.id === song.id; });
   }
 
   updateUser() {

@@ -171,7 +171,26 @@ export class AuthenticationService {
       return users;
     });
   }
+
+  deleteCurrentUser() {
+    this.afAuth.currentUser.then(user => {
+      user.delete();
+      this.deleteCurrentUserFromFirestore();
+      this.logout();
+    })
+  }
   
+  private deleteCurrentUserFromFirestore() {
+    let currentUserId = localStorage.getItem("currentUserId");
+    var query = this.afs.firestore.collection('users').where('user_id','==', currentUserId);
+
+    query.get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        doc.ref.delete();
+      });
+    });
+  }
+
   updateUserRole(_id: string, _value: boolean) {
     let query = this.afs.firestore.collection('users');
 

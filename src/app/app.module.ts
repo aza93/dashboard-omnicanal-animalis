@@ -76,6 +76,7 @@ import {
 import { AppSessionInteruptService } from 'src/shared/services/app-session-interupt.service';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { UserEditorComponent } from './profile-settings/user-editor/user-editor.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -93,6 +94,7 @@ import { UserEditorComponent } from './profile-settings/user-editor/user-editor.
     ReceptionComponent,
     ProfileSettingsComponent,
     UserEditorComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
