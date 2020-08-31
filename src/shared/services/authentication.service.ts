@@ -270,8 +270,15 @@ export class AuthenticationService {
   private deleteCurrentUserFromFirestore() {
     let currentUserId = localStorage.getItem("currentUserId");
     var query = this.afs.firestore.collection('users').where('user_id','==', currentUserId);
+    var storeQuery = this.afs.firestore.collection('stores').where('user_id','==', currentUserId);
 
     query.get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        doc.ref.delete();
+      });
+    });
+
+    storeQuery.get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         doc.ref.delete();
       });
@@ -284,7 +291,7 @@ export class AuthenticationService {
     query.get().then(querySnapshot => {
       querySnapshot.forEach(function (doc) {
         if (doc.data()['user_id'] == _id)
-          doc.ref.set({ admin: _value, email: doc.data()['email'], user_id: doc.data()['user_id']});
+          doc.ref.set({ admin: _value, email: doc.data()['email'], user_id: doc.data()['user_id'], store_id: doc.data()['store_id']});
     })});
   }
 
