@@ -32,6 +32,7 @@ export class User {
   store: string;
   admin: boolean;
   id: string;
+  store_id: string;
 
   constructor(public email: string, public password: string) { };
 }

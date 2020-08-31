@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, SubscribableOrPromise, Subject } from 'rxjs';
 import { User } from 'src/shared/models/user'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { first } from 'rxjs/operators';
@@ -50,14 +50,27 @@ export class AuthenticationService {
       this.afs.collection('stores').add({
         name: user.store,
         user_id: result.user.uid
-      });
-      this.afs.collection('users').add({
-        admin: user.admin,
-        email: user.email,
-        user_id: result.user.uid
+      }).then(res => {
+        let storeId;
+        let query = this.afs.collection('stores');
 
+        query.snapshotChanges().subscribe(actions => {
+          let storeId;
+          actions.map(b => {
+            if (b.payload.doc.data()['user_id'] === result.user.uid) {
+              storeId = b.payload.doc.ref.id;
+            }
+          });
+
+          this.afs.collection('users').add({
+            admin: user.admin,
+            email: user.email,
+            user_id: result.user.uid,
+            store_id: storeId
+          });
+          this.notifyService.showSuccess("Utilisateur enregistré correctement", "Succès");
+        });
       });
-      this.notifyService.showSuccess("Utilisateur enregistré correctement", "Succès");
     })
   }
 
@@ -157,6 +170,7 @@ export class AuthenticationService {
   }
 
   public getUsers(): Promise<User[]> {
+    //this.test();
     let users: User[] = [];
     let query = this.afs.firestore.collection('users');
 
@@ -164,12 +178,80 @@ export class AuthenticationService {
       querySnapshot.forEach(function (doc) {
         let user: User = new User(doc.data()['email'], doc.data()['password']);
         user.id = doc.data()['user_id'];
+        user.store_id = doc.data()['store_id'];
         user.admin = doc.data()['admin'];
         users.push(user);
       })
       
       return users;
     });
+  }
+
+  /*
+  dashboardType(storeId): Observable<string> {
+    let query = this.afs.collection('stores');
+    let dashboardType = "national";
+    var subject = new Subject<string>();
+
+    query.snapshotChanges().subscribe(actions => {
+      actions.map(a => {
+        if (a.payload.doc.ref.id == storeId) {
+          if (a.payload.doc.data()['name'] !== null) {
+            dashboardType = "magasin";
+            subject.next(dashboardType);
+          }
+        }
+      });
+    });
+
+    return subject.asObservable();
+  }
+  */
+
+  
+ dashboardType(storeId): Observable<string> {
+  let query = this.afs.collection('stores');
+  let obsNat = Observable.create(observer => {
+    observer.next("national");
+  });
+  let obsMag = Observable.create(observer => {
+    observer.next("magasin");
+  });
+
+  //console.log(obsNat)
+  //console.log(obsMag)
+  
+  query.snapshotChanges().subscribe(actions => {
+    actions.map(a => {
+      if (a.payload.doc.ref.id == storeId) {
+        if (a.payload.doc.data()['name'] !== null) {
+          
+          return obsMag;
+          //subject.next(dashboardType);
+          //console.log(dashboardType);
+        }
+      }
+    });
+  });  
+
+  //return subject.asObservable();
+  return obsNat;
+}
+
+  private test() {
+    let storeId;
+      let query = this.afs.collection('stores');
+
+      query.snapshotChanges().subscribe(actions => {
+        actions.map(a => {
+          console.log(a.payload.doc.ref.id);
+          const userId = a.payload.doc.data()['user_id'];
+          console.log("userId = ", userId);
+          if (userId == "QU0ewMDQV8ee0Oj70mF3E6yY7iy2") {
+            storeId = a.payload.doc.ref.id;
+          }
+        });
+      });
   }
 
   deleteCurrentUser() {

@@ -12,7 +12,7 @@ import { AuthenticationService } from 'src/shared/services/authentication.servic
   styleUrls: ['./single-user-editor.component.scss']
 })
 export class SingleUserEditorComponent implements OnInit {
-  dashboard: string = "national";
+  dashboard: string;
   dashboardMag: Boolean = false;
   stores = [
     {
@@ -38,7 +38,16 @@ export class SingleUserEditorComponent implements OnInit {
     private ordersService: OrdersService,
     private formBuilder: FormBuilder,
     private notifyService : NotificationService,
-    public authenticationService: AuthenticationService) { }
+    public authenticationService: AuthenticationService) {
+      if (this.dashboard === "magasin")
+        this.dashboardMag = true;
+      
+      authenticationService.dashboardType(user.store_id).subscribe(res => {
+        //console.log(res);
+      });
+      //console.log(this.dashboard);
+      //console.log(this.dashboardMag);
+    }
 
   ngOnInit(): void {
     this.loadAllOrdersStores();

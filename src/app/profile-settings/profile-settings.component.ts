@@ -29,7 +29,7 @@ export class ProfileSettingsComponent implements OnInit {
   hidePassword2: boolean = true;
   hidePassword3: boolean = true;
 
-  displayedColumns = ['id', 'email', 'admin', 'actions'];
+  displayedColumns = ['id', 'email', 'admin'];
 
   constructor(
     public authenticationService: AuthenticationService,
