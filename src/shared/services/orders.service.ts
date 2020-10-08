@@ -142,7 +142,7 @@ export class OrdersService {
                 ord.nb_produits = r.items.length;
                 ord.retard = Math.floor(hoursDiff);
 
-                if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                if ((ord.magasin != null) && ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null"))) {  
                   newOrders.push(ord);
                 }
               }
@@ -195,7 +195,7 @@ export class OrdersService {
                 ord.nb_produits = r.items.length;
                 ord.retard = Math.floor(hoursDiff);
                 
-                if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                if ((ord.magasin != null) && ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null"))) {  
                   newOrders.push(ord);
                 }
               }
@@ -254,7 +254,7 @@ export class OrdersService {
                     ord.nb_produits = r.items.length;
                     
 
-                    if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                    if ((ord.magasin != null) && ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null"))) {  
                       newOrders.push(ord);
                     }
                   }
@@ -312,7 +312,7 @@ export class OrdersService {
                     ord.tel = r.billing_address.telephone;
                     ord.nb_produits = r.items.length;
 
-                    if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+                    if ((ord.magasin != null) && ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null"))) {  
                       newOrders.push(ord);
                     }
                   }
@@ -366,7 +366,7 @@ export class OrdersService {
               ord.tel = r.billing_address.telephone;
               ord.nb_produits = r.items.length;
 
-              if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+              if ((ord.magasin != null) && ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null"))) {  
                 newOrders.push(ord);
               }
             }
@@ -410,7 +410,7 @@ export class OrdersService {
               ord.tel = r.billing_address.telephone;
               ord.nb_produits = r.items.length;
 
-              if ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null")) {  
+              if ((ord.magasin != null) && ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null"))) {  
                 newOrders.push(ord);
               }
             }
