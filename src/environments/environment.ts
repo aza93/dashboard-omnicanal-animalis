@@ -6,7 +6,8 @@ export const environment = {
   production: true,
 
   //apiUrlMagento: 'https://abdellah-n6foo5a-o4lvm5zl7t3ym.fr-1.platformsh.site',
-  apiUrlMagento: 'https://staging-m2.animalis.com',
+  //apiUrlMagento: 'https://staging-m2.animalis.com',
+  apiUrlMagento: 'https://www.animalis.com',
 
   //magentoUsername: "dashboard_omnicanal_envabde",
   //magentoPassword: "dashaza20envabde",
