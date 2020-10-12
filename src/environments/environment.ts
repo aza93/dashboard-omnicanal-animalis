@@ -41,6 +41,20 @@ export const environment = {
   pageSize: 100,
   pageSizeAdmin: 500,
 
+  columnDefsAllOrders: [
+    { headerName: 'ID', field: "id", width: 150, resizable: true },
+    { headerName: 'Magasin', field: "magasin", width: 300, resizable: true },
+    { headerName: 'Date de la commande', field: "date_creation", width: 250, resizable: true, sortable: false },
+    { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true, sortable: false },
+    { headerName: "Date d'expédition", field: "date_exp", resizable: true, sortable: false },
+    { headerName: 'Type de commande', field: "type_commande", width: 450, resizable: true },
+    { headerName: 'Numéro de commande', field: "numero_commande", width: 200, resizable: true },
+    { headerName: 'Nom client', field: "nom_client", width: 200, resizable: true },
+    { headerName: 'Téléphone', field: "tel", width: 200, resizable: true },
+    { headerName: 'Nb produits', field: "nb_produits", width: 150, resizable: true },
+    { headerName: 'Commande dispo depuis (jours)', field: "dispo_depuis" },
+    { headerName: 'Retard (en heures)', field: "retardHeures", resizable: true },
+  ],
   columnDefsOrdersToPrepare: [
     { headerName: 'ID', field: "id", width: 150, resizable: true },
     { headerName: 'Magasin', field: "magasin", width: 300, resizable: true },
@@ -50,7 +64,7 @@ export const environment = {
     { headerName: 'Nom client', field: "nom_client", width: 200, resizable: true },
     { headerName: 'Téléphone', field: "tel", width: 200, resizable: true },
     { headerName: 'Nb produits', field: "nb_produits", width: 150, resizable: true },
-    { headerName: 'Retard (jours)', field: "retard", width: 150, resizable: true },
+    { headerName: 'Retard (en jours)', field: "retard", width: 150, resizable: true },
   ],
   columnDefsOrdersDelayed: [      
     { headerName: 'ID', field: "id", resizable: true },
@@ -61,7 +75,7 @@ export const environment = {
     { headerName: 'Nom client', field: "nom_client", resizable: true },
     { headerName: 'Téléphone', field: "tel", resizable: true },
     { headerName: 'Nb produits', field: "nb_produits", resizable: true },
-    { headerName: 'Retard (en heures) par rapport à maintenant', field: "retard", resizable: true },
+    { headerName: 'Retard (en heures)', field: "retard", resizable: true },
   ],
   columnDefsOrderAvMoreFourteenDd: [      
     { headerName: 'ID', field: "id", resizable: true },

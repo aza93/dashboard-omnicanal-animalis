@@ -1,4 +1,7 @@
 <div class="d-flex flex-column h-100" fxLayout="row">
+    <h3 *ngIf="orderType == 'allOrders'" style="color:white;background-color:#073590;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
+      Toutes les commandes
+    </h3>
     <h3 *ngIf="orderType == 'ordersToPrepare'" style="color:white;background-color:#6798fe;display:table;margin-top: 9px;margin-bottom: 0px;padding: 5px;" [ngStyle]="{'overflow-y': mob ? 'scroll' : 'none' }">
       Les commandes à preparer par les magasins
     </h3>

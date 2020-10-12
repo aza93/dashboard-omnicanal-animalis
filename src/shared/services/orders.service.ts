@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
 
 import { OrdersStore } from 'src/shared/models/OrdersStore';
+import { OrderAllFields } from 'src/shared/models/OrderAllFields';
 import { Order } from 'src/shared/models/Order';
 import { DelayedOrder } from 'src/shared/models/DelayedOrder';
 import { OrderAvMore14dd } from 'src/shared/models/OrderAvMore14dd';
@@ -47,40 +48,6 @@ export class OrdersService {
   constructor(private http: HttpClient, private snackBar: MatSnackBar, public datePipe: DatePipe = new DatePipe("fr-FR")) { }
 
   getOrdersStores(): OrdersStore[] {
-    /*
-    return this.http.get<any>(`${this.ordersUrl}?
-                               searchCriteria[filterGroups][0][filters][0][field]=state&
-                               searchCriteria[filterGroups][0][filters][0][value]=processing&
-                               searchCriteria[filterGroups][0][filters][0][conditionType]=eq&
-                               searchCriteria[filterGroups][1][filters][0][field]=shipping_description&
-                               searchCriteria[filterGroups][1][filters][0][value]=%Click %26 Collect%&
-                               searchCriteria[filterGroups][1][filters][0][conditionType]=like&
-                               searchCriteria[filterGroups][2][filters][0][field]=shipping_description&
-                               searchCriteria[filterGroups][2][filters][0][value]=%Retrait sous 2h%&
-                               searchCriteria[filterGroups][2][filters][0][conditionType]=like&
-                               fields=items[extension_attributes,extension_attributes,items,created_at,shipping_description,increment_id,customer_firstname,customer_lastname,billing_address[city,telephone]]&
-                               searchCriteria[pageSize]=${parseInt(localStorage.getItem("pageSize"))}
-                               `, this.httpOptions)
-      .pipe(
-        map(res => {
-            let orderStores: OrdersStore[] = [];
-            let orderStore: OrdersStore;
-            //console.log(res);
-            this.storeLoc = localStorage.getItem("store");
-            
-            for (let r of res.items) {
-                orderStore = new OrdersStore();
-
-                orderStore.name = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-                
-                orderStores.push(orderStore);
-            }
-            
-            return orderStores;
-        }),
-        catchError(this.handleError('getOrdersStore', []))
-      )
-      */
      let orderStores: OrdersStore[] = environment.amstyStoreLocator;
      
      return orderStores;
@@ -103,10 +70,85 @@ export class OrdersService {
     return this.datePipe.transform(date, 'dd/MM/yyyy') + ' à ' + this.datePipe.transform(date, 'HH:mm:ss');
   }
 
+  getAllOrders(): Observable<OrderAllFields[]> {
+    
+    /*
+    return this.http.get<any>(`${this.ordersUrl}?searchCriteria[pageSize]=${parseInt(localStorage.getItem("pageSize"))}
+                              `, this.httpOptions)
+    */
+    
+    
+   return this.http.get<any>(`${this.ordersUrl}?
+   searchCriteria[filterGroups][0][filters][0][field]=shipping_description&
+   searchCriteria[filterGroups][0][filters][0][value]=%Click %26 Collect%&
+   searchCriteria[filterGroups][0][filters][0][conditionType]=like&
+   fields=items[increment_id,items[amount_refunded],extension_attributes[cylande_code,shipping_assignments[shipping[address[company]],items[updated_at]]],created_at,shipping_description,customer_firstname,customer_lastname,billing_address[telephone],status_histories]&
+   searchCriteria[pageSize]=500
+   `, this.httpOptions)
+
+      .pipe(
+        map(res => {
+            let newOrders: OrderAllFields[] = [];
+            let ord: OrderAllFields;
+            this.storeLoc = localStorage.getItem("store");
+            
+            for (let r of res.items) {
+
+              let time = this.getPassedMsec(this.transformDateIos(r.created_at));
+              let hoursDiff = time / (3600 * 1000);
+              
+              ord = new OrderAllFields();
+
+              // ID
+              ord.id = r.increment_id;
+              // Magasin
+              ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
+              // Date de la commande
+              let orderDateIos = new Date(this.transformDateIos(r.created_at));
+              this.add2Hours(orderDateIos);
+              ord.date_creation = this.concatDateTimeFr(orderDateIos);
+              // Date mise de côté
+              let dateMiseCoteIos = new Date(this.transformDateIos(r.status_histories[0].created_at));
+              this.add2Hours(dateMiseCoteIos);
+              if (r.status_histories[0])
+                ord.date_mise_de_cote = this.concatDateTimeFr(dateMiseCoteIos);
+              // Date d'expédition
+              let items = r.extension_attributes.shipping_assignments[0].items;
+              let itemsLength = r.extension_attributes.shipping_assignments[0].items.length;
+              let dateExp = new Date(this.transformDateIos(items[itemsLength - 1].updated_at));
+              this.add2Hours(dateExp);
+              ord.date_exp = this.concatDateTimeFr(dateExp);
+              // Type de commande
+              ord.type_commande = r.shipping_description;
+              // Numéro de commande
+              ord.numero_commande = r.extension_attributes.cylande_code;
+              // Nom client
+              ord.nom_client = r.customer_firstname +" "+ r.customer_lastname;
+              // Téléphone
+              ord.tel = r.billing_address.telephone;
+              // Nb produits
+              ord.nb_produits = r.items.length;
+              // Commande dispo depuis (jours)
+              let daysDiff = time / (1000*60*60*24);
+              ord.dispo_depuis = Math.floor(daysDiff);
+              // Retard (en heures)
+              ord.retardHeures = Math.floor(hoursDiff);
+
+              if ((ord.magasin != null) && ((this.storeLoc !== "null" && ord.magasin === this.storeLoc) || (this.storeLoc === "null"))) {  
+                newOrders.push(ord);
+              }
+            }
+            
+            return newOrders;
+        }),
+        catchError(this.handleError('getAllOrders', []))
+      )
+  }
+
   getOrders(): Observable<Order[]> {
     
     return this.http.get<any>(`${this.ordersUrl}?
-                               searchCriteria[filterGroups][0][filters][0][field]=state&
+                               searchCriteria[filterGroups][0][filters][0][field]=status&
                                searchCriteria[filterGroups][0][filters][0][value]=processing&
                                searchCriteria[filterGroups][0][filters][0][conditionType]=eq&
                                searchCriteria[filterGroups][1][filters][0][field]=shipping_description&
@@ -157,7 +199,7 @@ export class OrdersService {
   getDelayedOrders(): Observable<DelayedOrder[]> {
 
     return this.http.get<any>(`${this.ordersUrl}?
-                               searchCriteria[filterGroups][0][filters][0][field]=state&
+                               searchCriteria[filterGroups][0][filters][0][field]=status&
                                searchCriteria[filterGroups][0][filters][0][value]=processing&
                                searchCriteria[filterGroups][0][filters][0][conditionType]=eq&
                                searchCriteria[filterGroups][1][filters][0][field]=shipping_description&
@@ -328,7 +370,7 @@ export class OrdersService {
   
   getOrdersShipping(): Observable<OrderShipping[]> {
     return this.http.get<any>(`${this.ordersUrl}?
-                               searchCriteria[filterGroups][0][filters][0][field]=state&
+                               searchCriteria[filterGroups][0][filters][0][field]=status&
                                searchCriteria[filterGroups][0][filters][0][value]=complete&
                                searchCriteria[filterGroups][0][filters][0][conditionType]=eq&
                                searchCriteria[filterGroups][1][filters][0][field]=shipping_description&
@@ -358,7 +400,7 @@ export class OrdersService {
               this.add2Hours(orderDateIos);
               ord.id = r.increment_id;
               ord.magasin = r.extension_attributes.shipping_assignments[0].shipping.address.company;
-              ord.date_commande = this.concatDateTimeFr(orderDateIos);              
+              ord.date_commande = this.concatDateTimeFr(orderDateIos);
               ord.date_expedition = this.concatDateTimeFr(dateExp);
               ord.type_commande = r.shipping_description;
               ord.numero_commande = r.extension_attributes.cylande_code;
@@ -379,7 +421,7 @@ export class OrdersService {
   
   getOrdersInProgress(): Observable<OrderInProgress[]> {
     return this.http.get<any>(`${this.ordersUrl}?
-                               searchCriteria[filterGroups][0][filters][0][field]=state&
+                               searchCriteria[filterGroups][0][filters][0][field]=status&
                                searchCriteria[filterGroups][0][filters][0][value]=processing&
                                searchCriteria[filterGroups][0][filters][0][conditionType]=eq&
                                searchCriteria[filterGroups][1][filters][0][field]=shipping_description&
@@ -459,6 +501,10 @@ export class OrdersService {
     this.dataSentSubject.next();
   }
 
+  private add2Hours(date: Date) {
+    date.setHours(date.getHours() + 2);
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -482,9 +528,5 @@ export class OrdersService {
   /** Log a ListeService message with the MessageService */
   private log(message: string) {
 
-  }
-
-  private add2Hours(date: Date) {
-    date.setHours(date.getHours() + 2);
   }
 }

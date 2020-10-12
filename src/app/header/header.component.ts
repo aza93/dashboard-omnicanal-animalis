@@ -50,12 +50,19 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     
   }
-
+  
   logout() {
     this.authenticationService.logout();
   }
 
   profile() {
     this.router.navigate(['profile']);
+  }
+
+
+  redirectToAllOrders() {
+    this.router.navigateByUrl('/orders', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/orders', "allOrders"]);
+    });
   }
 }

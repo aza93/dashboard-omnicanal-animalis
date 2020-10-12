@@ -16,6 +16,6 @@ export class LeftMenuComponent implements OnInit {
   changeRoute(orderType) {
     this.router.navigateByUrl('/orders', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/orders', orderType]);
-  }); 
+    });
   }
 }

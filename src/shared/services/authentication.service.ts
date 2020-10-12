@@ -107,8 +107,11 @@ export class AuthenticationService {
             }
           })
         });
-
-        this.router.navigate(['/home']);
+        
+        //this.router.navigate(['/home']);
+        this.router.navigateByUrl('/orders', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/orders', "allOrders"]);
+        });
 
         return user;
       })
@@ -116,7 +119,6 @@ export class AuthenticationService {
         this.notifyService.showError(err.message, "Something is wrong");
         //console.log('Something is wrong:',err.message);
       });
-    
 
     return req;
   }

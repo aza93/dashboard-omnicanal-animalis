@@ -14,6 +14,7 @@ import { OrderInProgress } from 'src/shared/models/OrderInProgress';
 import { OrderShipping } from 'src/shared/models/OrderShipping';
 
 import { environment } from 'src/environments/environment';
+import { OrderAllFields } from 'src/shared/models/OrderAllFields';
 
 @Component({
   selector: 'app-orders',
@@ -55,6 +56,10 @@ export class OrdersComponent implements OnInit {
       params => {
         this.orderType = params['orderType'];
         switch (this.orderType) {
+          case 'allOrders':
+            this.loadAllOrders();
+            this.columnDefs = environment.columnDefsAllOrders;
+            break;
           case 'ordersToPrepare':
             this.loadAllOrdersToPrepare();
             this.columnDefs = environment.columnDefsOrdersToPrepare;
@@ -106,6 +111,13 @@ export class OrdersComponent implements OnInit {
 
   sizeToFit() {
     this.gridApi.sizeColumnsToFit();
+  }
+  
+  loadAllOrders() {
+    this.ordersService.getAllOrders()
+    .subscribe((orders: OrderAllFields[]) => {
+      this.orders = orders;
+    });
   }
   
   loadAllOrdersToPrepare() {
