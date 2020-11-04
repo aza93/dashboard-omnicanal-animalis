@@ -6,8 +6,8 @@ export const environment = {
   production: true,
 
   //apiUrlMagento: 'https://abdellah-n6foo5a-o4lvm5zl7t3ym.fr-1.platformsh.site',
-  //apiUrlMagento: 'https://staging-m2.animalis.com',
-  apiUrlMagento: 'https://www.animalis.com',
+  apiUrlMagento: 'https://staging-m2.animalis.com',
+  //apiUrlMagento: 'https://www.animalis.com',
 
   //magentoUsername: "dashboard_omnicanal_envabde",
   //magentoPassword: "dashaza20envabde",
@@ -52,7 +52,7 @@ export const environment = {
     { headerName: 'Nom client', field: "nom_client", width: 200, resizable: true },
     { headerName: 'Téléphone', field: "tel", width: 200, resizable: true },
     { headerName: 'Nb produits', field: "nb_produits", width: 150, resizable: true },
-    { headerName: 'Commande dispo depuis (jours)', field: "dispo_depuis" },
+    { headerName: 'Dispo depuis (jours)', field: "dispo_depuis" },
     { headerName: 'Retard (en heures)', field: "retardHeures", resizable: true },
   ],
   columnDefsOrdersToPrepare: [
@@ -82,7 +82,7 @@ export const environment = {
     { headerName: 'Magasin', field: "magasin" },
     { headerName: 'Date de la commande', field: "date_creation", resizable: true, sortable: false },
     { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true, sortable: false },
-    { headerName: 'Commande dispo depuis (jours)', field: "dispo_depuis", resizable: true },
+    { headerName: 'Dispo depuis (jours)', field: "dispo_depuis", resizable: true },
     { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
     { headerName: 'Nom client', field: "nom_client", resizable: true },
@@ -94,7 +94,7 @@ export const environment = {
     { headerName: 'Magasin', field: "magasin" },
     { headerName: 'Date de la commande', field: "date_creation", resizable: true, sortable: false },
     { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true, sortable: false },
-    { headerName: 'Commande dispo depuis (jours)', field: "dispo_depuis" },
+    { headerName: 'Dispo depuis (jours)', field: "dispo_depuis" },
     { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
     { headerName: 'Nom client', field: "nom_client", resizable: true },
