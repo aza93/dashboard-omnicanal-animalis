@@ -22,6 +22,6 @@ export class Order {
         public nom_client: string = null,
         public tel: string = null,
         public nb_produits: number = null,
-        public retard: number = null,
+        public dispo_depuis: string = null,
     ) {}
 }

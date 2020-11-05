@@ -7,5 +7,5 @@ export class DelayedOrder {
     nom_client: string;
     tel: string;
     nb_produits: number;
-    retard: number;
+    dispo_depuis: string;
 }

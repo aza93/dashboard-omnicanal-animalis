@@ -52,8 +52,7 @@ export const environment = {
     { headerName: 'Nom client', field: "nom_client", width: 200, resizable: true },
     { headerName: 'Téléphone', field: "tel", width: 200, resizable: true },
     { headerName: 'Nb produits', field: "nb_produits", width: 150, resizable: true },
-    { headerName: 'Dispo depuis (jours)', field: "dispo_depuis" },
-    { headerName: 'Retard (en heures)', field: "retardHeures", resizable: true },
+    { headerName: 'Disponible depuis', field: "dispo_depuis", width: 350, resizable: true, sortable: false },
   ],
   columnDefsOrdersToPrepare: [
     { headerName: 'ID', field: "id", width: 150, resizable: true },
@@ -64,7 +63,7 @@ export const environment = {
     { headerName: 'Nom client', field: "nom_client", width: 200, resizable: true },
     { headerName: 'Téléphone', field: "tel", width: 200, resizable: true },
     { headerName: 'Nb produits', field: "nb_produits", width: 150, resizable: true },
-    { headerName: 'Retard (en jours)', field: "retard", width: 150, resizable: true },
+    { headerName: 'Disponible depuis', field: "dispo_depuis", width: 350, resizable: true, sortable: false },
   ],
   columnDefsOrdersDelayed: [      
     { headerName: 'ID', field: "id", resizable: true },
@@ -75,14 +74,14 @@ export const environment = {
     { headerName: 'Nom client', field: "nom_client", resizable: true },
     { headerName: 'Téléphone', field: "tel", resizable: true },
     { headerName: 'Nb produits', field: "nb_produits", resizable: true },
-    { headerName: 'Retard (en heures)', field: "retard", resizable: true },
+    { headerName: 'Disponible depuis', field: "dispo_depuis", width: 350, resizable: true, sortable: false },
   ],
   columnDefsOrderAvMoreFourteenDd: [      
     { headerName: 'ID', field: "id", resizable: true },
     { headerName: 'Magasin', field: "magasin" },
     { headerName: 'Date de la commande', field: "date_creation", resizable: true, sortable: false },
     { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true, sortable: false },
-    { headerName: 'Dispo depuis (jours)', field: "dispo_depuis", resizable: true },
+    { headerName: 'Disponible depuis', field: "dispo_depuis", width: 350, resizable: true, sortable: false },
     { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
     { headerName: 'Nom client', field: "nom_client", resizable: true },
@@ -94,7 +93,7 @@ export const environment = {
     { headerName: 'Magasin', field: "magasin" },
     { headerName: 'Date de la commande', field: "date_creation", resizable: true, sortable: false },
     { headerName: 'Date mise de coté', field: "date_mise_de_cote", resizable: true, sortable: false },
-    { headerName: 'Dispo depuis (jours)', field: "dispo_depuis" },
+    { headerName: 'Disponible depuis', field: "dispo_depuis", width: 350, resizable: true, sortable: false },
     { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
     { headerName: 'Nom client', field: "nom_client", resizable: true },
@@ -105,7 +104,7 @@ export const environment = {
     { headerName: 'ID', field: "id", resizable: true },     
     { headerName: 'Magasin', field: "magasin", resizable: true },
     { headerName: 'Date de la commande', field: "date_commande", resizable: true, sortable: false },
-    { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
+    { headerName: 'Type de commande', field: "type_commande", width: 460, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
     { headerName: 'Nom client', field: "nom_client", resizable: true },
     { headerName: 'Téléphone', field: "tel", resizable: true },
@@ -116,7 +115,7 @@ export const environment = {
     { headerName: 'Magasin', field: "magasin", resizable: true },
     { headerName: 'Date de la commande', field: "date_commande", resizable: true, sortable: false },
     { headerName: "Date d'expédition", field: "date_expedition", resizable: true, sortable: false },
-    { headerName: 'Type de commande', field: "type_commande", width: 300, resizable: true },
+    { headerName: 'Type de commande', field: "type_commande", width: 460, resizable: true },
     { headerName: 'Numéro de commande', field: "numero_commande", resizable: true },
     { headerName: 'Nom client', field: "nom_client", resizable: true },
     { headerName: 'Téléphone', field: "tel", resizable: true },
@@ -239,13 +238,16 @@ export const environment = {
       name: 'Animalis Villebon'
     },
     {
+      name: 'Animalis Villennes'
+    },
+    {
       name: 'Animalis Vert Saint Denis'
     },
     {
-      name: 'Animalis- Perigueux'
+      name: 'Animalis Perigueux'
     },
     {
-      name: 'Animalis- Reims Cormontreuil'
+      name: 'Animalis Reims Cormontreuil'
     },
     {
       name: 'Animalis Bergerac'
